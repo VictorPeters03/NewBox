@@ -1,3 +1,2 @@
-# NewBox by Team NewBox
+# NewBox by Team NewBox at NHL Stenden
 
-Yes
