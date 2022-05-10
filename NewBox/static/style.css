@@ -1,0 +1,12 @@
+*
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.top-navbar h1
+{
+    font-size: 60px;
+}
