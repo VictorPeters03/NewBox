@@ -2,6 +2,15 @@
 <nav class="navbar">
     <div class="top-navbar">
         <h1>newBox</h1>
+        <div class="searchbar">
+            <div class="navbar-search-small">
+                <img src="{% static 'images/Search.svg' %}" alt="search button">
+            </div>
+            <input type="text" name="search" id="navbar-search" placeholder="Type here to search">
+            <div class="navbar-cross-small">
+                <img src="{% static 'images/Cross-small.svg' %}" alt="cross">
+            </div>
+        </div>
         <div class="navbar-search-settings">
             <div class="navbar-search">
                 <img src="{% static 'images/Search.svg' %}" alt="search button">
