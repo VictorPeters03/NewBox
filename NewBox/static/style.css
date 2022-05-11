@@ -16,7 +16,7 @@
 .navbar
 {
     padding: 65px 80px;
-    background: linear-gradient(-45deg, #8D0087, #7B001A, #08002E, #530055);
+    background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
 }
@@ -60,7 +60,7 @@
 
 .main-navbar a:focus
 {
-    background-color: #3a255d;
+    background-color: #783FE3;
 }
 
 .main-navbar-button
@@ -74,7 +74,7 @@
 .navbar-button-image
 {
     text-align: center;
-    margin: auto 0 auto 40px;
+    margin: auto 0 auto 30px;
     min-width: 60px
 }
 
