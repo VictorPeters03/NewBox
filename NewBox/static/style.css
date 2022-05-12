@@ -92,7 +92,6 @@
 
 .searchbar
 {
-    /*display: none;*/
     margin: 0 auto;
     width: 0;
     justify-content: space-between;
@@ -100,7 +99,6 @@
     border-radius: 10px;
     background-color: #783FE3;
     transition: width 0.5s linear;
-    /*height: 50px;*/
 }
 
 .flex
@@ -132,15 +130,15 @@
 
 #navbar-search
 {
-    /*position: fixed;*/
     text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
     background-color: transparent;
     width: 0;
     height: 80px;
     border: none;
     outline: none;
     text-decoration: none;
-    /*transition: width 0.5s 0.5s linear;*/
 }
 
 #navbar-search.full-width
