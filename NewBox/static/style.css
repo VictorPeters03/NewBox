@@ -156,6 +156,27 @@
 
 /* END NAVBAR */
 
+/* BEGIN DOWNLOAD */
+
+#songs-downloaded
+{
+    display: grid;
+    margin: 0 auto;
+    padding-top: 570px;
+    grid-template-columns: repeat(1, 1fr);
+    width: 911px;
+}
+
+.song-downloaded
+{
+    display: flex;
+    height: 113px;
+    width: 100%;
+    background-color: blue;
+}
+
+/* END DOWNLOAD */
+
 @keyframes gradient {
     0% {
         background-position: 0 50%;

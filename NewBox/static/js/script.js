@@ -22,20 +22,3 @@ $(function() {
         }, 500);
     });
 });
-
-function getSongs()
-{
-    document.getElementById("sub-container").innerHTML = "Hello songs"
-}
-
-function getDownloaded()
-{
-    document.getElementById("sub-container").innerHTML = "Hello downloaded"
-}
-
-const songs = document.querySelector(".button-songs")
-
-const downloaded = document.querySelector(".button-downloaded")
-
-songs.addEventListener("click", getSongs)
-downloaded.addEventListener("click", getDownloaded)
