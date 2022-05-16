@@ -8,27 +8,32 @@
 
 #container
 {
-    background-color: black;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
 }
 
 /* BEGIN NAVBAR */
 
 .navbar
 {
-    padding: 65px 80px;
-    background: linear-gradient(-45deg, #8D0087, #7B001A, #08002E, #530055);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    position: fixed;
+    width: 100%;
+    padding: 65px 6%;
 }
 
 .top-navbar
 {
     display: flex;
     justify-content: space-between;
+    height: 80px;
 }
 
 .top-navbar h1
 {
+    display: flex;
     font-size: 60px;
     color: #f4f4f4;
 }
@@ -60,7 +65,7 @@
 
 .main-navbar a:focus
 {
-    background-color: purple;
+    background-color: #783FE3;
 }
 
 .main-navbar-button
@@ -74,7 +79,7 @@
 .navbar-button-image
 {
     text-align: center;
-    margin: auto 0 auto 40px;
+    margin: auto 0 auto 30px;
     min-width: 60px
 }
 
@@ -83,6 +88,70 @@
     color: #f4f4f4;
     margin: auto 0 auto 45px;
     font-size: 20px;
+}
+
+.searchbar
+{
+    margin: 0 auto;
+    width: 0;
+    justify-content: space-between;
+    position: relative;
+    border-radius: 10px;
+    background-color: #783FE3;
+    transition: width 0.5s linear;
+}
+
+.flex
+{
+    display: flex;
+}
+
+.none
+{
+    display: none;
+}
+
+.full-width
+{
+    width: 100%;
+}
+
+.navbar-search-small, .navbar-cross-small
+{
+    display: none;
+    margin: auto auto;
+}
+
+.navbar-search-small img, .navbar-cross-small img
+{
+    margin: auto 0;
+    width: 30px;
+}
+
+#navbar-search
+{
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    background-color: transparent;
+    width: 0;
+    height: 80px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+
+#navbar-search.full-width
+{
+    width: 80%;
+}
+
+#navbar-search::placeholder
+{
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #f4f4f4;
 }
 
 /* END NAVBAR */
@@ -98,3 +167,5 @@
         background-position: 0 50%;
     }
 }
+
+/*test*/
