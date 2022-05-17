@@ -2,15 +2,17 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+#endpoint voor het zetten van het volume
+@app.put("/beheer/volume/{amount}")
+async def set_volume(amount: int):
+    return
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+#endpoint voor het zetten van het maximum volume
+@app.put("/beheer/maxvolume/{amount}")
+async def set_max_volume(amount: int):
+    return
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
-
-@app.get("/beheer/")
-async def 
+#endpoint voor het zetten van het minimum volume
+@app.put("/beheer/minvolume/{amount}")
+async def set_minM_volume(amount: int):
+    return
