@@ -1,5 +1,7 @@
-SPOTIFY_CLIENT_ID = '99117380ca794cdeadaa05089d88c79d'
-SPOTIFY_CLIENT_SECRET = 'f6d7ae770020431ab0b8a9190822d41f'
+import os
+
+SPOTIFY_CLIENT_ID = os.environ.get('spotify_client_id')
+SPOTIFY_CLIENT_SECRET = os.environ.get('spotify_client_secret')
 SPOTIFY_REDIRECT_URI = 'http://localhost:8080'
 USER = '31dpnolbrnlodprs3cph3m5izary'
 SCOPES = ["user-modify-playback-state",

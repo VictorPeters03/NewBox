@@ -19,7 +19,7 @@ def getTrackById():
     print(spotifyHandler.track('2RChe0r2cMoyOvuKobZy44')['name'])
 
 
-def searchForSong(resultSize):
+def searchForSongs(resultSize):
     songs = []
     inp = input("Search for a song: ")
     search = spotifyHandler.search(inp)
@@ -50,8 +50,8 @@ def searchForSong(resultSize):
 def playSong(uri):
     deviceId = spotifyHandler.devices()['devices'][0]['id']
     uris = [uri]
-    spotifyHandler.start_playback(device_id=deviceId, uris=uri)
+    spotifyHandler.start_playback(device_id=deviceId, uris=uris)
 
 # getPlaybackState()
-# searchForSong(5)
+searchForSongs(5)
 # playSong()
