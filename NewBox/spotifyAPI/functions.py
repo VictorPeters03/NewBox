@@ -1,4 +1,6 @@
+
 from authorization import spotifyHandler
+
 
 
 def getPlaybackState():
@@ -17,24 +19,39 @@ def getTrackById():
     print(spotifyHandler.track('2RChe0r2cMoyOvuKobZy44')['name'])
 
 
-def searchForSong(searchLength):
+def searchForSong(resultSize):
+    songs = []
     inp = input("Search for a song: ")
     search = spotifyHandler.search(inp)
 
-    for i in range(0, searchLength):
+    for i in range(0, resultSize):
+        dict = {}
         songId = search['tracks']['items'][i]['id']
         songName = search['tracks']['items'][i]['name']
         artistName = search['tracks']['items'][i]['artists'][0]['name']
         uri = search['tracks']['items'][i]['uri']
-        print("{}. uri: {} song id: {}, song name: {}, artist name: {}".format(i + 1, uri, songId, songName, artistName))
+
+        dict.update({'nr': i + 1, 'songId': songId, 'songName': songName, 'artistName': artistName, 'uri': uri})
+        songs.append(dict)
 
 
-def playSong():
+    for i in range(len(songs)):
+        print(songs[i])
+
+    choice = int(input("Enter number: "))
+
+    for i in range(len(songs)):
+        for j in songs[i]:
+            # print(songs[i].get(j))
+            if(songs[i].get(j) == choice):
+                playSong(songs[i].get('uri'))
+
+
+def playSong(uri):
     deviceId = spotifyHandler.devices()['devices'][0]['id']
-    uri = ['spotify:track:53AddGhMgfIE85Az2Ipovu']
+    uris = [uri]
     spotifyHandler.start_playback(device_id=deviceId, uris=uri)
 
-
 # getPlaybackState()
-searchForSong(5)
+# searchForSong(5)
 # playSong()
