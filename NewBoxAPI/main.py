@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from MySQLdb import _mysql
+import socket
+import json
 
 app = FastAPI()
 
 db = _mysql.connect("localhost", "root", "", "djangosearchbartest")
+
 
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
@@ -19,7 +22,7 @@ async def set_max_volume(amount: int):
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
-async def set_minM_volume(amount: int):
+async def set_min_volume(amount: int):
     return
 
 
@@ -36,7 +39,7 @@ async def get_queue():
 
 
 # endpoint for playing songs
-@app.put("/use/play/{id}")
+@app.get("/use/play/{id}")
 async def play_music(id: str):
     return
 
@@ -50,11 +53,11 @@ async def toggle_music():
 # endpoint for searching songs in the local database
 @app.get("/use/search/{key}")
 async def search_music(key: str):
-    db.query("""SELECT * FROM core_song""")
+    db.query("SELECT * FROM core_song")
     return
 
 
 # endpoint for getting the ip off the rpi
 @app.get("adminpanel/ip")
 async def get_ip():
-    return
+    return json.dumps({{"ip": f"{socket.gethostbyname(socket.gethostname())}"}})
