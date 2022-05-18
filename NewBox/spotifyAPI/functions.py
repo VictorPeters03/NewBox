@@ -1,5 +1,5 @@
 from authorization import spotifyHandler
-
+from secrets import DEVICE_ID
 
 # User related functions
 def getUserDetails():
@@ -25,7 +25,7 @@ def getSongById(songId):
 
 
 def searchFor(resultSize, searchQuery, returnType='tracks'):
-    songs = []
+    items = []
     search = spotifyHandler.search(searchQuery, type=returnType)
 
     for i in range(0, resultSize):
@@ -36,11 +36,11 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
         # artistName = search[returnType + 's']['items'][i]['artists'][0]['name']
 
         songInfo.update({'nr': i + 1, 'type': returnType, 'songId': songId, 'songName': songName, 'uri': uri})
-        songs.append(songInfo)
+        items.append(songInfo)
 
-    for i in range(len(songs)):
-        print(songs[i])
-    return songs
+    for i in range(len(items)):
+        print(items[i])
+    return items
 
 
 def selectFromSearch(items):
@@ -49,11 +49,6 @@ def selectFromSearch(items):
             if items[i].get(j) == choice:
                 play(items[i].get('uri'))
 
-
-def play(uri):
-    deviceId = spotifyHandler.devices()['devices'][0]['id']
-    uris = [uri]
-    spotifyHandler.start_playback(device_id=deviceId, uris=uris)
 
 
 # Playlist related functions
@@ -68,7 +63,41 @@ def addSongsToPlaylist():
     spotifyHandler.playlist_add_items()
 
 
-# inp = input("Search for a song: ")
+# Player related functions
+def play(uri):
+    if 'track' in uri:
+        uris = [uri]
+        spotifyHandler.start_playback(device_id=DEVICE_ID, uris=uris)
+    else:
+        spotifyHandler.start_playback(device_id=DEVICE_ID, context_uri=uri)
+
+
+def skip():
+    spotifyHandler.next_track(device_id=DEVICE_ID)
+
+
+def pause():
+    spotifyHandler.pause_playback(device_id=DEVICE_ID)
+
+
+def resume():
+    spotifyHandler.start_playback(device_id=DEVICE_ID)
+
+
+def previous():
+    # functie geeft nog error
+    try:
+        spotifyHandler.previous_track(device_id=DEVICE_ID)
+    except spotipy.exceptions.SpotifyException as e:
+        return
+
+
+# set volume between 0 - 100%
+def setVolume(volume):
+    spotifyHandler.volume(device_id=DEVICE_ID, volume_percent=volume)
+
+# inp = input("Search for a song, playlist, album etc: ")
 # searchResult = searchFor(5, inp, returnType='playlist')
 # choice = int(input("Enter number: "))
 # selectFromSearch(searchResult)
+# setVolume(0)
