@@ -42,7 +42,7 @@ async def toggle_music():
 async def search_music(key: str):
     return
 
-# endpoint for getting the ip off het rpi
+# endpoint for getting the ip off the rpi
 @app.get("adminpanel/ip")
 async def get_ip():
     return
