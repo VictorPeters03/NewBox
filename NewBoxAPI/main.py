@@ -2,42 +2,42 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-#endpoint voor het zetten van het volume
-@app.put("/beheer/volume/{amount}")
+#endpoint for setting the volume
+@app.put("/admin/volume/{amount}")
 async def set_volume(amount: int):
     return
 
-#endpoint voor het zetten van het maximum volume
-@app.put("/beheer/maxvolume/{amount}")
+#endpoint for setting the maximum volume
+@app.put("/admin/maxvolume/{amount}")
 async def set_max_volume(amount: int):
     return
 
-#endpoint voor het zetten van het minimum volume
-@app.put("/beheer/minvolume/{amount}")
+#endpoint for setting the minimum volume
+@app.put("/admin/minvolume/{amount}")
 async def set_minM_volume(amount: int):
     return
 
-#endpoint voor het toevoegen aan wachtrij
+#endpoint for adding a song to the queue
 @app.put("/use/queue/{id}")
 async def add_to_queue(id: str):
     return
 
-#endpoint voor het ophalen van de wachtrij
+#endpoint for getting the queue
 @app.get("/use/getqueue")
 async def get_queue():
     return
 
-#endpoint voor afspelen muziek
+#endpoint for playing songs
 @app.put("/use/play/{id}")
 async def play_music(id: str):
     return
 
-#endpoint voor het pauzeren van spelende muziek
+#endpoint to toggle the state of the current song
 @app.put("/use/toggleplay")
 async def toggle_music():
     return
 
-#endpoint voor het zoeken van muziek
+#endpoint for searching songs in the local database
 @app.get("/use/search/{key}")
 async def search_music(key: str):
     return
