@@ -5,7 +5,7 @@ from authorization import spotifyHandler
 def getUserDetails():
     userId = spotifyHandler.me()['id']
     userUri = spotifyHandler.me()['uri']
-    print(userId)
+    return userId, userUri
 
 
 # Song related functions
@@ -24,18 +24,18 @@ def getSongById(songId):
     print(spotifyHandler.track(songId)['name'])
 
 
-def searchForSongs(resultSize, searchQuery):
+def searchFor(resultSize, searchQuery, returnType='tracks'):
     songs = []
-    search = spotifyHandler.search(searchQuery)
+    search = spotifyHandler.search(searchQuery, type=returnType)
 
     for i in range(0, resultSize):
         songInfo = {}
-        songId = search['tracks']['items'][i]['id']
-        songName = search['tracks']['items'][i]['name']
-        artistName = search['tracks']['items'][i]['artists'][0]['name']
-        uri = search['tracks']['items'][i]['uri']
+        songId = search[returnType + 's']['items'][i]['id']
+        songName = search[returnType + 's']['items'][i]['name']
+        uri = search[returnType + 's']['items'][i]['uri']
+        # artistName = search[returnType + 's']['items'][i]['artists'][0]['name']
 
-        songInfo.update({'nr': i + 1, 'songId': songId, 'songName': songName, 'artistName': artistName, 'uri': uri})
+        songInfo.update({'nr': i + 1, 'type': returnType, 'songId': songId, 'songName': songName, 'uri': uri})
         songs.append(songInfo)
 
     for i in range(len(songs)):
@@ -61,24 +61,6 @@ def makePlaylist(userId, name, description=''):
     spotifyHandler.user_playlist_create(user=userId, name=name, description=description)
 
 
-def searchForPlaylist(resultSize, searchQuery):
-    playlists = []
-    search = spotifyHandler.search(searchQuery, type='playlist')
-
-    for i in range(0, resultSize):
-        playlistInfo = {}
-        playlistUri = search['playlists']['items'][i]['uri']
-        playlistId = search['playlists']['items'][i]['id']
-        playlistName = search['playlists']['items'][i]['name']
-
-        playlistInfo.update({'nr': i + 1, 'uri': playlistUri, 'playlistId': playlistId, 'playlistName': playlistName})
-        playlists.append(playlistInfo)
-
-    for i in range(len(playlists)):
-        print(playlists[i])
-    return playlists
-
-
 # def getPlaylistId():
 
 
@@ -87,6 +69,6 @@ def addSongsToPlaylist():
 
 
 # inp = input("Search for a song: ")
-# searchResult = searchForPlaylist(5, inp)
+# searchResult = searchFor(5, inp, returnType='playlist')
 # choice = int(input("Enter number: "))
 # selectFromSearch(searchResult)
