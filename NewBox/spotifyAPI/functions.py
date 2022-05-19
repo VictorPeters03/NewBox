@@ -119,8 +119,14 @@ def setRepeat(state):
     spotifyHandler.repeat(state=state, device_id=DEVICE_ID)
 
 
+<<<<<<< Updated upstream
 # inp = input("Search for a song, playlist, album etc: ")
 # searchResult = searchFor(5, inp, returnType='playlist')
 # choice = int(input("Enter number: "))
 # playThisUri = selectFromSearch(searchResult, choice)
 # play(playThisUri)
+=======
+# getPlaybackState()
+searchForSongs(5)
+# playSong()
+>>>>>>> Stashed changes
