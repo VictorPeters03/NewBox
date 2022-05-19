@@ -1,13 +1,11 @@
-*
-{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
 
-#container
-{
+#container {
     width: 100%;
     height: 100vh;
     background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);
@@ -15,40 +13,34 @@
     animation: gradient 15s ease infinite;
 }
 
-#sub-container
-{
+#sub-container {
     padding-top: 570px;
 }
 
 /* BEGIN NAVBAR */
 
-.navbar
-{
+.navbar {
     position: fixed;
     width: 100%;
     padding: 65px 6%;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.top-navbar
-{
+.top-navbar {
     display: flex;
     justify-content: space-between;
     height: 80px;
 }
 
-.navbar-search-settings
-{
+.navbar-search-settings {
     display: flex;
 }
 
-.navbar-settings
-{
+.navbar-settings {
     margin-left: 40px;
 }
 
-.main-navbar
-{
+.main-navbar {
     display: grid;
     grid-column-gap: 30px;
     grid-row-gap: 20px;
@@ -56,41 +48,35 @@
     margin: 40px 0;
 }
 
-.main-navbar a
-{
+.main-navbar a {
     border-radius: 20px;
     text-decoration: none;
 }
 
-.main-navbar a:focus
-{
+.main-navbar a:focus {
     background-color: #783FE3;
 }
 
-.main-navbar-button
-{
+.main-navbar-button {
     display: flex;
     background-color: rgba(128, 128, 128, 0.5);
     height: 80px;
     border-radius: 20px;
 }
 
-.navbar-button-image
-{
+.navbar-button-image {
     text-align: center;
     margin: auto 0 auto 30px;
     min-width: 60px
 }
 
-.navbar-button-text
-{
+.navbar-button-text {
     color: #f4f4f4;
     margin: auto 0 auto 45px;
     font-size: 20px;
 }
 
-.searchbar
-{
+.searchbar {
     margin: 0 auto;
     width: 0;
     justify-content: space-between;
@@ -100,35 +86,29 @@
     transition: width 0.5s linear;
 }
 
-.flex
-{
+.flex {
     display: flex;
 }
 
-.none
-{
+.none {
     display: none;
 }
 
-.full-width
-{
+.full-width {
     width: 100%;
 }
 
-.navbar-search-small, .navbar-cross-small
-{
+.navbar-search-small, .navbar-cross-small {
     display: none;
     margin: auto auto;
 }
 
-.navbar-search-small img, .navbar-cross-small img
-{
+.navbar-search-small img, .navbar-cross-small img {
     margin: auto 0;
     width: 30px;
 }
 
-#navbar-search
-{
+#navbar-search {
     text-align: center;
     font-family: Arial, sans-serif;
     font-size: 30px;
@@ -140,13 +120,11 @@
     text-decoration: none;
 }
 
-#navbar-search.full-width
-{
+#navbar-search.full-width {
     width: 80%;
 }
 
-#navbar-search::placeholder
-{
+#navbar-search::placeholder {
     font-family: Arial, sans-serif;
     font-size: 30px;
     font-weight: bold;
@@ -157,24 +135,21 @@
 
 /* BEGIN DOWNLOAD */
 
-#songs-downloaded
-{
+#songs-downloaded {
     display: grid;
     margin: 0 auto;
     grid-template-columns: repeat(1, 1fr);
     width: 88%;
 }
 
-.song-downloaded
-{
+.song-downloaded {
     display: flex;
     justify-content: space-between;
     height: 142px;
     width: 100%;
 }
 
-.song-downloaded .image
-{
+.song-downloaded .image {
     width: 113px;
     height: 113px;
     margin: auto 0;
@@ -182,8 +157,7 @@
     border-radius: 20px;
 }
 
-.song-downloaded .title-artist
-{
+.song-downloaded .title-artist {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -194,24 +168,20 @@
     justify-content: space-between;
 }
 
-.title
-{
+.title {
     color: white;
     font-weight: bold;
 }
 
-.artist
-{
+.artist {
     color: #939393;
 }
 
-.add-to-playlist
-{
+.add-to-playlist {
     padding-top: 45px;
 }
 
-.add-to-playlist img
-{
+.add-to-playlist img {
     width: 29px;
     height: 21px;
 }
@@ -232,8 +202,30 @@
 
 /*BEGIN FOOTER*/
 
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 6%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
 
+.main-footer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 25px 20px;
+}
 
+.main-footer-button {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    height: 60px;
+}
 
+.main-footer-button-image {
+    text-align: center;
+
+}
 
 /*END FOOTER*/
