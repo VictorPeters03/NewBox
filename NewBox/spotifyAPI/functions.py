@@ -11,15 +11,29 @@ def getUserDetails():
 
 
 # Song related functions
-def getPlaybackState():
+def getPlaybackInfo():
     if spotifyHandler.current_playback() is None:
-        print("No song currently playing")
+        print("No song playing")
         return
 
     result = spotifyHandler.current_playback()
-    title = result['item']['name']
 
-    print(f"'{title}' is currently playing")
+    track = result['item']['name']
+    artist = result['item']['artists'][0]['name']
+    volume = result['device']['volume_percent']
+    repeatState = result['repeat_state']
+    shuffleState = result['shuffle_state']
+    isPlaying = result['is_playing']
+
+    info = [{'track': track,
+             'artist': artist,
+             'volume': volume,
+             'repeatState': repeatState,
+             'shuffleState': shuffleState,
+             'isPlaying': isPlaying}]
+
+    print(f"'{track}' by '{artist} is playing")
+    return info
 
 
 def getSongById(trackId):
@@ -28,6 +42,7 @@ def getSongById(trackId):
 
 def getSongUri(trackName):
     return spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
+
 
 # Search related functions
 def searchFor(resultSize, searchQuery, returnType='tracks'):
@@ -154,27 +169,32 @@ def setVolume(volume):
     spotifyHandler.volume(device_id=DEVICE_ID, volume_percent=volume)
 
 
-def shuffle(state):
+def shuffle():
     # state can either be true or false
-    spotifyHandler.shuffle(device_id=DEVICE_ID, state=state)
+    if not spotifyHandler.current_playback()['shuffle_state']:
+        spotifyHandler.shuffle(device_id=DEVICE_ID, state=True)
+    else:
+        spotifyHandler.shuffle(device_id=DEVICE_ID, state=False)
 
 
 def addToQueue(uri):
     if 'track' in uri:
         spotifyHandler.add_to_queue(device_id=DEVICE_ID, uri=uri)
     else:
-        print('cannot add playlist or album to queue')
+        print('Can only add tracks to queue')
         return
 
 
-def setRepeat(state):
+def repeat():
     # state can either be track, context or off
-    spotifyHandler.repeat(state=state, device_id=DEVICE_ID)
-
+    if spotifyHandler.current_playback()['repeat_state'] == 'off':
+        spotifyHandler.repeat(device_id=DEVICE_ID, state='track')
+    else:
+        spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
 
 # inp = input("Search for a song, playlist, album etc: ")
 # searchResult = searchFor(5, inp, returnType='track')
 # choice = int(input("Enter number: "))
 # playThisUri = selectFromSearch(searchResult, choice)
 # play(playThisUri)
-# previous()
+# getPlaybackInfo()
