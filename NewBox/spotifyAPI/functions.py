@@ -1,6 +1,6 @@
 import spotipy
 from authorization import spotifyHandler
-from secrets import DEVICE_ID
+from secrets import DEVICE_ID, USER
 
 
 # User related functions
@@ -30,6 +30,7 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
     items = []
     search = spotifyHandler.search(searchQuery, type=returnType)
 
+    # Add item info to a dictionary
     for i in range(0, resultSize):
         itemInfo = {}
         id = search[returnType + 's']['items'][i]['id']
@@ -43,28 +44,65 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
                          'uri': uri})
         items.append(itemInfo)
 
+    # Print out all the items
     for i in range(len(items)):
         print(items[i])
     return items
 
 
-def selectFromSearch(items, number):
+def selectFromSearch(items, inp):
     for i in range(len(items)):
         for j in items[i]:
-            if items[i].get(j) == number:
+            if items[i].get(j) == inp:
                 return items[i].get('uri')
 
 
 # Playlist related functions
-def makePlaylist(userId, name, description=''):
-    spotifyHandler.user_playlist_create(user=userId, name=name, description=description)
+def makePlaylist(name, description=''):
+    spotifyHandler.user_playlist_create(user=USER, name=name, description=description)
 
 
-# def getPlaylistId():
+def getPlaylistId(inp):
+    items = searchFor(5, inp, returnType='playlist')
+    select = int(input("Select playlist: "))
+    return selectFromSearch(items, select)
 
 
 def addSongsToPlaylist():
-    spotifyHandler.playlist_add_items()
+    inp = input("Select playlist to add songs to: ")
+    playlists = getOwnPlaylists()
+    songs = searchFor(5, inp, returnType='track')
+    choice = input("Choose an option: ")
+    selected = selectFromSearch(songs, choice)
+    for playlist in playlists:
+        if playlist.get('name').lower() == inp.lower():
+            playlistId = playlist.get('id')
+            spotifyHandler.playlist_add_items(playlistId, selected)
+    playlistId = getPlaylistId(inp)
+    spotifyHandler.playlist_add_items(playlistId, inp)
+
+
+def getOwnPlaylists():
+    playlists = []
+    for count, playlist in enumerate(spotifyHandler.current_user_playlists()['items']):
+        pl = {}
+        uri = playlist['uri']
+        name = playlist['name']
+        id = playlist['id']
+        pl.update({"name": name, "uri": uri, "id": id})
+        playlists.append(pl)
+    print(playlists)
+    return playlists
+
+
+def removePlaylist():
+    inp = input("Enter playlist name: ")
+    playlists = getOwnPlaylists()
+    for playlist in playlists:
+        if playlist.get('name').lower() == inp.lower():
+            spotifyHandler.current_user_unfollow_playlist(playlist.get('id'))
+            return
+    print("Could not find a playlist with that name")
 
 
 # Player related functions
@@ -124,3 +162,4 @@ def setRepeat(state):
 # choice = int(input("Enter number: "))
 # playThisUri = selectFromSearch(searchResult, choice)
 # play(playThisUri)
+# addSongsToPlaylist()
