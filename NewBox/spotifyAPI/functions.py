@@ -22,10 +22,14 @@ def getPlaybackState():
     print(f"'{title}' is currently playing")
 
 
-def getSongById(songId):
-    print(spotifyHandler.track(songId)['name'])
+def getSongById(trackId):
+    print(spotifyHandler.track(trackId)['name'])
 
 
+def getSongUri(trackName):
+    return spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
+
+# Search related functions
 def searchFor(resultSize, searchQuery, returnType='tracks'):
     items = []
     search = spotifyHandler.search(searchQuery, type=returnType)
@@ -68,18 +72,32 @@ def getPlaylistId(inp):
     return selectFromSearch(items, select)
 
 
-def addSongsToPlaylist():
-    inp = input("Select playlist to add songs to: ")
+def addSongsToPlaylist(trackName):
     playlists = getOwnPlaylists()
-    songs = searchFor(5, inp, returnType='track')
-    choice = input("Choose an option: ")
-    selected = selectFromSearch(songs, choice)
+    inp = input("Select playlist to add songs to: ")
+    results = searchFor(5, trackName, 'track')
+    inp2 = int(input("Select song: "))
+    selectedSong = [selectFromSearch(results, inp2)]
     for playlist in playlists:
         if playlist.get('name').lower() == inp.lower():
             playlistId = playlist.get('id')
-            spotifyHandler.playlist_add_items(playlistId, selected)
-    playlistId = getPlaylistId(inp)
-    spotifyHandler.playlist_add_items(playlistId, inp)
+            spotifyHandler.playlist_add_items(playlistId, selectedSong)
+        else:
+            print("Could not find playlist with that name")
+
+
+def removeSongsFromPlaylist(trackName):
+    playlists = getOwnPlaylists()
+    inp = input("Select playlist to remove songs from: ")
+    results = searchFor(5, trackName, 'track')
+    inp2 = int(input("Select song: "))
+    selectedSong = [selectFromSearch(results, inp2)]
+    for playlist in playlists:
+        if playlist.get('name').lower() == inp.lower():
+            playlistId = playlist.get('id')
+            spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, selectedSong)
+        else:
+            print("Could not find playlist with that name")
 
 
 def getOwnPlaylists():
@@ -89,9 +107,9 @@ def getOwnPlaylists():
         uri = playlist['uri']
         name = playlist['name']
         id = playlist['id']
-        pl.update({"name": name, "uri": uri, "id": id})
+        pl.update({"nr": count + 1, "name": name, "uri": uri, "id": id})
         playlists.append(pl)
-    print(playlists)
+    print(f"Available playlists: {playlists}")
     return playlists
 
 
@@ -127,11 +145,8 @@ def resume():
 
 
 def previous():
-    # function gives an error, needs fix
-    try:
-        spotifyHandler.previous_track(device_id=DEVICE_ID)
-    except spotipy.exceptions.SpotifyException:
-        return
+    lastTrackUri = spotifyHandler.current_user_recently_played(limit=1)['items'][0]['track']['uri']
+    play(lastTrackUri)
 
 
 def setVolume(volume):
@@ -158,8 +173,8 @@ def setRepeat(state):
 
 
 # inp = input("Search for a song, playlist, album etc: ")
-# searchResult = searchFor(5, inp, returnType='playlist')
+# searchResult = searchFor(5, inp, returnType='track')
 # choice = int(input("Enter number: "))
 # playThisUri = selectFromSearch(searchResult, choice)
 # play(playThisUri)
-# addSongsToPlaylist()
+# previous()
