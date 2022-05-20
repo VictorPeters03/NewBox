@@ -1,3 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="28.571" height="25" viewBox="0 0 28.571 25">
-  <path id="Polygon_7" data-name="Polygon 7" d="M11.681,4.558a3,3,0,0,1,5.209,0l9.116,15.953A3,3,0,0,1,23.4,25H5.17a3,3,0,0,1-2.6-4.488Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <g id="Group_138" data-name="Group 138" transform="translate(-808 -10)">
+    <circle id="Ellipse_6" data-name="Ellipse 6" cx="30" cy="30" r="30" transform="translate(808 10)" fill="#fff" opacity="0.151"/>
+    <path id="Polygon_7" data-name="Polygon 7" d="M11.681,4.558a3,3,0,0,1,5.209,0l9.116,15.953A3,3,0,0,1,23.4,25H5.17a3,3,0,0,1-2.6-4.488Z" transform="translate(823.714 25)" fill="#fff" opacity="0.998"/>
+  </g>
 </svg>
