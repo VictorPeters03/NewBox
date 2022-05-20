@@ -14,7 +14,7 @@
 }
 
 #sub-container {
-    padding-top: 570px;
+    padding-top: 500px;
 }
 
 /* BEGIN NAVBAR */
@@ -22,10 +22,9 @@
 .navbar {
     position: fixed;
     width: 100%;
-    /*padding: 65px 6%;*/
     padding-left: 6%;
     padding-right: 6%;
-    padding-top: 6%;
+    padding-top: 4%;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
