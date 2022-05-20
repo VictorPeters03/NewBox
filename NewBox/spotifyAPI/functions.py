@@ -146,8 +146,8 @@ def getPlaylistCoverImage(playlistName):
 
 def getTrackCoverImage(trackName):
     result = spotifyHandler.search(q=trackName, limit=1, type='track')
-    album = result['tracks']['items'][0]['album']['id']
-    print(album)
+    trackId = result['tracks']['items'][0]['id']
+    print(spotifyHandler.track(trackId)['album']['images'][0]['url'])
 
 
 # Player related functions
@@ -216,6 +216,4 @@ def getAlbums(query):
 def getArtistId(query):
     result = spotifyHandler.search(q=query, limit=1, type='artist')
     return result['artists']['items'][0]['id']
-
-
 
