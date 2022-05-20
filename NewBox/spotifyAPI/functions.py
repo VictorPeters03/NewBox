@@ -1,6 +1,6 @@
 import spotipy
 from authorization import spotifyHandler
-from secrets import DEVICE_ID
+from secrets import DEVICE_ID, USER
 
 
 # User related functions
@@ -11,25 +11,45 @@ def getUserDetails():
 
 
 # Song related functions
-def getPlaybackState():
+def getPlaybackInfo():
     if spotifyHandler.current_playback() is None:
-        print("No song currently playing")
+        print("No song playing")
         return
 
     result = spotifyHandler.current_playback()
-    title = result['item']['name']
 
-    print(f"'{title}' is currently playing")
+    track = result['item']['name']
+    artist = result['item']['artists'][0]['name']
+    volume = result['device']['volume_percent']
+    repeatState = result['repeat_state']
+    shuffleState = result['shuffle_state']
+    isPlaying = result['is_playing']
+
+    info = [{'track': track,
+             'artist': artist,
+             'volume': volume,
+             'repeatState': repeatState,
+             'shuffleState': shuffleState,
+             'isPlaying': isPlaying}]
+
+    print(f"'{track}' by '{artist} is playing")
+    return info
 
 
-def getSongById(songId):
-    print(spotifyHandler.track(songId)['name'])
+def getSongById(trackId):
+    print(spotifyHandler.track(trackId)['name'])
 
 
+def getSongUri(trackName):
+    return spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
+
+
+# Search related functions
 def searchFor(resultSize, searchQuery, returnType='tracks'):
     items = []
     search = spotifyHandler.search(searchQuery, type=returnType)
 
+    # Add item info to a dictionary
     for i in range(0, resultSize):
         itemInfo = {}
         id = search[returnType + 's']['items'][i]['id']
@@ -43,28 +63,79 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
                          'uri': uri})
         items.append(itemInfo)
 
+    # Print out all the items
     for i in range(len(items)):
         print(items[i])
     return items
 
 
-def selectFromSearch(items, number):
+def selectFromSearch(items, inp):
     for i in range(len(items)):
         for j in items[i]:
-            if items[i].get(j) == number:
+            if items[i].get(j) == inp:
                 return items[i].get('uri')
 
 
 # Playlist related functions
-def makePlaylist(userId, name, description=''):
-    spotifyHandler.user_playlist_create(user=userId, name=name, description=description)
+def makePlaylist(name, description=''):
+    spotifyHandler.user_playlist_create(user=USER, name=name, description=description)
 
 
-# def getPlaylistId():
+def getPlaylistId(inp):
+    items = searchFor(5, inp, returnType='playlist')
+    select = int(input("Select playlist: "))
+    return selectFromSearch(items, select)
 
 
-def addSongsToPlaylist():
-    spotifyHandler.playlist_add_items()
+def addSongsToPlaylist(trackName):
+    playlists = getOwnPlaylists()
+    inp = input("Select playlist to add songs to: ")
+    results = searchFor(5, trackName, 'track')
+    inp2 = int(input("Select song: "))
+    selectedSong = [selectFromSearch(results, inp2)]
+    for playlist in playlists:
+        if playlist.get('name').lower() == inp.lower():
+            playlistId = playlist.get('id')
+            spotifyHandler.playlist_add_items(playlistId, selectedSong)
+        else:
+            print("Could not find playlist with that name")
+
+
+def removeSongsFromPlaylist(trackName):
+    playlists = getOwnPlaylists()
+    inp = input("Select playlist to remove songs from: ")
+    results = searchFor(5, trackName, 'track')
+    inp2 = int(input("Select song: "))
+    selectedSong = [selectFromSearch(results, inp2)]
+    for playlist in playlists:
+        if playlist.get('name').lower() == inp.lower():
+            playlistId = playlist.get('id')
+            spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, selectedSong)
+        else:
+            print("Could not find playlist with that name")
+
+
+def getOwnPlaylists():
+    playlists = []
+    for count, playlist in enumerate(spotifyHandler.current_user_playlists()['items']):
+        pl = {}
+        uri = playlist['uri']
+        name = playlist['name']
+        id = playlist['id']
+        pl.update({"nr": count + 1, "name": name, "uri": uri, "id": id})
+        playlists.append(pl)
+    print(f"Available playlists: {playlists}")
+    return playlists
+
+
+def removePlaylist():
+    inp = input("Enter playlist name: ")
+    playlists = getOwnPlaylists()
+    for playlist in playlists:
+        if playlist.get('name').lower() == inp.lower():
+            spotifyHandler.current_user_unfollow_playlist(playlist.get('id'))
+            return
+    print("Could not find a playlist with that name")
 
 
 # Player related functions
@@ -89,11 +160,8 @@ def resume():
 
 
 def previous():
-    # function gives an error, needs fix
-    try:
-        spotifyHandler.previous_track(device_id=DEVICE_ID)
-    except spotipy.exceptions.SpotifyException:
-        return
+    lastTrackUri = spotifyHandler.current_user_recently_played(limit=1)['items'][0]['track']['uri']
+    play(lastTrackUri)
 
 
 def setVolume(volume):
@@ -101,32 +169,41 @@ def setVolume(volume):
     spotifyHandler.volume(device_id=DEVICE_ID, volume_percent=volume)
 
 
-def shuffle(state):
+def shuffle():
     # state can either be true or false
-    spotifyHandler.shuffle(device_id=DEVICE_ID, state=state)
+    if not spotifyHandler.current_playback()['shuffle_state']:
+        spotifyHandler.shuffle(device_id=DEVICE_ID, state=True)
+    else:
+        spotifyHandler.shuffle(device_id=DEVICE_ID, state=False)
 
 
 def addToQueue(uri):
     if 'track' in uri:
         spotifyHandler.add_to_queue(device_id=DEVICE_ID, uri=uri)
     else:
-        print('cannot add playlist or album to queue')
+        print('Can only add tracks to queue')
         return
 
 
-def setRepeat(state):
+def repeat():
     # state can either be track, context or off
-    spotifyHandler.repeat(state=state, device_id=DEVICE_ID)
-
+    if spotifyHandler.current_playback()['repeat_state'] == 'off':
+        spotifyHandler.repeat(device_id=DEVICE_ID, state='track')
+    else:
+        spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
 
 <<<<<<< Updated upstream
 # inp = input("Search for a song, playlist, album etc: ")
-# searchResult = searchFor(5, inp, returnType='playlist')
+# searchResult = searchFor(5, inp, returnType='track')
 # choice = int(input("Enter number: "))
 # playThisUri = selectFromSearch(searchResult, choice)
 # play(playThisUri)
+<<<<<<< HEAD
 =======
 # getPlaybackState()
 searchForSongs(5)
 # playSong()
 >>>>>>> Stashed changes
+=======
+# getPlaybackInfo()
+>>>>>>> 6a333cf82fc4b66af841d68a06afaf1a0df46b07
