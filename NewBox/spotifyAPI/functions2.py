@@ -1,32 +1,42 @@
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-import artist_IDs
-from array import *
-import numpy as np
+from authorization import spotifyHandler
+from secrets import DEVICE_ID, USER
 
 
-# from authorization import spotifyHandler
-
-# Albums van artiesten ophalen
-
-def get_album_by_artist():
-    artist_array = np.array([artist_IDs])
-
-    artist_chosen = artist_array[16]  # Placeholder voor een 'post' functie wanneer een artiest
-    # geselecteerd wordt.
-    artist_uri = 'spotify:artist:{}'.format(artist_chosen)
-    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
-    results = spotify.artist_albums(artist_uri, album_type='album')
-    albums = results['items']
-
-    while results['next']:
-        results = spotify.next(results)
-        albums.extend(results['items'])
-
-    for album in albums:
-        print(album['name'])
-
-    return
+# GetID function (is also in 'functions' so should be removed)
+def getArtistId(query):
+    result = spotifyHandler.search(q=query, limit=1, type='artist')
+    return result['artists']['items'][0]['id']
 
 
-get_album_by_artist()
+# Artist related functions
+def getArtistByID(artistName):
+    art = getArtistId(artistName)
+    print(spotifyHandler.artist(art)['uri'])
+
+
+def getAlbumByArtist(artist_id):
+    print(spotifyHandler.artist_albums(artist_id))
+
+
+# Album related functions
+def getAlbumByID(album_id):
+    print(spotifyHandler.album(album_id)['name']['uri'])
+
+
+def getAlbumTracks(album_id):
+    print(spotifyHandler.album_tracks(album_id))
+
+
+# Track related functions
+def getTrackId(query):
+    result = spotifyHandler.search(q=query, limit=1, type='track')
+    return result['tracks']['items'][0]['id']
+
+
+def getTrackByID(trackName):
+    track = getTrackId(trackName)
+    print(spotifyHandler.track(track)['uri'])
+
+
+getTrackByID('Satellite Mind')
