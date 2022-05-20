@@ -49,7 +49,7 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
     items = []
     search = spotifyHandler.search(searchQuery, type=returnType)
 
-    # Add item info to a dictionary
+    # Loop over all the search results and store each item with info to a dictionary and add the dict to a list
     for i in range(0, resultSize):
         itemInfo = {}
         id = search[returnType + 's']['items'][i]['id']
@@ -70,10 +70,10 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
 
 
 def selectFromSearch(items, inp):
-    for i in range(len(items)):
-        for j in items[i]:
-            if items[i].get(j) == inp:
-                return items[i].get('uri')
+    # Loop over all the items we got from SearchFor() function, if the number is what the user chose -> return the uri
+    for count, item in enumerate(items):
+        if item.get('nr') == inp:
+            return item.get('uri')
 
 
 # Playlist related functions
@@ -192,9 +192,3 @@ def repeat():
     else:
         spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
 
-# inp = input("Search for a song, playlist, album etc: ")
-# searchResult = searchFor(5, inp, returnType='track')
-# choice = int(input("Enter number: "))
-# playThisUri = selectFromSearch(searchResult, choice)
-# play(playThisUri)
-# getPlaybackInfo()
