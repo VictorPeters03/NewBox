@@ -138,6 +138,18 @@ def removePlaylist():
     print("Could not find a playlist with that name")
 
 
+def getPlaylistCoverImage(playlistName):
+    result = spotifyHandler.search(q=playlistName, limit=1, type='playlist')
+    playlistId = result['playlists']['items'][0]['id']
+    return spotifyHandler.playlist_cover_image(playlistId)[0]['url']
+
+
+def getTrackCoverImage(trackName):
+    result = spotifyHandler.search(q=trackName, limit=1, type='track')
+    album = result['tracks']['items'][0]['album']['id']
+    print(album)
+
+
 # Player related functions
 def play(uri):
     if 'track' in uri:
@@ -191,3 +203,19 @@ def repeat():
         spotifyHandler.repeat(device_id=DEVICE_ID, state='track')
     else:
         spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
+
+
+# testing purposes
+def getAlbums(query):
+    id = getArtistId(query)
+    result = spotifyHandler.artist_albums(artist_id=id)
+    for item in result['items']:
+        print(item['name'])
+
+
+def getArtistId(query):
+    result = spotifyHandler.search(q=query, limit=1, type='artist')
+    return result['artists']['items'][0]['id']
+
+
+
