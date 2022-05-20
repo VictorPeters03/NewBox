@@ -191,4 +191,3 @@ def repeat():
         spotifyHandler.repeat(device_id=DEVICE_ID, state='track')
     else:
         spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
-
