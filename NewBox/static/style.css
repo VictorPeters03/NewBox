@@ -47,7 +47,7 @@
     grid-column-gap: 30px;
     grid-row-gap: 20px;
     grid-template-columns: repeat(2, 1fr);
-    margin: 40px 0;
+    margin: 40px 0px 30px 0px;
 }
 
 .main-navbar a {
