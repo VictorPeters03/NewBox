@@ -35,7 +35,7 @@ function getSongs()
         resp.data.items.forEach(element =>
             // console.log(element["track"]["artists"][0]["name"])
         songs_downloaded.innerHTML += '<div class="song-downloaded">\n' +
-        '                       <div class="image"></div>' +
+        '                       <div class="album-cover"><img src="' + element["track"]["album"]["images"][2]["url"] + '" alt=""></div>' +
         '                       <div class="title-artist">' +
                 '<div class="title"><p>' + element["track"]["name"] + '</p></div>' +
                 '<div class="artist"><p>' + element["track"]['artists'][0]["name"] + '</p></div>' +

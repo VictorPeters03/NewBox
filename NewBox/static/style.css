@@ -11,7 +11,7 @@ body {
 	animation: gradient 15s ease infinite;
 	height: 100vh;
 }
-}
+
 
 #container {
     width: 100%;
@@ -144,7 +144,7 @@ body {
 
 /* END NAVBAR */
 
-/* BEGIN DOWNLOAD */
+/* BEGIN DOWNLOAD / SONGS */
 
 #songs-downloaded {
     display: grid;
@@ -179,6 +179,12 @@ body {
     justify-content: space-between;
 }
 
+.album-cover
+{
+    display: flex;
+    align-items: center;
+}
+
 .title {
     color: white;
     font-weight: bold;
@@ -197,7 +203,7 @@ body {
     height: 21px;
 }
 
-/* END DOWNLOAD */
+/* END DOWNLOAD / SONGS */
 
 @keyframes gradient {
     0% {
