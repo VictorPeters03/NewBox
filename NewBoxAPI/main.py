@@ -1,12 +1,9 @@
+import MySQLdb
 from fastapi import FastAPI
-from MySQLdb import _mysql
 import socket
 import json
 
 app = FastAPI()
-
-db = _mysql.connect("localhost", "root", "", "djangosearchbartest")
-
 
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
@@ -49,11 +46,9 @@ async def play_music(id: str):
 async def toggle_music():
     return
 
-
 # endpoint for searching songs in the local database
 @app.get("/use/search/{key}")
 async def search_music(key: str):
-    db.query("SELECT * FROM core_song")
     return
 
 
@@ -61,3 +56,27 @@ async def search_music(key: str):
 @app.get("/adminpanel/ip")
 async def get_ip():
     return json.dumps({"ip": socket.gethostbyname(socket.gethostname())})
+
+# endpoint to toggle the state of the current song
+@app.get("/use/debug")
+async def debug():
+
+    try:
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+    except:
+        return "Can't connect to database"
+    print("Connection established")
+
+    cursor = db.cursor()
+
+    sql = "SELECT * FROM `core_song`;"
+
+    cursor.execute(sql)
+
+    songs = cursor.fetchall()
+
+    db.close()
+
+    jsonString = json.dumps(songs)
+
+    return jsonString
