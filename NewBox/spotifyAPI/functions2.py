@@ -21,7 +21,7 @@ def getAlbumByArtist(artist_id):
 
 # Album related functions
 def getAlbumByID(album_id):
-    print(spotifyHandler.album(album_id)['name']['uri'])
+    print(spotifyHandler.album(album_id))
 
 
 def getAlbumTracks(album_id):
@@ -38,5 +38,4 @@ def getTrackByID(trackName):
     track = getTrackId(trackName)
     print(spotifyHandler.track(track)['uri'])
 
-
-getTrackByID('Satellite Mind')
+    
