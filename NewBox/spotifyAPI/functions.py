@@ -147,7 +147,7 @@ def getPlaylistCoverImage(playlistName):
 def getTrackCoverImage(trackName):
     result = spotifyHandler.search(q=trackName, limit=1, type='track')
     trackId = result['tracks']['items'][0]['id']
-    print(spotifyHandler.track(trackId)['album']['images'][0]['url'])
+    return spotifyHandler.track(trackId)['album']['images'][0]['url']
 
 
 # Player related functions
@@ -164,11 +164,13 @@ def skip():
 
 
 def pause():
-    spotifyHandler.pause_playback(device_id=DEVICE_ID)
+    if spotifyHandler.current_playback()['is_playing'] is True:
+        spotifyHandler.pause_playback(device_id=DEVICE_ID)
 
 
 def resume():
-    spotifyHandler.start_playback(device_id=DEVICE_ID)
+    if spotifyHandler.current_playback() is False:
+        spotifyHandler.start_playback(device_id=DEVICE_ID)
 
 
 def previous():
