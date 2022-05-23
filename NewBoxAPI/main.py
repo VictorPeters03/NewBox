@@ -17,6 +17,7 @@ async def set_volume(amount: int):
                 valid = True
             else: 
                  volume = json.dumps({"volume": "null"})
+                 valid = True
         except ValueError:
             valid = False
     return volume
