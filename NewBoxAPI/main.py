@@ -8,7 +8,18 @@ app = FastAPI()
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
 async def set_volume(amount: int):
-    return
+    valid = False
+    while not valid:
+        try:
+            volume = int(amount)            
+            if (volume <= 100) and (volume >= 0):
+                volume = json.dumps({"volume": amount})
+                valid = True
+            else: 
+                 volume = json.dumps({"volume": "null"})
+        except ValueError:
+            valid = False
+    return volume
 
 
 # endpoint for setting the maximum volume
