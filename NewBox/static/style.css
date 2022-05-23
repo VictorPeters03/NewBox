@@ -42,11 +42,19 @@ body {
 
 }
 
+.navbar-search {
+    height: 45px;
+    width: 45px;
+}
+
 .navbar-search-settings {
     display: flex;
+    margin: auto 0;
 }
 
 .navbar-settings {
+    height: 45px;
+    width: 45px;
     margin-left: 40px;
 }
 
@@ -79,6 +87,11 @@ body {
     text-align: center;
     margin: auto 0 auto 30px;
     min-width: 60px
+}
+
+.navbar-button-image img
+{
+    max-height: 45px;
 }
 
 .navbar-button-text {
@@ -204,6 +217,25 @@ body {
 }
 
 /* END DOWNLOAD / SONGS */
+
+/* BEGIN SETTINGS */
+
+#settings
+{
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: repeat(1, 1fr);
+    width: 88%;
+    color: white;
+}
+
+.setting
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* END SETTINGS */
 
 @keyframes gradient {
     0% {

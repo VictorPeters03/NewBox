@@ -12,6 +12,8 @@ const index = document.querySelector("#sub-container")
 
 const logo = document.querySelector("#logo")
 
+const settings = document.querySelector(".navbar-settings img")
+
 function getHomePage()
 {
     index.innerHTML = ""
@@ -23,12 +25,12 @@ function getSongs()
 
     let songs_downloaded = document.querySelector('#songs-downloaded')
 
-    axios.get("https://api.spotify.com/v1/playlists/37i9dQZF1DX2LTcinqsO68/tracks?market=NL&limit=20",
+    axios.get("https://api.spotify.com/v1/playlists/37i9dQZF1DX2LTcinqsO68/tracks?market=NL&limit=10",
         {
             headers:
             {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer BQAhBFQeyIxdEqwRO7FIr1MnJFhN0aFTzeLGOZr9u2nJUwGgoxefGhW3vYtP775tXYgN3ispW2c0tUX8rftlnYPkWwOK5SLVKflPPz5IgCHCZ1MyuDMASP53u6xglDjZYZNPx4xY5KY-blIVHJSimv_CDcQND0v6NZg"
+                "Authorization": "Bearer BQBbtOZZJWxzpl0DH7o2UlZY5e_v86CD4n7M1zq4afcKcsBhidXDk34-UxPC5SCYtGdrZQxAm9mui55gscHIkpmm9cqQl4_xYxaG0HMEMR4U5TRJt_8-ZdKrhq3iMDaVhGddDfTbUxkTZxEeQMFu3J2ttQd_DQ4aA_zSMBSVf4FOGkPoOO2XLNna-tlSR0EMTFMbKFqQLpdenvRVVLFgMwhhw7JXR61Yfxxw"
             }
         })
     .then(resp => {
@@ -67,7 +69,22 @@ function getDownloaded()
     });
 }
 
+function getSettings()
+{
+    index.innerHTML = "<div id=\"settings\">\n" +
+        "            <div class=\"setting\">\n" +
+        "                <div class=\"setting-text\">\n" +
+        "                    <h1>Dark mode</h1>\n" +
+        "                </div>\n" +
+        "                <div class=\"setting-switch\"></div>\n" +
+        "            </div>\n" +
+        "        </div>"
+
+
+}
+
 
 songs.addEventListener("click", getSongs)
 downloaded.addEventListener("click", getDownloaded)
 logo.addEventListener("click", getHomePage)
+settings.addEventListener("click", getSettings)
