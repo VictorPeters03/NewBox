@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
-  <g id="Group_138" data-name="Group 138" transform="translate(-880.351)">
-    <rect id="Rectangle_54" data-name="Rectangle 54" width="80" height="80" transform="translate(880.351)" fill="#783fe3"/>
-    <path id="Icon_material-person" data-name="Icon material-person" d="M27.445,28.686c5.924,0,10.723-5.076,10.723-11.343S33.369,6,27.445,6,16.722,11.076,16.722,17.343,21.521,28.686,27.445,28.686Zm0,5.671C20.288,34.357,6,38.157,6,45.7v5.671H48.89V45.7C48.89,38.157,34.6,34.357,27.445,34.357Z" transform="translate(892.73 13.814)" fill="#fff"/>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Laag_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
+<g id="Group_138" transform="translate(-880.351)">
+	<rect id="Rectangle_54" x="880.4" class="st0" width="80" height="80"/>
+	<path id="Icon_material-person" d="M920.2,42.5c5.9,0,10.7-5.1,10.7-11.3s-4.8-11.3-10.7-11.3s-10.7,5.1-10.7,11.3
+		S914.3,42.5,920.2,42.5z M920.2,48.2c-7.2,0-21.4,3.8-21.4,11.3v5.7h42.9v-5.7C941.6,52,927.3,48.2,920.2,48.2z"/>
+</g>
 </svg>
