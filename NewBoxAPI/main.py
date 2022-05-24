@@ -11,7 +11,7 @@ async def set_volume(amount: int):
     valid = False
     while not valid:
         try:
-            volume = int(amount)            
+            volume = amount            
             if (volume <= 100) and (volume >= 0):
                 volume = json.dumps({"volume": amount})
                 valid = True
