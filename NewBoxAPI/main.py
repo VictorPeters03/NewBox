@@ -11,7 +11,7 @@ async def set_volume(amount: int):
     valid = False
     while not valid:
         try:
-            volume = amount            
+            volume = amount
             if (volume <= 100) and (volume >= 0):
                 volume = json.dumps({"volume": amount})
                 valid = True
@@ -71,10 +71,10 @@ async def play_music(id: str):
 
     db.close()
 
-    dictionary = {}
+    dictionary = []
 
     for song in songs:
-        dictionary.update({"id": song[0], "artist": song[1], "title": song[2]})
+        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
 
     return dictionary
 
