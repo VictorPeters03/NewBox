@@ -30,9 +30,12 @@ body {
     padding-left: 6%;
     padding-right: 6%;
     padding-top: 4%;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(1rem);
-    -webkit-backdrop-filter: blur(1rem);
+    /*background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);*/
+	/*background-size: 400% 400%;*/
+	/*animation: gradient 15s ease infinite;*/
+    /*background-color: rgba(0, 0, 0, 0.9);*/
+    backdrop-filter: blur(3rem);
+    -webkit-backdrop-filter: blur(3rem);
 }
 
 .top-navbar {
@@ -257,9 +260,12 @@ body {
     bottom: 0;
     width: 100%;
     padding: 2% 6%;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(1rem);
-    -webkit-backdrop-filter: blur(1rem);
+    /*background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);*/
+	/*background-size: 400% 400%;*/
+	/*animation: gradient 15s ease infinite;*/
+    /*background-color: rgba(0, 0, 0, 0.4);*/
+    backdrop-filter: blur(3rem);
+    -webkit-backdrop-filter: blur(3rem);
 }
 
 .main-footer {

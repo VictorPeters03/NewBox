@@ -30,7 +30,7 @@ function getSongs()
             headers:
             {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer BQBbtOZZJWxzpl0DH7o2UlZY5e_v86CD4n7M1zq4afcKcsBhidXDk34-UxPC5SCYtGdrZQxAm9mui55gscHIkpmm9cqQl4_xYxaG0HMEMR4U5TRJt_8-ZdKrhq3iMDaVhGddDfTbUxkTZxEeQMFu3J2ttQd_DQ4aA_zSMBSVf4FOGkPoOO2XLNna-tlSR0EMTFMbKFqQLpdenvRVVLFgMwhhw7JXR61Yfxxw"
+                "Authorization": "Bearer BQDCW2BbduLS5EkLD6yWJ00ej-mWmADcgXUZSqab3Tw5xmQpRdoCeSCwJhRq021fCKWEKzoHKROekzr5nro6m2pXma5zdzRtf3qXhRXwUHm6BlEbZjWC2KHp3xo-XJyTKFjolBjNGkC3tUzj5GVMIK2Vut1qikaEC7WEht0KiICl2GmT1uVaNebHmHzAZqiNRcoN3ImRmvstmg1jLNCG9hMW7wC8stDv0NPP"
             }
         })
     .then(resp => {
