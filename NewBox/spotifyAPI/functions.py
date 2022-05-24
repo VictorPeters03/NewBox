@@ -1,6 +1,8 @@
 import spotipy
 from authorization import spotifyHandler
 from secrets import DEVICE_ID, USER
+import json
+from urllib.error import HTTPError
 
 
 # User related functions
@@ -13,7 +15,6 @@ def getUserDetails():
 # Song related functions
 def getPlaybackInfo():
     if spotifyHandler.current_playback() is None:
-        print("No song playing")
         return
 
     result = spotifyHandler.current_playback()
@@ -87,22 +88,15 @@ def getPlaylistId(inp):
     return selectFromSearch(items, select)
 
 
-def addSongsToPlaylist(trackName):
-    playlists = getOwnPlaylists()
-    inp = input("Select playlist to add songs to: ")
-    results = searchFor(5, trackName, 'track')
-    inp2 = int(input("Select song: "))
-    selectedSong = [selectFromSearch(results, inp2)]
-    for playlist in playlists:
-        if playlist.get('name').lower() == inp.lower():
-            playlistId = playlist.get('id')
-            spotifyHandler.playlist_add_items(playlistId, selectedSong)
-        else:
-            print("Could not find playlist with that name")
+def addSongsToPlaylist(trackUri, playlistId):
+    try:
+        spotifyHandler.playlist_add_items(playlistId, [trackUri])
+    except spotipy.SpotifyException:
+        return
 
 
 def removeSongsFromPlaylist(trackName):
-    playlists = getOwnPlaylists()
+    playlists = json.loads(getOwnPlaylists())
     inp = input("Select playlist to remove songs from: ")
     results = searchFor(5, trackName, 'track')
     inp2 = int(input("Select song: "))
@@ -123,14 +117,28 @@ def getOwnPlaylists():
         name = playlist['name']
         id = playlist['id']
         pl.update({"nr": count + 1, "name": name, "uri": uri, "id": id})
+
         playlists.append(pl)
-    print(f"Available playlists: {playlists}")
-    return playlists
+    jsonObject = json.dumps(playlists)
+    return jsonObject
+
+
+def getPlaylistItems(playlistId):
+    tracks = []
+    playlist = spotifyHandler.playlist_items(playlist_id=playlistId, market='NL')['items']
+    for count, songs in enumerate(playlist):
+        track = {}
+        artist = songs['track']['artists'][0]['name']
+        trackName = songs['track']['name']
+        duration = round(songs['track']['duration_ms'] / 60000, 2)
+        track.update({"artist": artist, "track": trackName, "duration": duration})
+        tracks.append(track)
+    return json.dumps(tracks)
 
 
 def removePlaylist():
     inp = input("Enter playlist name: ")
-    playlists = getOwnPlaylists()
+    playlists = json.loads(getOwnPlaylists())
     for playlist in playlists:
         if playlist.get('name').lower() == inp.lower():
             spotifyHandler.current_user_unfollow_playlist(playlist.get('id'))
@@ -219,3 +227,6 @@ def getArtistId(query):
     result = spotifyHandler.search(q=query, limit=1, type='artist')
     return result['artists']['items'][0]['id']
 
+# getPlaylistItems('3lpR6LdC4PmSgNpLHvVaAA')
+# removeSongsFromPlaylist('have you ever seen the rain')
+addSongsToPlaylist(playlistId='d', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
