@@ -1,3 +1,4 @@
+NewBox/core/migrations/__pycache__/0001_initial.cpython-39.pyc
 NewBox/core/__pycache__/__init__.cpython-39.pyc
 NewBox/core/__pycache__/admin.cpython-39.pyc
 NewBox/core/__pycache__/apps.cpython-39.pyc
@@ -5,7 +6,6 @@ NewBox/core/__pycache__/models.cpython-39.pyc
 NewBox/core/__pycache__/urls.cpython-39.pyc
 NewBox/core/__pycache__/views.cpython-39.pyc
 NewBox/core/migrations/__pycache__/__init__.cpython-39.pyc
-NewBox/core/migrations/__pycache__/0001_initial.cpython-39.pyc
 # Default ignored files
 /shelf/
 /workspace.xml
