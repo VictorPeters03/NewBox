@@ -1,7 +1,7 @@
 $(function() {
     $(".navbar-search").click(function(){
         $(this).hide();
-        $(".top-navbar h1, .navbar-search-settings").hide();
+        $(".top-navbar #logo, .navbar-search-settings").hide();
         $(".searchbar").focus().toggleClass('full-width').toggleClass('flex').val('');
         setTimeout(function (){
             $('#navbar-search').toggleClass('full-width').toggleClass('flex').val('');
@@ -18,24 +18,7 @@ $(function() {
         $(".searchbar").focus().toggleClass("full-width").toggleClass("flex").val('');
         setTimeout(function (){
             $(".navbar-search").show();
-            $(".top-navbar h1, .navbar-search-settings").show();
+            $(".top-navbar #logo, .navbar-search-settings").show();
         }, 500);
     });
 });
-
-function getSongs()
-{
-    document.getElementById("sub-container").innerHTML = "Hello songs"
-}
-
-function getDownloaded()
-{
-    document.getElementById("sub-container").innerHTML = "Hello downloaded"
-}
-
-const songs = document.querySelector(".button-songs")
-
-const downloaded = document.querySelector(".button-downloaded")
-
-songs.addEventListener("click", getSongs)
-downloaded.addEventListener("click", getDownloaded)
