@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 //POST REQUEST
 
 function getArtist() {
@@ -21,3 +22,23 @@ axios.interceptors.request.use(config => {
 }, error => {
     return Promise.reject(error)
 });
+
+//CUSTOM HEADERS
+
+function customHeaders() {
+    const config = {
+        headers: {
+            'Content-type': 'application/python',
+            Authorization: 'spotifyHandler'
+        }
+    }
+    axios.post(
+        'https://developer.spotify.com/documentation/web-api/reference/#/operations/get-an-artist', {
+        name: ['name'],
+        uri: ['uri']
+    },
+        config
+    )
+        .then(res => showOutput(res))
+        .catch(err => console.error(err));
+}
