@@ -1,0 +1,23 @@
+Index: NewBoxAPI/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from fastapi import FastAPI\r\nfrom MySQLdb import _mysql\r\n\r\napp = FastAPI()\r\n\r\ndb = _mysql.connect(\"localhost\", \"root\", \"\", \"djangosearchbartest\")\r\n\r\n# endpoint for setting the volume\r\n@app.put(\"/adminpanel/volume/{amount}\")\r\nasync def set_volume(amount: int):\r\n    return\r\n\r\n\r\n# endpoint for setting the maximum volume\r\n@app.put(\"/adminpanel/maxvolume/{amount}\")\r\nasync def set_max_volume(amount: int):\r\n    return\r\n\r\n\r\n# endpoint for setting the minimum volume\r\n@app.put(\"/adminpanel/minvolume/{amount}\")\r\nasync def set_minM_volume(amount: int):\r\n    return\r\n\r\n\r\n# endpoint for adding a song to the queue\r\n@app.put(\"/use/queue/{id}\")\r\nasync def add_to_queue(id: str):\r\n    return\r\n\r\n\r\n# endpoint for getting the queue\r\n@app.get(\"/use/getqueue\")\r\nasync def get_queue():\r\n    return\r\n\r\n\r\n# endpoint for playing songs\r\n@app.put(\"/use/play/{id}\")\r\nasync def play_music(id: str):\r\n    return\r\n\r\n\r\n# endpoint to toggle the state of the current song\r\n@app.put(\"/use/toggleplay\")\r\nasync def toggle_music():\r\n    return\r\n\r\n\r\n# endpoint for searching songs in the local database\r\n@app.get(\"/use/search/{key}\")\r\nasync def search_music(key: str):\r\n    db.query(\"\"\"SELECT * FROM core_song\"\"\")\r\n    return\r\n\r\n\r\n# endpoint for getting the ip off the rpi\r\n@app.get(\"adminpanel/ip\")\r\nasync def get_ip():\r\n    return\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/NewBoxAPI/main.py b/NewBoxAPI/main.py
+--- a/NewBoxAPI/main.py	(revision 54524d1f5514157e8d2674a9dcb089a25759f68e)
++++ b/NewBoxAPI/main.py	(date 1652885479786)
+@@ -51,6 +51,12 @@
+ @app.get("/use/search/{key}")
+ async def search_music(key: str):
+     db.query("""SELECT * FROM core_song""")
++
++    r=db.store_result()
++
++    >>> r.fetch_row()
++    (('3','2','0'),)
++
+     return
+ 
+ 
