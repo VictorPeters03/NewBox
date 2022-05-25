@@ -2,7 +2,6 @@ import spotipy
 from authorization import spotifyHandler
 from secrets import DEVICE_ID, USER
 import json
-from urllib.error import HTTPError
 
 
 # User related functions
@@ -33,12 +32,13 @@ def getPlaybackInfo():
              'shuffleState': shuffleState,
              'isPlaying': isPlaying}]
 
-    print(f"'{track}' by '{artist} is playing")
-    return info
+    jsonObject = json.dumps(info)
+    return jsonObject
 
 
 def getSongById(trackId):
-    print(spotifyHandler.track(trackId)['name'])
+    track = spotifyHandler.track(trackId)['name']
+    return track
 
 
 def getSongUri(trackName):
@@ -67,11 +67,13 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
     # Print out all the items
     for i in range(len(items)):
         print(items[i])
-    return items
+    jsonObject = json.dumps(items)
+    return jsonObject
 
 
 def selectFromSearch(items, inp):
     # Loop over all the items we got from SearchFor() function, if the number is what the user chose -> return the uri
+    items = json.loads(items)
     for count, item in enumerate(items):
         if item.get('nr') == inp:
             return item.get('uri')
@@ -88,25 +90,29 @@ def getPlaylistId(inp):
     return selectFromSearch(items, select)
 
 
-def addSongsToPlaylist(trackUri, playlistId):
+def addSongToPlaylist(trackUri, playlistId):
     try:
         spotifyHandler.playlist_add_items(playlistId, [trackUri])
     except spotipy.SpotifyException:
-        return
+        return -1
 
 
-def removeSongsFromPlaylist(trackName):
-    playlists = json.loads(getOwnPlaylists())
-    inp = input("Select playlist to remove songs from: ")
-    results = searchFor(5, trackName, 'track')
-    inp2 = int(input("Select song: "))
-    selectedSong = [selectFromSearch(results, inp2)]
-    for playlist in playlists:
-        if playlist.get('name').lower() == inp.lower():
-            playlistId = playlist.get('id')
-            spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, selectedSong)
-        else:
-            print("Could not find playlist with that name")
+def removeSongsFromPlaylist(trackUri, playlistId):
+    # playlists = json.loads(getOwnPlaylists())
+    # inp = input("Select playlist to remove songs from: ")
+    # results = searchFor(5, trackName, 'track')
+    # inp2 = int(input("Select song: "))
+    # selectedSong = [selectFromSearch(results, inp2)]
+    # for playlist in playlists:
+    #     if playlist.get('name').lower() == inp.lower():
+    #         playlistId = playlist.get('id')
+    #         spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, selectedSong)
+    #     else:
+    #         print("Could not find playlist with that name")
+    try:
+        spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, [trackUri])
+    except spotipy.SpotifyException:
+        return -1
 
 
 def getOwnPlaylists():
@@ -116,7 +122,11 @@ def getOwnPlaylists():
         uri = playlist['uri']
         name = playlist['name']
         id = playlist['id']
-        pl.update({"nr": count + 1, "name": name, "uri": uri, "id": id})
+
+        pl.update({"nr": count + 1,
+                   "name": name,
+                   "uri": uri,
+                   "id": id})
 
         playlists.append(pl)
     jsonObject = json.dumps(playlists)
@@ -131,9 +141,14 @@ def getPlaylistItems(playlistId):
         artist = songs['track']['artists'][0]['name']
         trackName = songs['track']['name']
         duration = round(songs['track']['duration_ms'] / 60000, 2)
-        track.update({"artist": artist, "track": trackName, "duration": duration})
+
+        track.update({"artist": artist,
+                      "track": trackName,
+                      "duration": duration})
+
         tracks.append(track)
-    return json.dumps(tracks)
+    jsonObject = json.dumps(tracks)
+    return jsonObject
 
 
 def removePlaylist():
@@ -149,14 +164,38 @@ def removePlaylist():
 def getPlaylistCoverImage(playlistName):
     result = spotifyHandler.search(q=playlistName, limit=1, type='playlist')
     playlistId = result['playlists']['items'][0]['id']
-    return spotifyHandler.playlist_cover_image(playlistId)[0]['url']
+    imageUrl = spotifyHandler.playlist_cover_image(playlistId)[0]['url']
+    return imageUrl
 
 
 def getTrackCoverImage(trackName):
     result = spotifyHandler.search(q=trackName, limit=1, type='track')
     trackId = result['tracks']['items'][0]['id']
-    return spotifyHandler.track(trackId)['album']['images'][0]['url']
+    imageUrl = spotifyHandler.track(trackId)['album']['images'][0]['url']
+    return imageUrl
 
+
+# gets standard playlists to show on the front-end
+def getDefaultPlaylists():
+    playlists = []
+    result = spotifyHandler.featured_playlists(limit=8)
+    items = result['playlists']['items']
+    for count, item in enumerate(items):
+        playlist = {}
+        name = item['name']
+        id = item['id']
+        uri = item['uri']
+        description = item['description']
+        img = item['images'][0]['url']
+        playlist.update({"name": name,
+                         "id": id,
+                         "uri": uri,
+                         "description": description,
+                         "img": img})
+        playlists.append(playlist)
+
+    jsonObject = json.dumps(playlists)
+    return jsonObject
 
 # Player related functions
 def play(uri):
@@ -227,6 +266,9 @@ def getArtistId(query):
     result = spotifyHandler.search(q=query, limit=1, type='artist')
     return result['artists']['items'][0]['id']
 
+
 # getPlaylistItems('3lpR6LdC4PmSgNpLHvVaAA')
 # removeSongsFromPlaylist('have you ever seen the rain')
-addSongsToPlaylist(playlistId='d', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
+# addSongToPlaylist(playlistId='d', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
+# removeSongsFromPlaylist(playlistId='3lpR6LdC4PmSgNpLHvVaAA', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
+getDefaultPlaylists()
