@@ -98,17 +98,6 @@ def addSongToPlaylist(trackUri, playlistId):
 
 
 def removeSongsFromPlaylist(trackUri, playlistId):
-    # playlists = json.loads(getOwnPlaylists())
-    # inp = input("Select playlist to remove songs from: ")
-    # results = searchFor(5, trackName, 'track')
-    # inp2 = int(input("Select song: "))
-    # selectedSong = [selectFromSearch(results, inp2)]
-    # for playlist in playlists:
-    #     if playlist.get('name').lower() == inp.lower():
-    #         playlistId = playlist.get('id')
-    #         spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, selectedSong)
-    #     else:
-    #         print("Could not find playlist with that name")
     try:
         spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, [trackUri])
     except spotipy.SpotifyException:
@@ -174,11 +163,11 @@ def getTrackCoverImage(trackName):
     return imageUrl
 
 
-def getDefaultPlaylists():
+def getDefaultPlaylists(limit):
     # gets standard playlists to show on the front-end
 
     playlists = []
-    result = spotifyHandler.featured_playlists(limit=8)
+    result = spotifyHandler.featured_playlists(limit=limit)
     items = result['playlists']['items']
     for count, item in enumerate(items):
         playlist = {}
@@ -272,11 +261,3 @@ def getFeaturedAlbums(limit):
 
     jsonObject = json.dumps(albums)
     return jsonObject
-
-
-# getPlaylistItems('3lpR6LdC4PmSgNpLHvVaAA')
-# removeSongsFromPlaylist('have you ever seen the rain')
-# addSongToPlaylist(playlistId='d', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
-# removeSongsFromPlaylist(playlistId='3lpR6LdC4PmSgNpLHvVaAA', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
-# print(getDefaultPlaylists())
-# print(removePlaylist('37i9dQZF1DWT5lkChsPmpy'))
