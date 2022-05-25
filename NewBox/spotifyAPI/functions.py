@@ -151,14 +151,13 @@ def getPlaylistItems(playlistId):
     return jsonObject
 
 
-def removePlaylist():
-    inp = input("Enter playlist name: ")
-    playlists = json.loads(getOwnPlaylists())
-    for playlist in playlists:
-        if playlist.get('name').lower() == inp.lower():
-            spotifyHandler.current_user_unfollow_playlist(playlist.get('id'))
+def removePlaylist(playlistId):
+    followedPlaylists = json.loads(getOwnPlaylists())
+    for playlist in followedPlaylists:
+        if playlist.get('id') == playlistId:
+            spotifyHandler.current_user_unfollow_playlist(playlistId)
             return
-    print("Could not find a playlist with that name")
+    return -1
 
 
 def getPlaylistCoverImage(playlistName):
@@ -175,8 +174,9 @@ def getTrackCoverImage(trackName):
     return imageUrl
 
 
-# gets standard playlists to show on the front-end
 def getDefaultPlaylists():
+    # gets standard playlists to show on the front-end
+
     playlists = []
     result = spotifyHandler.featured_playlists(limit=8)
     items = result['playlists']['items']
@@ -196,6 +196,7 @@ def getDefaultPlaylists():
 
     jsonObject = json.dumps(playlists)
     return jsonObject
+
 
 # Player related functions
 def play(uri):
@@ -242,8 +243,7 @@ def addToQueue(uri):
     if 'track' in uri:
         spotifyHandler.add_to_queue(device_id=DEVICE_ID, uri=uri)
     else:
-        print('Can only add tracks to queue')
-        return
+        return -1
 
 
 def repeat():
@@ -254,21 +254,29 @@ def repeat():
         spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
 
 
-# testing purposes
-def getAlbums(query):
-    id = getArtistId(query)
-    result = spotifyHandler.artist_albums(artist_id=id)
-    for item in result['items']:
-        print(item['name'])
+def getFeaturedAlbums(limit):
+    albums = []
+    items = spotifyHandler.new_releases(limit=limit)['albums']['items']
+    for count, item in enumerate(items):
+        album = {}
+        name = item['name']
+        id = item['id']
+        uri = item['uri']
+        img = item['images'][0]['url']
 
+        album.update({"name": name,
+                      "id": id,
+                      "uri": uri,
+                      "img": img})
+        albums.append(album)
 
-def getArtistId(query):
-    result = spotifyHandler.search(q=query, limit=1, type='artist')
-    return result['artists']['items'][0]['id']
+    jsonObject = json.dumps(albums)
+    return jsonObject
 
 
 # getPlaylistItems('3lpR6LdC4PmSgNpLHvVaAA')
 # removeSongsFromPlaylist('have you ever seen the rain')
 # addSongToPlaylist(playlistId='d', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
 # removeSongsFromPlaylist(playlistId='3lpR6LdC4PmSgNpLHvVaAA', trackUri='spotify:track:2LawezPeJhN4AWuSB0GtAU')
-getDefaultPlaylists()
+# print(getDefaultPlaylists())
+# print(removePlaylist('37i9dQZF1DWT5lkChsPmpy'))
