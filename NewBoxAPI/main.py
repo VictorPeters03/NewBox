@@ -18,6 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+queue = []
+
 
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
@@ -52,13 +54,13 @@ async def set_min_volume(amount: int):
 # endpoint for adding a song to the queue
 @app.put("/use/queue/{id}")
 async def add_to_queue(id: str):
-    return
+    queue.append(id)
 
 
 # endpoint for getting the queue
 @app.get("/use/getqueue")
 async def get_queue():
-    return
+    return queue
 
 
 @app.get("/use/play/{id}")
@@ -94,7 +96,7 @@ async def get_songs():
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        dictionary.append({"id": song[0], "artist": song[1], "title": song[2], "uri": song[3]})
 
     return dictionary
 

@@ -16,6 +16,8 @@ const search = document.querySelector(".navbar-search-small img")
 
 const query = document.querySelector("#navbar-search");
 
+const queue = document.querySelector(".button-one")
+
 function getHomePage()
 {
     index.innerHTML = ""
@@ -67,7 +69,7 @@ function getDownloaded()
                 '<div class="title"><p>' + element["title"] + '</p></div>' +
                 '<div class="artist"><p>' + element["artist"] + '</p></div>' +
                 '</div>' +
-                '<div class="add-to-playlist"><img src="../static/images/Playlist.svg" alt="Add to playlist"></div>' +
+                '<div class="add-to-playlist"><img src="../static/images/Playlist.svg" alt="Add to playlist" onclick="queueSong(' + "'" + element["uri"] + "'" + ')"></div>' +
         '                   </div>\n'
         )
     })
@@ -108,9 +110,25 @@ function searchSong()
     })
 }
 
+function queueSong(uri)
+{
+    axios.put("http://127.0.0.1:8086/use/queue/" + uri)
+    .then(resp => {
+        console.log(resp)
+    })
+}
+
+function getQueue()
+{
+    axios.get("http://127.0.0.1:8086/use/getqueue")
+    .then(resp => {
+        console.log(resp)
+    })
+}
 
 songs.addEventListener("click", getSongs)
 downloaded.addEventListener("click", getDownloaded)
 logo.addEventListener("click", getHomePage)
 settings.addEventListener("click", getSettings)
 search.addEventListener("click", searchSong)
+queue.addEventListener("click", getQueue)
