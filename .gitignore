@@ -8,7 +8,7 @@ NewBox/core/__pycache__/views.cpython-39.pyc
 NewBox/core/migrations/__pycache__/__init__.cpython-39.pyc
 # Default ignored files
 /shelf/
-/workspace.xml
+NewBox/.idea/workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
