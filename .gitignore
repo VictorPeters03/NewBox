@@ -13,3 +13,4 @@ NewBox/.idea/workspace.xml
 
 #Ignore docker compose file.
 /Docker/
+.idea/shelf/*
