@@ -4,6 +4,8 @@ import socket
 import json
 
 app = FastAPI()
+max_volume = 100
+min_volume = 0
 
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
@@ -26,13 +28,27 @@ async def set_volume(amount: int):
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
 async def set_max_volume(amount: int):
-    return
+    max_volume = amount
+    if (max_volume <= 100) and (max_volume >= 0) and (max_volume > min_volume):
+        mess = "Maximum volume is set to" + str(max_volume) + "."
+    elif max_volume < min_volume:
+        mess = "Maximum volume is lower than the minimum volume. That is not possible."
+    else:
+        mess = "Maximum volume is not in the range of 0-100."
+    return mess
 
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
 async def set_min_volume(amount: int):
-    return
+    min_volume = amount
+    if (min_volume <= 100) and (min_volume >= 0) and (max_volume < min_volume):
+        mess = "Minimum volume is set to" + str(min_volume) + "."
+    elif max_volume > min_volume:
+        mess = "Maximum volume is lower than the minimum volume. That is not possible."
+    else:
+        mess = "Maximum volume is not in the range of 0-100."
+    return mess
 
 
 # endpoint for adding a song to the queue
