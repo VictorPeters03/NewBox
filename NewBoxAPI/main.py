@@ -5,10 +5,9 @@ import json
 import alsaaudio
 
 app = FastAPI()
-global max_volume, min_volume
+
 max_volume = 100
 min_volume = 0
-
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
@@ -31,7 +30,6 @@ async def set_volume(amount: int):
             valid = False
     return volume
 
-
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
 async def set_max_volume(amount: int):
@@ -44,7 +42,7 @@ async def set_max_volume(amount: int):
     else:
         mess = "Maximum volume is not in the range of 0-100."
         max_volume = 100
-    return json.dumps({"mess": mess, "max_volume": max_volume}), max_volume
+    return json.dumps({"mess": mess, "max_volume": max_volume})
 
 
 # endpoint for setting the minimum volume
@@ -59,7 +57,7 @@ async def set_min_volume(amount: int):
     else:
         min_volume = 0
         mess = "Minimum volume is not in the range of 0-100."
-    return json.dumps({"mess": mess, "min_volume": min_volume}), min_volume
+    return json.dumps({"mess": mess, "min_volume": min_volume})
 
 
 # endpoint for adding a song to the queue
