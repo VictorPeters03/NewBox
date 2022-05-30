@@ -81,6 +81,11 @@ async def play_music(id: str):
 async def toggle_music():
     return
 
+#endpoint to skip the current song
+@app.put("/use/skip/{id}")
+async def skip_song(id: str):
+    return
+
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
 async def search_music(id: str):
