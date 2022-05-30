@@ -7,9 +7,9 @@
 
 body {
     background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
-	height: 100vh;
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
 }
 
 
@@ -30,12 +30,9 @@ body {
     padding-left: 6%;
     padding-right: 6%;
     padding-top: 4%;
-    /*background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);*/
-	/*background-size: 400% 400%;*/
-	/*animation: gradient 15s ease infinite;*/
-    /*background-color: rgba(0, 0, 0, 0.9);*/
-    backdrop-filter: blur(3rem);
-    -webkit-backdrop-filter: blur(3rem);
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
 
 .top-navbar {
@@ -92,8 +89,7 @@ body {
     min-width: 60px
 }
 
-.navbar-button-image img
-{
+.navbar-button-image img {
     max-height: 45px;
 }
 
@@ -195,8 +191,7 @@ body {
     justify-content: space-between;
 }
 
-.album-cover
-{
+.album-cover {
     display: flex;
     align-items: center;
 }
@@ -223,8 +218,7 @@ body {
 
 /* BEGIN SETTINGS */
 
-#settings
-{
+#settings {
     display: grid;
     margin: 0 auto;
     grid-template-columns: repeat(1, 1fr);
@@ -232,8 +226,7 @@ body {
     color: white;
 }
 
-.setting
-{
+.setting {
     display: flex;
     justify-content: space-between;
 }
@@ -260,12 +253,9 @@ body {
     bottom: 0;
     width: 100%;
     padding: 2% 6%;
-    /*background: linear-gradient(-45deg, #690063, #7B001A, #08002E, #530055);*/
-	/*background-size: 400% 400%;*/
-	/*animation: gradient 15s ease infinite;*/
-    /*background-color: rgba(0, 0, 0, 0.4);*/
-    backdrop-filter: blur(3rem);
-    -webkit-backdrop-filter: blur(3rem);
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
 
 .main-footer {
@@ -279,10 +269,22 @@ body {
     background-color: rgba(255, 255, 255, 0.3);
     height: 60px;
     display: grid;
+    font-size: 40px;
+    color: white;
+    font-weight: bolder;
+    text-decoration: none;
+}
+
+a:link, a:visited, a:hover {
+    text-decoration: none;
 }
 
 .main-footer-button-image {
     margin: auto;
+}
+
+.main-footer-button-image img {
+    height: 30px;
 }
 
 .top-footer {
@@ -292,15 +294,21 @@ body {
     margin-bottom: 25px;
     border-radius: 10px;
     height: 80px;
-
 }
 
-.top-footer img {
+.album-cover img {
+    margin-top: 5px;
     border-radius: 10px;
+    min-width: 80px;
+}
+
+.queue-button img {
+    margin-top: 15px;
+    margin-right: 30px;
+    min-width: 50px;
 }
 
 .top-footer-button-text {
-
     color: white;
     font-size: 20px;
     margin-top: auto;
@@ -309,15 +317,6 @@ body {
 
 .top-footer-button-text .song-artist {
     color: rgba(255, 255, 255, 0.6);
-}
-
-.queue-button {
-    display: flex;
-    align-self: flex-end;
-    float: right;
-    margin-bottom: auto;
-    margin-top: auto;
-    margin-right: 50px;
 }
 
 /*END FOOTER*/
