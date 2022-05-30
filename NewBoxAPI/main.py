@@ -5,11 +5,14 @@ import json
 import alsaaudio
 
 app = FastAPI()
+global max_volume, min_volume
+max_volume = 100
+min_volume = 0
 
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
-async def set_volume(amount: int, min_volume, max_volume):
+async def set_volume(amount: int):
     valid = False
     while not valid:
         try:
@@ -31,28 +34,32 @@ async def set_volume(amount: int, min_volume, max_volume):
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
-async def set_max_volume(amount: int, min_volume):
+async def set_max_volume(amount: int):
     if (amount <= 100) and (amount >= 0) and (amount > min_volume):
-        mess = "Maximum volume is set to" + str(max_volume) + "."
         max_volume = amount
+        mess = "Maximum volume is set to" + str(max_volume) + "."
     elif amount < min_volume:
         mess = "Maximum volume is lower than the minimum volume. That is not possible."
+        max_volume = 100
     else:
         mess = "Maximum volume is not in the range of 0-100."
-    return json.dumps({"mess": mess, "max_volume": amount}), max_volume
+        max_volume = 100
+    return json.dumps({"mess": mess, "max_volume": max_volume}), max_volume
 
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
-async def set_min_volume(amount: int, max_volume):
-    if (amount <= 100) and (amount >= 0) and (max_volume < amount):
-        mess = "Minimum volume is set to" + str(amount) + "."
+async def set_min_volume(amount: int):
+    if (amount <= 100) and (amount >= 0) and (max_volume > amount):
         min_volume = amount
-    elif max_volume > amount:
-        mess = "Maximum volume is lower than the minimum volume. That is not possible."
+        mess = "Minimum volume is set to" + str(amount) + "." 
+    elif max_volume < amount:
+        min_volume = 0
+        mess = "Minimum volume is higher than the maximum volume. That is not possible."
     else:
-        mess = "Maximum volume is not in the range of 0-100."
-    return json.dumps({"mess": mess, "min_volume": amount}), min_volume
+        min_volume = 0
+        mess = "Minimum volume is not in the range of 0-100."
+    return json.dumps({"mess": mess, "min_volume": min_volume}), min_volume
 
 
 # endpoint for adding a song to the queue
