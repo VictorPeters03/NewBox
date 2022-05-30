@@ -154,3 +154,16 @@ async def get_ip():
 @app.get("/use/debug")
 async def debug():
     return
+
+#LEDLIGHTS#
+
+#endpoint for turning of the led lights
+@app.put("/use/turnoff")
+async def turnOff():
+    return
+
+#endpoint for led light colors based on category
+@app.put("/use/category/{id}")
+async def changeCategory():
+    return
+
