@@ -7,6 +7,7 @@ $(function() {
             $('#navbar-search').toggleClass('full-width').toggleClass('flex').val('');
             $('.navbar-search-small').show();
             $(".navbar-cross-small").show();
+            $("#navbar-search").focus();
         }, 500);
     });
 
