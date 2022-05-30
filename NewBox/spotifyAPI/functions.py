@@ -2,6 +2,7 @@ import spotipy
 from authorization import spotifyHandler
 from secrets import DEVICE_ID, USER
 import json
+import math
 
 
 # User related functions
@@ -14,7 +15,7 @@ def getUserDetails():
 # Song related functions
 def getPlaybackInfo():
     if spotifyHandler.current_playback() is None:
-        return
+        return None
 
     result = spotifyHandler.current_playback()
 
@@ -25,12 +26,25 @@ def getPlaybackInfo():
     shuffleState = result['shuffle_state']
     isPlaying = result['is_playing']
 
-    info = [{'track': track,
-             'artist': artist,
-             'volume': volume,
-             'repeatState': repeatState,
-             'shuffleState': shuffleState,
-             'isPlaying': isPlaying}]
+    progressMinutes = math.floor(result['progress_ms'] / 60000)
+    progressSeconds = math.floor((result['progress_ms'] / 1000) % 60)
+    progress = f"{progressMinutes}.{progressSeconds}"
+
+    durationMinutes = math.floor(result['item']['duration_ms'] / 60000)
+    durationSeconds = math.floor((result['item']['duration_ms'] / 1000) % 60)
+    duration = f"{durationMinutes}.{durationSeconds}"
+
+    coverImage = result['item']['album']['images'][0]
+
+    info = {'track': track,
+            'artist': artist,
+            'volume': volume,
+            'repeatState': repeatState,
+            'shuffleState': shuffleState,
+            'isPlaying': isPlaying,
+            'progress': progress,
+            'duration': duration,
+            'img': coverImage}
 
     jsonObject = json.dumps(info)
     return jsonObject
@@ -38,15 +52,18 @@ def getPlaybackInfo():
 
 def getSongById(trackId):
     track = spotifyHandler.track(trackId)['name']
-    return track
+    jsonObject = json.dumps({"track": track})
+    return jsonObject
 
 
 def getSongUri(trackName):
-    return spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
+    uri = spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
+    jsonObject = json.dumps({'uri': uri})
+    return jsonObject
 
 
 # Search related functions
-def searchFor(resultSize, searchQuery, returnType='tracks'):
+def searchFor(resultSize, searchQuery, returnType='track'):
     items = []
     search = spotifyHandler.search(searchQuery, type=returnType)
 
@@ -64,19 +81,8 @@ def searchFor(resultSize, searchQuery, returnType='tracks'):
                          'uri': uri})
         items.append(itemInfo)
 
-    # Print out all the items
-    for i in range(len(items)):
-        print(items[i])
     jsonObject = json.dumps(items)
     return jsonObject
-
-
-def selectFromSearch(items, inp):
-    # Loop over all the items we got from SearchFor() function, if the number is what the user chose -> return the uri
-    items = json.loads(items)
-    for count, item in enumerate(items):
-        if item.get('nr') == inp:
-            return item.get('uri')
 
 
 # Playlist related functions
@@ -84,10 +90,10 @@ def makePlaylist(name, description=''):
     spotifyHandler.user_playlist_create(user=USER, name=name, description=description)
 
 
-def getPlaylistId(inp):
-    items = searchFor(5, inp, returnType='playlist')
-    select = int(input("Select playlist: "))
-    return selectFromSearch(items, select)
+def getPlaylistByName(inp):
+    items = searchFor(1, inp, returnType='playlist')
+    jsonObject = json.dumps(items)
+    return jsonObject
 
 
 def addSongToPlaylist(trackUri, playlistId):
@@ -129,7 +135,9 @@ def getPlaylistItems(playlistId):
         track = {}
         artist = songs['track']['artists'][0]['name']
         trackName = songs['track']['name']
-        duration = round(songs['track']['duration_ms'] / 60000, 2)
+        durationMinutes = math.floor(songs['track']['duration_ms'] / 60000)
+        durationSeconds = math.floor((songs['track']['duration_ms'] / 1000) % 60)
+        duration = f"{durationMinutes}.{durationSeconds}"
 
         track.update({"artist": artist,
                       "track": trackName,
@@ -153,14 +161,18 @@ def getPlaylistCoverImage(playlistName):
     result = spotifyHandler.search(q=playlistName, limit=1, type='playlist')
     playlistId = result['playlists']['items'][0]['id']
     imageUrl = spotifyHandler.playlist_cover_image(playlistId)[0]['url']
-    return imageUrl
+
+    jsonObject = json.dumps({'id': playlistId, 'img': imageUrl})
+    return jsonObject
 
 
 def getTrackCoverImage(trackName):
     result = spotifyHandler.search(q=trackName, limit=1, type='track')
     trackId = result['tracks']['items'][0]['id']
     imageUrl = spotifyHandler.track(trackId)['album']['images'][0]['url']
-    return imageUrl
+
+    jsonObject = json.dumps({'id': trackId, 'img': imageUrl})
+    return jsonObject
 
 
 def getDefaultPlaylists(limit):
@@ -217,6 +229,11 @@ def previous():
 
 def setVolume(volume):
     # set volume between 0 - 100%
+    if volume > 100:
+        volume = 100
+    if volume < 0:
+        volume = 0
+
     spotifyHandler.volume(device_id=DEVICE_ID, volume_percent=volume)
 
 
@@ -237,6 +254,9 @@ def addToQueue(uri):
 
 def repeat():
     # state can either be track, context or off
+    if spotifyHandler.current_playback() is None:
+        return
+
     if spotifyHandler.current_playback()['repeat_state'] == 'off':
         spotifyHandler.repeat(device_id=DEVICE_ID, state='track')
     else:
