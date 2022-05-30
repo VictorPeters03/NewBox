@@ -9,13 +9,13 @@ app = FastAPI()
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
-async def set_volume(amount: int):
+async def set_volume(amount: int, min_volume, max_volume):
     valid = False
     while not valid:
         try:
             if (amount <= max_volume) and (amount >= min_volume):
                 mixer = alsaaudio.Mixer('PCM')
-                mixer.setvolume(amount)    
+                mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > max_volume: 
@@ -31,26 +31,28 @@ async def set_volume(amount: int):
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
-async def set_max_volume(amount: int):
+async def set_max_volume(amount: int, min_volume):
     if (amount <= 100) and (amount >= 0) and (amount > min_volume):
         mess = "Maximum volume is set to" + str(max_volume) + "."
+        max_volume = amount
     elif amount < min_volume:
         mess = "Maximum volume is lower than the minimum volume. That is not possible."
     else:
         mess = "Maximum volume is not in the range of 0-100."
-    return json.dumps({"mess": mess, "max_volume": amount}), amount
+    return json.dumps({"mess": mess, "max_volume": amount}), max_volume
 
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
-async def set_min_volume(amount: int):
+async def set_min_volume(amount: int, max_volume):
     if (amount <= 100) and (amount >= 0) and (max_volume < amount):
         mess = "Minimum volume is set to" + str(amount) + "."
+        min_volume = amount
     elif max_volume > amount:
         mess = "Maximum volume is lower than the minimum volume. That is not possible."
     else:
         mess = "Maximum volume is not in the range of 0-100."
-    return json.dumps({"mess": mess, "min_volume": amount}), amount
+    return json.dumps({"mess": mess, "min_volume": amount}), min_volume
 
 
 # endpoint for adding a song to the queue
