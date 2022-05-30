@@ -2,8 +2,18 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 
+from fastapi import requests
+
+
 def btnClickFunction():
-    print("klik")
+    url = "localhost:8000/use/playtest"
+
+    payload = {}
+    headers = {}
+
+    response = requests.request("PUT", url, headers=headers, data=payload)
+
+    print(response.text)
 
 root = Tk()
 
