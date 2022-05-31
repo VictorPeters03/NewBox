@@ -170,7 +170,17 @@ async def no_music():
     return
 
 #endpoint for led light colors based on category
-@app.put("/use/category/{id}")
-async def change_category():
+@app.put("/use/genre/{name}")
+async def change_genre(name: str):
+    #Add more elif statments for other main genres
+    if name.find("pop"):
+        #light color/pattern that the leds should display when playing this genre
+        return
+    elif name.find("classic"):
+        return
+    else:
+        #When none of the substrings that are searched for in the genre name are found
+        
+        return
     return
 
