@@ -1,6 +1,6 @@
 import spotipy
-from authorization import spotifyHandler
-from secrets import DEVICE_ID, USER
+from .authorization import spotifyHandler
+from .secrets import DEVICE_ID, USER
 import json
 import math
 
@@ -9,13 +9,16 @@ import math
 def getUserDetails():
     userId = spotifyHandler.me()['id']
     userUri = spotifyHandler.me()['uri']
-    return userId, userUri
+
+    info = {'id': userId, 'uri': userUri}
+    return info
 
 
 # Song related functions
 def getPlaybackInfo():
-    if spotifyHandler.current_playback() is None:
-        return None
+    if spotifyHandler.current_playback()['item'] is None or spotifyHandler.current_playback() is None:
+        info = {'status': 'No song playing'}
+        return info
 
     result = spotifyHandler.current_playback()
 
@@ -34,7 +37,7 @@ def getPlaybackInfo():
     durationSeconds = math.floor((result['item']['duration_ms'] / 1000) % 60)
     duration = f"{durationMinutes}.{durationSeconds}"
 
-    coverImage = result['item']['album']['images'][0]
+    coverImage = result['item']['album']['images'][0]['url']
 
     info = {'track': track,
             'artist': artist,
@@ -46,20 +49,19 @@ def getPlaybackInfo():
             'duration': duration,
             'img': coverImage}
 
-    jsonObject = json.dumps(info)
-    return jsonObject
+    return info
 
 
 def getSongById(trackId):
     track = spotifyHandler.track(trackId)['name']
-    jsonObject = json.dumps({"track": track})
-    return jsonObject
+    info = {'track': track}
+    return info
 
 
 def getSongUri(trackName):
     uri = spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
-    jsonObject = json.dumps({'uri': uri})
-    return jsonObject
+    info = {'uri': uri}
+    return info
 
 
 # Search related functions
@@ -81,33 +83,49 @@ def searchFor(resultSize, searchQuery, returnType='track'):
                          'uri': uri})
         items.append(itemInfo)
 
-    jsonObject = json.dumps(items)
-    return jsonObject
+    if not items:
+        return {'status': 'No results found'}
+    return items
 
 
 # Playlist related functions
 def makePlaylist(name, description=''):
-    spotifyHandler.user_playlist_create(user=USER, name=name, description=description)
+    if spotifyHandler.user_playlist_create(user=USER, name=name, description=description):
+        info = {'status': 'executed',
+                'message': 'Created playlist'}
+    else:
+        info = {'status': 'error',
+                'message': 'Could not create playlist'}
+    return info
 
 
 def getPlaylistByName(inp):
-    items = searchFor(1, inp, returnType='playlist')
-    jsonObject = json.dumps(items)
-    return jsonObject
+    try:
+        items = searchFor(1, inp, returnType='playlist')
+    except IndexError:
+        return {'status': 'error',
+                'message': 'Could not find playlist'}
+    return items
 
 
 def addSongToPlaylist(trackUri, playlistId):
     try:
         spotifyHandler.playlist_add_items(playlistId, [trackUri])
+        info = {'status': 'executed',
+                'message': 'Added song to playlist'}
     except spotipy.SpotifyException:
-        return -1
+        info = {'status': 'error',
+                'message': 'Could not add song to playlist'}
+    return info
 
 
 def removeSongsFromPlaylist(trackUri, playlistId):
     try:
         spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, [trackUri])
     except spotipy.SpotifyException:
-        return -1
+        info = {'status': 'error',
+                'message': 'Song does not exist in this playlist'}
+        return info
 
 
 def getOwnPlaylists():
@@ -124,8 +142,7 @@ def getOwnPlaylists():
                    "id": id})
 
         playlists.append(pl)
-    jsonObject = json.dumps(playlists)
-    return jsonObject
+    return playlists
 
 
 def getPlaylistItems(playlistId):
@@ -144,17 +161,24 @@ def getPlaylistItems(playlistId):
                       "duration": duration})
 
         tracks.append(track)
-    jsonObject = json.dumps(tracks)
-    return jsonObject
+
+    if not tracks:
+        return {'status': 'executed',
+                'message': 'Playlist is empty'}
+
+    return tracks
 
 
 def removePlaylist(playlistId):
-    followedPlaylists = json.loads(getOwnPlaylists())
+    followedPlaylists = getOwnPlaylists()
     for playlist in followedPlaylists:
         if playlist.get('id') == playlistId:
             spotifyHandler.current_user_unfollow_playlist(playlistId)
             return
-    return -1
+
+    info = {'status': 'error',
+            'message': 'Could not remove playlist'}
+    return info
 
 
 def getPlaylistCoverImage(playlistName):
@@ -162,8 +186,8 @@ def getPlaylistCoverImage(playlistName):
     playlistId = result['playlists']['items'][0]['id']
     imageUrl = spotifyHandler.playlist_cover_image(playlistId)[0]['url']
 
-    jsonObject = json.dumps({'id': playlistId, 'img': imageUrl})
-    return jsonObject
+    info = {'id': playlistId, 'img': imageUrl}
+    return info
 
 
 def getTrackCoverImage(trackName):
@@ -171,8 +195,8 @@ def getTrackCoverImage(trackName):
     trackId = result['tracks']['items'][0]['id']
     imageUrl = spotifyHandler.track(trackId)['album']['images'][0]['url']
 
-    jsonObject = json.dumps({'id': trackId, 'img': imageUrl})
-    return jsonObject
+    info = {'id': trackId, 'img': imageUrl}
+    return info
 
 
 def getDefaultPlaylists(limit):
@@ -195,8 +219,7 @@ def getDefaultPlaylists(limit):
                          "img": img})
         playlists.append(playlist)
 
-    jsonObject = json.dumps(playlists)
-    return jsonObject
+    return playlists
 
 
 # Player related functions
@@ -209,7 +232,12 @@ def play(uri):
 
 
 def skip():
+    if spotifyHandler.current_playback()['item'] is None:
+        info = {'status': 'No song available'}
+        return info
+
     spotifyHandler.next_track(device_id=DEVICE_ID)
+    spotifyHandler.repeat(device_id=DEVICE_ID, state='off')
 
 
 def pause():
@@ -218,7 +246,7 @@ def pause():
 
 
 def resume():
-    if spotifyHandler.current_playback() is False:
+    if spotifyHandler.current_playback()['is_playing'] is False:
         spotifyHandler.start_playback(device_id=DEVICE_ID)
 
 
@@ -229,16 +257,26 @@ def previous():
 
 def setVolume(volume):
     # set volume between 0 - 100%
+    if not isinstance(volume, int) and not isinstance(volume, float):
+        info = {'status': 'error',
+                'message': 'Volume must be of type int or float'}
+
     if volume > 100:
         volume = 100
+
     if volume < 0:
         volume = 0
 
+    volume = round(volume)
     spotifyHandler.volume(device_id=DEVICE_ID, volume_percent=volume)
 
 
 def shuffle():
     # state can either be true or false
+    if spotifyHandler.current_playback() is None:
+        info = {'status': 'No song available'}
+        return info
+
     if not spotifyHandler.current_playback()['shuffle_state']:
         spotifyHandler.shuffle(device_id=DEVICE_ID, state=True)
     else:
@@ -249,13 +287,16 @@ def addToQueue(uri):
     if 'track' in uri:
         spotifyHandler.add_to_queue(device_id=DEVICE_ID, uri=uri)
     else:
-        return -1
+        info = {'status': 'error',
+                'message': 'Can only add songs to queue'}
+        return info
 
 
 def repeat():
     # state can either be track, context or off
     if spotifyHandler.current_playback() is None:
-        return
+        info = {'status': 'No song available'}
+        return info
 
     if spotifyHandler.current_playback()['repeat_state'] == 'off':
         spotifyHandler.repeat(device_id=DEVICE_ID, state='track')
@@ -279,5 +320,4 @@ def getFeaturedAlbums(limit):
                       "img": img})
         albums.append(album)
 
-    jsonObject = json.dumps(albums)
-    return jsonObject
+    return albums

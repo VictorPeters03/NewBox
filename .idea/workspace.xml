@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="9f54b5c5-d02b-47e7-a63b-d8b4d49052df" name="Changes" comment="New icons">
-      <change beforePath="$PROJECT_DIR$/.idea/NewBox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NewBox.iml" afterDir="false" />
+    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewBox/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewBox/templates/includes/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/templates/includes/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/spotifyAPI/.cache" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/spotifyAPI/authorization.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/authorization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/spotifyAPI/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/spotifyAPI/functions2.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/functions2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/spotifyAPI/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/spotifyAPI/secrets.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/secrets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBoxAPI/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -31,26 +33,26 @@
   </component>
   <component name="ProjectId" id="29KOoqS3Mdqr8rqGbg9JVOxMpXH" />
   <component name="ProjectLevelVcsManager">
-    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp/htdocs/GitHub/NewBox",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "advanced.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/GitHub/NewBox&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\school\Jaar 1\Periode 4\Project\NewBox\NewBoxAPI" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="functions2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NewBox" />
@@ -95,6 +97,7 @@
       <workItem from="1653289837280" duration="6885000" />
       <workItem from="1653310703376" duration="5513000" />
       <workItem from="1653376847833" duration="5543000" />
+      <workItem from="1653982583699" duration="1245000" />
     </task>
     <servers />
   </component>
@@ -113,6 +116,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/NewBox$functions2.coverage" NAME="functions2 Coverage Results" MODIFIED="1653311384205" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBox/spotifyAPI" />
+    <SUITE FILE_PATH="coverage/NewBox$functions2.coverage" NAME="functions2 Coverage Results" MODIFIED="1653295369892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBox/spotifyAPI" />
   </component>
 </project>
