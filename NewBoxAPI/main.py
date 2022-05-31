@@ -2,33 +2,36 @@ import MySQLdb
 from fastapi import FastAPI
 import socket
 import json
-import alsaaudio
+# import alsaaudio
 
 app = FastAPI()
+
+queue = []
 
 max_volume = 100
 min_volume = 0
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
-@app.put("/adminpanel/volume/{amount}")
-async def set_volume(amount: int):
-    valid = False
-    while not valid:
-        try:
-            if (amount <= max_volume) and (amount >= min_volume):
-                mixer = alsaaudio.Mixer('PCM')
-                mixer.setvolume(amount)
-                volume = json.dumps({"volume": amount})
-                valid = True
-            elif amount > max_volume: 
-                 volume = json.dumps({"volume": max_volume, "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
-                 valid = True
-            elif amount < min_volume:
-                volume = json.dumps({"volume": min_volume, "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
-                valid = True
-        except ValueError:
-            valid = False
-    return volume
+# @app.put("/adminpanel/volume/{amount}")
+# async def set_volume(amount: int):
+#     valid = False
+#     while not valid:
+#         try:
+#             if (amount <= max_volume) and (amount >= min_volume):
+#                 mixer = alsaaudio.Mixer('PCM')
+#                 mixer.setvolume(amount)
+#                 volume = json.dumps({"volume": amount})
+#                 valid = True
+#             elif amount > max_volume:
+#                  volume = json.dumps({"volume": max_volume, "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
+#                  valid = True
+#             elif amount < min_volume:
+#                 volume = json.dumps({"volume": min_volume, "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
+#                 valid = True
+#         except ValueError:
+#             valid = False
+#     return volume
+
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
@@ -50,7 +53,7 @@ async def set_max_volume(amount: int):
 async def set_min_volume(amount: int):
     if (amount <= 100) and (amount >= 0) and (max_volume > amount):
         min_volume = amount
-        mess = "Minimum volume is set to" + str(amount) + "." 
+        mess = "Minimum volume is set to" + str(amount) + "."
     elif max_volume < amount:
         min_volume = 0
         mess = "Minimum volume is higher than the maximum volume. That is not possible."
@@ -63,12 +66,14 @@ async def set_min_volume(amount: int):
 # endpoint for adding a song to the queue
 @app.put("/use/queue/{id}")
 async def add_to_queue(id: str):
+    queue.append(id)
     return
+
 
 # endpoint for getting the queue
 @app.get("/use/getqueue")
 async def get_queue():
-    return
+    return queue
 
 
 # endpoint for playing songs
@@ -76,15 +81,18 @@ async def get_queue():
 async def play_music(id: str):
     return
 
+
 # endpoint to toggle the state of the current song
 @app.put("/use/toggleplay")
 async def toggle_music():
     return
 
+
 #endpoint to skip the current song
 @app.put("/use/skip/{id}")
 async def skip_song(id: str):
     return
+
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
@@ -116,6 +124,7 @@ async def search_music(id: str):
 
     return dictionary
 
+
 # endpoint for getting all songs
 @app.get("use/searchall/{key}")
 async def search_all(key: str):
@@ -145,10 +154,12 @@ async def search_all(key: str):
 
     return dictionary
 
+
 # endpoint for getting the ip off the rpi
 @app.get("/adminpanel/ip")
 async def get_ip():
     return json.dumps({"ip": socket.gethostbyname(socket.gethostname())})
+
 
 # endpoint to debug and test functions
 @app.get("/use/debug")

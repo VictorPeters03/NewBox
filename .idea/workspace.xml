@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/spotifyAPI/.cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/spotifyAPI/authorization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/spotifyAPI/functions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/spotifyAPI/functions2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/spotifyAPI/main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/spotifyAPI/secrets.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/NewBox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NewBox.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="Search and searchall updated and differentiated">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_09_10_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_09_10__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_05_2022_16_01_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_05_2022_16_01__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_18_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_18__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBoxAPI/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,6 +89,8 @@
       <workItem from="1653289837280" duration="6885000" />
       <workItem from="1653310703376" duration="5513000" />
       <workItem from="1653376847833" duration="5543000" />
+      <workItem from="1653986511412" duration="1044000" />
+      <workItem from="1653988602922" duration="1013000" />
     </task>
     <servers />
   </component>
