@@ -1,6 +1,6 @@
 import spotipy
-from authorization import spotifyHandler
-from secrets import DEVICE_ID, USER
+from .secrets import DEVICE_ID, USER
+from .authorization import spotifyHandler
 import json
 
 

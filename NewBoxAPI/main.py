@@ -3,6 +3,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import socket
 import json
+from spotifyAPI import functions
+
+functions.getUserDetails()
 
 app = FastAPI()
 
@@ -81,6 +84,8 @@ async def get_songs():
 
     cursor = db.cursor()
 
+
+
     # the SQL statement
     sql = "SELECT * FROM `core_song` ORDER BY `artist`;"
     # song_id = id
@@ -154,3 +159,6 @@ async def get_ip():
 @app.get("/use/debug")
 async def debug():
     return
+
+@app.get("/play/userDetails")
+async def
