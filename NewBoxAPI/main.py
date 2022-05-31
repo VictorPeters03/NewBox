@@ -12,25 +12,25 @@ max_volume = 100
 min_volume = 0
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
-# @app.put("/adminpanel/volume/{amount}")
-# async def set_volume(amount: int):
-#     valid = False
-#     while not valid:
-#         try:
-#             if (amount <= max_volume) and (amount >= min_volume):
-#                 mixer = alsaaudio.Mixer('PCM')
-#                 mixer.setvolume(amount)
-#                 volume = json.dumps({"volume": amount})
-#                 valid = True
-#             elif amount > max_volume:
-#                  volume = json.dumps({"volume": max_volume, "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
-#                  valid = True
-#             elif amount < min_volume:
-#                 volume = json.dumps({"volume": min_volume, "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
-#                 valid = True
-#         except ValueError:
-#             valid = False
-#     return volume
+@app.put("/adminpanel/volume/{amount}")
+async def set_volume(amount: int):
+    valid = False
+    while not valid:
+        try:
+            if (amount <= max_volume) and (amount >= min_volume):
+                mixer = alsaaudio.Mixer('PCM')
+                mixer.setvolume(amount)
+                volume = json.dumps({"volume": amount})
+                valid = True
+            elif amount > max_volume:
+                 volume = json.dumps({"volume": max_volume, "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
+                 valid = True
+            elif amount < min_volume:
+                volume = json.dumps({"volume": min_volume, "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
+                valid = True
+        except ValueError:
+            valid = False
+    return volume
 
 
 # endpoint for setting the maximum volume
