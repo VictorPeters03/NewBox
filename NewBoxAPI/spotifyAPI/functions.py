@@ -25,12 +25,7 @@ def getPlaybackInfo():
     shuffleState = result['shuffle_state']
     isPlaying = result['is_playing']
 
-    info = [{'track': track,
-             'artist': artist,
-             'volume': volume,
-             'repeatState': repeatState,
-             'shuffleState': shuffleState,
-             'isPlaying': isPlaying}]
+    info = [{'track': track, 'artist': artist, 'volume': volume, 'repeatState': repeatState, 'shuffleState': shuffleState, 'isPlaying': isPlaying}]
 
     jsonObject = json.dumps(info)
     return jsonObject

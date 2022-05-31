@@ -160,5 +160,12 @@ async def get_ip():
 async def debug():
     return
 
+
 @app.get("/play/userDetails")
-async def
+async def getUserDetails():
+    return functions.getUserDetails()
+
+
+@app.get("/play/currentlyPlaying")
+async def getCurrentlyPlaying():
+    return functions.getPlaybackInfo()
