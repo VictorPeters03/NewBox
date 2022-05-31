@@ -2,7 +2,7 @@ import MySQLdb
 from fastapi import FastAPI
 import socket
 import json
-# import alsaaudio
+import alsaaudio
 
 app = FastAPI()
 
