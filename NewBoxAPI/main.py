@@ -157,13 +157,20 @@ async def debug():
 
 #LEDLIGHTS#
 
+#https://stackoverflow.com/questions/57336022/make-an-addressable-led-strip-shift-from-one-pattern-to-the-next-after-a-set-amo      
+
 #endpoint for turning of the led lights
 @app.put("/use/turnoff")
-async def turnOff():
+async def turn_off():
+    return
+
+@app.put()
+async def no_music():
+    
     return
 
 #endpoint for led light colors based on category
 @app.put("/use/category/{id}")
-async def changeCategory():
+async def change_category():
     return
 
