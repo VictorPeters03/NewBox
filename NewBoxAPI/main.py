@@ -7,6 +7,11 @@ import spotipy
 from authorization import spotifyHandler
 from secrets import DEVICE_ID, USER
 from colormap import hex2rgb
+import serial
+import time
+
+# Port would need to be changed to port that we use.
+arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 
 app = FastAPI()
 
@@ -200,8 +205,9 @@ def getTrackGenre(name: str):
     genreString = print("artist genres:", artist["genres"])
 
     if genreString.find("pop"):
-        # change Led color here
-        return
+        arduino.write(change_genre(rgb))
+        data = arduino.readline()
+        return data
     return
 
 
