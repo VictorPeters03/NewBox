@@ -2,16 +2,16 @@ import MySQLdb
 from fastapi import FastAPI
 import socket
 import json
-import alsaaudio
+# import alsaaudio
 import spotipy
-from authorization import spotifyHandler
+# from authorization import spotifyHandler
 from secrets import DEVICE_ID, USER
 from colormap import hex2rgb
 import serial
 import time
 
 # Port would need to be changed to port that we use.
-arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+arduino = serial.Serial(port='COM1', baudrate=115200, timeout=.1)
 
 app = FastAPI()
 
@@ -27,8 +27,8 @@ async def set_volume(amount: int):
     while not valid:
         try:
             if (amount <= max_volume) and (amount >= min_volume):
-                mixer = alsaaudio.Mixer('PCM')
-                mixer.setvolume(amount)
+                # mixer = alsaaudio.Mixer('PCM')
+                # mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > max_volume:
@@ -193,6 +193,7 @@ async def no_music():
 
 
 # To get the genre of a track and change LED colors based on what it is.
+@app.put("/use/genre/{name}")
 def getTrackGenre(name: str):
     def getTrackId(query):
         result = spotifyHandler.search(q=query, limit=1, type='track')
@@ -216,8 +217,11 @@ def getTrackGenre(name: str):
     return
 
 
+getTrackGenre(data)
+
+
 # endpoint for led light colors based on category
-@app.put("/use/genre/{name}")
+@app.put("/use/genre2/{name}")
 async def change_genre(name: str):
     base16INT = int(name, 32)
     hexed = hex(base16INT)
