@@ -6,6 +6,7 @@ import alsaaudio
 import spotipy
 from authorization import spotifyHandler
 from secrets import DEVICE_ID, USER
+from colormap import hex2rgb
 
 app = FastAPI()
 
@@ -207,14 +208,8 @@ def getTrackGenre(name: str):
 # endpoint for led light colors based on category
 @app.put("/use/genre/{name}")
 async def change_genre(name: str):
-    # Add more elif statments for other main genres
-    if name.find("pop"):
-        # light color/pattern that the leds should display when playing this genre
-        return
-    elif name.find("classic"):
-        return
-    else:
-        # When none of the substrings that are searched for in the genre name are found
-
-        return
-    return
+    base16INT = int(name, 32)
+    hexed = hex(base16INT)
+    hexcode ='#'+ hexed[2:][-6:].zfill(6)
+    rgb = hex2rgb(hexcode)
+    return rgb
