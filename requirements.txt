@@ -1,0 +1,5 @@
+django == 4.0.4
+mysqlclient == 2.1.0
+spotipy == 2.19.0
+fastapi == 0.78.0
+python-vlc == 3.0.16120
