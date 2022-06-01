@@ -32,7 +32,7 @@ def getPlaybackInfo():
 
 
 def getSongById(trackId):
-    track = spotifyHandler.track(trackId)['name']
+    track = spotifyHandler.track(trackId, market="NL")['name']
     return track
 
 
