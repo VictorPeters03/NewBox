@@ -14,6 +14,7 @@ NewBox/core/migrations/__pycache__/0001_initial.cpython-39.pyc
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+NewBox/.idea
 
 #Ignore docker compose file.
 /Docker/
