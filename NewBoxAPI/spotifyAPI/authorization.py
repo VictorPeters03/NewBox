@@ -1,8 +1,8 @@
 import spotipy
-from .secrets import SPOTIFY_REDIRECT_URI, USER, SCOPES
+from .secrets import SPOTIFY_REDIRECT_URI, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, USER, SCOPES
 from spotipy.oauth2 import SpotifyOAuth
 
-spAuth = spotipy.oauth2.SpotifyOAuth(client_id="99117380ca794cdeadaa05089d88c79d", client_secret="f6d7ae770020431ab0b8a9190822d41f",
+spAuth = spotipy.oauth2.SpotifyOAuth(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET,
                                      redirect_uri=SPOTIFY_REDIRECT_URI, scope=SCOPES)
 
 authCode = spAuth.parse_response_code(
