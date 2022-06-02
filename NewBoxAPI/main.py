@@ -195,15 +195,10 @@ async def no_music():
 # To get the genre of a track and change LED colors based on what it is.
 @app.put("/use/genre/{name}")
 def getTrackGenre(name: str):
-    def getTrackId(query):
-        result = spotifyHandler.search(q=query, limit=1, type='track')
-        return result['tracks']['items'][0]['id']
+    getTrackId(result)
+    getTrackByID(artistGenre)
 
-    def getTrackByID(trackName):
-        track = getTrackId(trackName)
-        return spotifyHandler.track(track)['uri']['artists']
-
-    artist = getTrackByID.spotifyHandler.track(track["artists"][0]["external_urls"]["spotify"])
+    artist = getTrackByID(artistGenre)
     genreString = print("artist genres:", artist["genres"])
 
     if genreString.find("pop"):
@@ -215,9 +210,6 @@ def getTrackGenre(name: str):
         data = arduino.readline()
         return data
     return
-
-
-getTrackGenre(data)
 
 
 # endpoint for led light colors based on category

@@ -35,5 +35,6 @@ def getTrackId(query):
 
 def getTrackByID(trackName):
     track = getTrackId(trackName)
-    return spotifyHandler.track(track)['uri']
+    artistGenre = spotifyHandler.track(track)['uri']['artists']
+    return artistGenre
 
