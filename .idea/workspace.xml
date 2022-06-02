@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="added requirements.txt.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/adminPanel/adminFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/adminPanel/adminFunctions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +25,7 @@
   </component>
   <component name="ProjectId" id="29KOoqS3Mdqr8rqGbg9JVOxMpXH" />
   <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -171,7 +171,8 @@
     <option name="LAST_COMMIT_MESSAGE" value="added requirements.txt." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/NewBox$adminFunctions.coverage" NAME="adminFunctions Coverage Results" MODIFIED="1654160602062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBox/adminPanel" />
+    <SUITE FILE_PATH="coverage/NewBox$functions2.coverage" NAME="functions2 Coverage Results" MODIFIED="1654160573681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBox/spotifyAPI" />
     <SUITE FILE_PATH="coverage/NewBox$player.coverage" NAME="player Coverage Results" MODIFIED="1654099893290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI" />
-    <SUITE FILE_PATH="coverage/NewBox$functions2.coverage" NAME="functions2 Coverage Results" MODIFIED="1653295369892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBox/spotifyAPI" />
   </component>
 </project>
