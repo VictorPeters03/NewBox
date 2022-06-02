@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2b969682-6a22-4697-bd70-e36fe78f3be7" name="Changes" comment="Moved script tags into body" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="Python Script" />
+        <option value="JavaScript File" />
+        <option value="package.json" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="api-local" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="b008c836-e9dc-4e9f-9da2-46e5ac5d718f" />
+        <option name="url" value="https://github.com/VictorPeters03/NewBox.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="28wUVGfiujgEUyCChtG7RZGpyiH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/xampp/htdocs/school/Jaar 1/Periode 4/Project/NewBox",
+    "list.type.of.created.stylesheet": "CSS",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "vcs.Git",
+    "ts.external.directory.path": "C:\\Users\\wolfm\\AppData\\Local\\JetBrains\\Toolbox\\apps\\PyCharm-P\\ch-0\\221.5080.212\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\school\Jaar 1\Periode 4\Project\NewBox\NewBox\static\images" />
+      <recent name="C:\xampp\htdocs\school\Jaar 1\Periode 4\Project\NewBox\NewBox\static\js" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="NewBox" type="Python.DjangoServer" factoryName="Django server">
+      <module name="NewBox" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2b969682-6a22-4697-bd70-e36fe78f3be7" name="Changes" comment="" />
+      <created>1652127164058</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1652127164058</updated>
+      <workItem from="1652127165857" duration="505000" />
+      <workItem from="1652127685875" duration="955000" />
+      <workItem from="1652172656319" duration="11841000" />
+      <workItem from="1652251752526" duration="947000" />
+      <workItem from="1652254466692" duration="31000" />
+      <workItem from="1652254510461" duration="20000" />
+      <workItem from="1652254645964" duration="47000" />
+      <workItem from="1652254706182" duration="1917000" />
+      <workItem from="1652257577370" duration="14646000" />
+      <workItem from="1652288727552" duration="4186000" />
+      <workItem from="1652293129178" duration="333000" />
+      <workItem from="1652298837457" duration="934000" />
+      <workItem from="1652338465237" duration="7393000" />
+      <workItem from="1652363723843" duration="4621000" />
+      <workItem from="1652431110367" duration="159000" />
+      <workItem from="1652446347703" duration="664000" />
+      <workItem from="1652701389178" duration="9659000" />
+      <workItem from="1652733412996" duration="1380000" />
+      <workItem from="1652735281291" duration="5000" />
+      <workItem from="1652769739231" duration="12990000" />
+      <workItem from="1652783305602" duration="336000" />
+      <workItem from="1652783727892" duration="12679000" />
+      <workItem from="1652857495373" duration="1364000" />
+      <workItem from="1652864687374" duration="7971000" />
+      <workItem from="1652882391007" duration="23000" />
+    </task>
+    <task id="LOCAL-00001" summary="Added &quot;Hello World&quot; to index.html">
+      <created>1652128620152</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1652128620152</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added navbar and base template, and added urls.py, and started working on header.">
+      <created>1652183401246</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1652183401246</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Worked on navbar. Links do not work.">
+      <created>1652203545988</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1652203545988</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Changed hover color in header.">
+      <created>1652254751784</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1652254751784</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Imported jQuery.">
+      <created>1652260973963</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1652260973963</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Moved and renamed jquery file. Navbar is now expandable (no backend yet).">
+      <created>1652292906219</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1652292906219</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Created core app for testing.">
+      <created>1652363617204</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1652363617205</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added core files">
+      <created>1652363806508</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1652363806508</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added urls and template for javascript testing.">
+      <created>1652706955221</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1652706955221</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added event to downloaded and songs that manipulate index.html.">
+      <created>1652710226439</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1652710226439</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Axios get request displays in html.">
+      <created>1652783274726</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1652783274726</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Styled downloads page and added axios dependencies.">
+      <created>1652813875187</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1652813875187</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Moved script tags into body">
+      <created>1652882223813</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1652882223813</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added images and songs folder" />
+    <MESSAGE value="Added &quot;Hello World&quot; to index.html" />
+    <MESSAGE value="Added navbar and base template, and added urls.py, and started working on header." />
+    <MESSAGE value="Worked on navbar. Links do not work." />
+    <MESSAGE value="Changed hover color in header." />
+    <MESSAGE value="Imported jQuery." />
+    <MESSAGE value="Moved and renamed jquery file. Navbar is now expandable (no backend yet)." />
+    <MESSAGE value="Created core app for testing." />
+    <MESSAGE value="Added core files" />
+    <MESSAGE value="Added urls and template for javascript testing." />
+    <MESSAGE value="Added event to downloaded and songs that manipulate index.html." />
+    <MESSAGE value="Axios get request displays in html." />
+    <MESSAGE value="Styled downloads page and added axios dependencies." />
+    <MESSAGE value="Moved script tags into body" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved script tags into body" />
+  </component>
+</project>
