@@ -3,6 +3,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import socket
 import json
+from spotifyAPI import functions
+import os
+from time import sleep
+import vlc
+import asyncio
+
+functions.getUserDetails()
 
 app = FastAPI()
 
@@ -19,6 +26,8 @@ app.add_middleware(
 )
 
 queue = []
+
+songPlayer = vlc.MediaPlayer(queue[0])
 
 
 # endpoint for setting the volume
@@ -54,7 +63,11 @@ async def set_min_volume(amount: int):
 # endpoint for adding a song to the queue
 @app.put("/use/queue/{id}")
 async def add_to_queue(id: str):
-    queue.append(id)
+    if len(queue) is 0:
+        queue.append(id)
+        await play_music()
+    else:
+        queue.append(id)
 
 
 # endpoint for getting the queue
@@ -63,9 +76,16 @@ async def get_queue():
     return queue
 
 
-@app.get("/use/play/{id}")
-async def play_music(id: str):
-    return
+@app.get("/use/play/")
+async def play_music():
+    while len(queue) > 0:
+        if 'spotify' in queue[0]:
+            pass
+        else:
+            songPlayer.play()
+            while songPlayer.is_playing():
+                await asyncio.sleep(1)
+            queue.pop(0)
 
 
 # endpoint for playing songs
@@ -104,7 +124,11 @@ async def get_songs():
 # endpoint to toggle the state of the current song
 @app.put("/use/toggleplay")
 async def toggle_music():
-    return
+    if songPlayer.is_playing():
+        songPlayer.pause()
+        return
+    else:
+        songPlayer.play()
 
 
 # endpoint for searching songs in the local database
@@ -154,3 +178,14 @@ async def get_ip():
 @app.get("/use/debug")
 async def debug():
     return
+
+
+@app.get("/use/userDetails")
+async def getUserDetails():
+    return functions.getUserDetails()
+
+
+@app.get("/use/currentlyPlaying")
+async def getCurrentlyPlaying():
+    return functions.getPlaybackInfo()
+
