@@ -1,5 +1,3 @@
-// import axios from "axios";
-
 const CLIENT_ID = "ec41429613ba45c8984f3119527186ff"
 
 const CLIENT_SECRET = "62547ecfa262441bb6789d1004b45e82"
@@ -13,6 +11,12 @@ const index = document.querySelector("#sub-container")
 const logo = document.querySelector("#logo")
 
 const settings = document.querySelector(".navbar-settings img")
+
+const search = document.querySelector(".navbar-search-small img")
+
+const query = document.querySelector("#navbar-search");
+
+const queue = document.querySelector(".button-one")
 
 function getHomePage()
 {
@@ -30,7 +34,7 @@ function getSongs()
             headers:
             {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer BQDCW2BbduLS5EkLD6yWJ00ej-mWmADcgXUZSqab3Tw5xmQpRdoCeSCwJhRq021fCKWEKzoHKROekzr5nro6m2pXma5zdzRtf3qXhRXwUHm6BlEbZjWC2KHp3xo-XJyTKFjolBjNGkC3tUzj5GVMIK2Vut1qikaEC7WEht0KiICl2GmT1uVaNebHmHzAZqiNRcoN3ImRmvstmg1jLNCG9hMW7wC8stDv0NPP"
+                "Authorization": "Bearer BQA_u9S3wDU9ImKOTR3ZjXQujmXdjebQH0s-ugtjKXWLjJ72-CFdWRk5dNvZzS8yDL73dU1h7kcMlcvg-CRyq4p3JQT8sYrquKl3kOhVjFgDs7ViDF4OztjYLKomlW8pck_cw8QA1LEWZQYbZQyHVEUGN9U3T5wcwtRKXWYKcBHC_sEKb_0XVXpgauzWzY4N9tIau8nRr9LAI839KPj6YTAH17DHsA1gHmU7"
             }
         })
     .then(resp => {
@@ -54,19 +58,21 @@ function getDownloaded()
 
     let songs_downloaded = document.querySelector('#songs-downloaded')
 
-    axios.get('https://datausa.io/api/data?drilldowns=Nation&measures=Population')
+    axios.get('http://127.0.0.1:8086/use/getsongs')
     .then(resp => {
-        resp.data.data.forEach(element =>
+        // console.log(resp)
+        resp.data.forEach(element =>
+            // console.log(element)
             songs_downloaded.innerHTML += '<div class="song-downloaded">\n' +
         '                       <div class="image"></div>' +
         '                       <div class="title-artist">' +
-                '<div class="title"><p>' + element["Nation"] + '</p></div>' +
-                '<div class="artist"><p>' + element["Year"] + '</p></div>' +
+                '<div class="title"><p>' + element["title"] + '</p></div>' +
+                '<div class="artist"><p>' + element["artist"] + '</p></div>' +
                 '</div>' +
-                '<div class="add-to-playlist"><img src="../static/images/Playlist.svg" alt="Add to playlist"></div>' +
+                '<div class="add-to-playlist"><img src="../static/images/Playlist.svg" alt="Add to playlist" onclick="queueSong(' + "'" + element["uri"] + "'" + ')"></div>' +
         '                   </div>\n'
         )
-    });
+    })
 }
 
 function getSettings()
@@ -79,12 +85,50 @@ function getSettings()
         "                <div class=\"setting-switch\"></div>\n" +
         "            </div>\n" +
         "        </div>"
-
-
 }
 
+function searchSong()
+{
+    index.innerHTML = '<div id="songs-downloaded"></div>\n'
+    query.focus()
+
+    let songs_downloaded = document.querySelector('#songs-downloaded')
+
+    axios.get('http://127.0.0.1:8086/use/search/' + query.value)
+    .then(resp => {
+        resp.data.forEach(element =>
+            // console.log(element)
+            songs_downloaded.innerHTML += '<div class="song-downloaded">\n' +
+        '                       <div class="image"></div>' +
+        '                       <div class="title-artist">' +
+                '<div class="title"><p>' + element["title"] + '</p></div>' +
+                '<div class="artist"><p>' + element["artist"] + '</p></div>' +
+                '</div>' +
+                '<div class="add-to-playlist"><img src="../static/images/Playlist.svg" alt="Add to playlist"></div>' +
+        '                   </div>\n'
+        )
+    })
+}
+
+function queueSong(uri)
+{
+    axios.put("http://127.0.0.1:8086/use/queue/" + uri)
+    .then(resp => {
+        console.log(resp)
+    })
+}
+
+function getQueue()
+{
+    axios.get("http://127.0.0.1:8086/use/getqueue")
+    .then(resp => {
+        console.log(resp)
+    })
+}
 
 songs.addEventListener("click", getSongs)
 downloaded.addEventListener("click", getDownloaded)
 logo.addEventListener("click", getHomePage)
 settings.addEventListener("click", getSettings)
+search.addEventListener("click", searchSong)
+queue.addEventListener("click", getQueue)

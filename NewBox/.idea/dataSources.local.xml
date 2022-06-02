@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="PY-221.5080.212">
+    <data-source name="MariaDB" uuid="ee6a3144-90fa-4bb2-8641-3d9fe3db8fe2">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MARIADB" exact-version="0" />
+      <schema-mapping />
+    </data-source>
+  </component>
+</project>
