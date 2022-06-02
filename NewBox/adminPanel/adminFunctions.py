@@ -1,4 +1,58 @@
-# Login function (without GUI for now)
+import string
+
+
+# ***** PASSWORD FUNCTIONS *****
+
+# Password register check
+
+def click():
+
+    caps = string.ascii_uppercase
+    numbers = []
+    for i in range(10):
+        numbers.append(str(i))
+    special_chars = ['!', '@', '#', '$']
+
+    def number_found(pw):
+        found = False
+        for number in numbers:
+            if pw.find(number) > -1:
+                found = True
+        return found
+
+    def caps_found(pw):
+        found = False
+        for letter in caps:
+            if pw.find(letter) > -1:
+                found = True
+        return found
+
+    def special_found(pw):
+        found = False
+        for char in special_chars:
+            if pw.find(char) > -1:
+                found = True
+        return found
+
+    while True:
+        register_password = input("Enter password: ")
+        if caps_found(register_password):
+            if special_found(register_password):
+                if number_found(register_password):
+                    if len(register_password) > 7:
+                        # login here
+                        break
+                    else:
+                        print("Password must be at least 8 characters long")
+                else:
+                    print("Password must contain a number")
+            else:
+                print("Password must contain a special character ('!', '@', '#', '$')")
+        else:
+            print("Password must contain an uppercase letter")
+
+
+# Login check
 
 print("***Register PIN****")
 register_pin = input("Enter pin: ")

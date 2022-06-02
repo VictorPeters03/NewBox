@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="added requirements.txt.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBox/adminPanel/adminFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/adminPanel/adminFunctions.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
