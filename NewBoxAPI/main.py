@@ -168,4 +168,4 @@ async def getUserDetails():
 
 @app.get("/play/currentlyPlaying")
 async def getCurrentlyPlaying():
-    return functions.getPlaylistByName('test')
+    return functions.getPlaybackInfo()
