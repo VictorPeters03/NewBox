@@ -3,10 +3,13 @@ from time import sleep
 import vlc
 import threading
 
+from NewBoxAPI.spotifyAPI import functions
+
 finish = 0
 
 queue = [
     "songs\Hello, how are you I am under the water.mp3",
+    "spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2",
     "songs\Pantera - Cowboys from Hell.mp3",
 ]
 
@@ -33,6 +36,15 @@ def playSong():
             player.play()
             while finish == 0:
                 sleep(0.5)
+        else:
+            functions.play(queue[0])
+            sleep(1)
+            duration = float(functions.getPlaybackInfo()['duration_seconds'])
+            counter = 0
+            while counter < duration:
+                sleep(1)
+                counter += 1
+            queue.pop(0)
 
 
 newThread = threading.Thread(target=playSong)

@@ -25,9 +25,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-queue = []
-
-songPlayer = vlc.MediaPlayer(queue[0])
+# queue = []
+#
+# songPlayer = vlc.MediaPlayer(queue[0])
 
 
 # endpoint for setting the volume
@@ -62,10 +62,10 @@ async def set_min_volume(amount: int):
 
 # endpoint for adding a song to the queue
 @app.put("/use/queue/{id}")
-async def add_to_queue(id: str):
+def add_to_queue(id: str):
     if len(queue) is 0:
         queue.append(id)
-        await play_music()
+        play_music()
     else:
         queue.append(id)
 

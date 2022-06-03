@@ -1,6 +1,6 @@
 import spotipy
 from .authorization import spotifyHandler
-from .secrets import DEVICE_ID, USER
+from .secrets import SPOTIFY_REDIRECT_URI, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, USER, SCOPES, DEVICE_ID
 import json
 import math
 
@@ -38,6 +38,9 @@ def getPlaybackInfo():
     progressSeconds = math.floor((result['progress_ms'] / 1000) % 60)
     progress = f"{progressMinutes}.{progressSeconds}"
 
+    progressSecondsAbsolute = math.floor(result['progress_ms'] / 1000)
+    durationSecondsAbsolute = math.floor(result['item']['duration_ms'] / 1000)
+
     durationMinutes = math.floor(result['item']['duration_ms'] / 60000)
     durationSeconds = math.floor((result['item']['duration_ms'] / 1000) % 60)
     duration = f"{durationMinutes}.{durationSeconds}"
@@ -53,7 +56,9 @@ def getPlaybackInfo():
             'shuffleState': shuffleState,
             'isPlaying': isPlaying,
             'progress': progress,
+            'progress_seconds': progressSecondsAbsolute,
             'duration': duration,
+            'duration_seconds': durationSecondsAbsolute,
             'img': coverImage,
             'genre': genre}
 
@@ -225,7 +230,7 @@ def getPlaylistItems(playlistId, offset=0, limit=100):
                           "id": id,
                           "img": img,
                           "total": total,
-                          "nr": count +1})
+                          "nr": count + 1})
 
             tracks.append(track)
 
