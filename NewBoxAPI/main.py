@@ -3,30 +3,54 @@ from fastapi import FastAPI
 import socket
 import json
 import alsaaudio
+import os
 
 app = FastAPI()
 
 queue = []
 
-max_volume = 100
-min_volume = 0
+def get_volume_limits():
+    f = open('max.txt', 'r')
+    max_volume = f.read()
+    f.close()
+    
+    f = open('min.txt', 'r')
+    min_volume = f.read()
+    f.close()
+    return min_volume, max_volume
+
+def set_volume_limit(amount : int, limit : str):
+    if limit == 'min':
+        f = open('min.txt', 'r')
+        volume_limit = f.read()
+        f.close()
+        return volume_limit
+    elif limit == 'max':
+        f = open('max.txt', 'r')
+        volume_limit = f.read()
+        f.close()
+        return volume_limit
+    return volume_limit
+
+
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
 async def set_volume(amount: int):
     valid = False
+    limits = get_volume_limits()
     while not valid:
         try:
-            if (amount <= max_volume) and (amount >= min_volume):
+            if (amount <= limits[1]) and (amount >= limits[0]):
                 mixer = alsaaudio.Mixer('PCM')
                 mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
-            elif amount > max_volume:
-                 volume = json.dumps({"volume": max_volume, "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
+            elif amount > limits[1]:
+                 volume = json.dumps({"volume": limits[1], "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
                  valid = True
-            elif amount < min_volume:
-                volume = json.dumps({"volume": min_volume, "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
+            elif amount < limits[0]:
+                volume = json.dumps({"volume": limits[0], "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
                 valid = True
         except ValueError:
             valid = False
@@ -36,29 +60,33 @@ async def set_volume(amount: int):
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
 async def set_max_volume(amount: int):
-    if (amount <= 100) and (amount >= 0) and (amount > min_volume):
+    limits = get_volume_limits()
+    if (amount <= 100) and (amount >= 0) and (amount > limits[0]):
+        set_volume_limit(amount, 'max')
         max_volume = amount
         mess = "Maximum volume is set to" + str(max_volume) + "."
-    elif amount < min_volume:
+    elif amount < limits[0]:
         mess = "Maximum volume is lower than the minimum volume. That is not possible."
-        max_volume = 100
+        max_volume = limits[1]
     else:
         mess = "Maximum volume is not in the range of 0-100."
-        max_volume = 100
+        max_volume = limits[1]
     return json.dumps({"mess": mess, "max_volume": max_volume})
 
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
 async def set_min_volume(amount: int):
-    if (amount <= 100) and (amount >= 0) and (max_volume > amount):
+    limits = get_volume_limits()
+    if (amount <= 100) and (amount >= 0) and (limits[1] > amount):
+        set_volume_limit(amount, 'min')
         min_volume = amount
-        mess = "Minimum volume is set to" + str(amount) + "."
-    elif max_volume < amount:
-        min_volume = 0
+        mess = "Minimum volume is set to" + str(min_volume) + "."
+    elif limits[1] < amount:
+        min_volume = limits[0]
         mess = "Minimum volume is higher than the maximum volume. That is not possible."
     else:
-        min_volume = 0
+        min_volume = limits[0]
         mess = "Minimum volume is not in the range of 0-100."
     return json.dumps({"mess": mess, "min_volume": min_volume})
 
