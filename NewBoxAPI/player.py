@@ -10,9 +10,10 @@ finish = 0
 paused = False
 
 queue = [
-    "songs\Hello, how are you I am under the water.mp3",
-    "spotify:track:7GWU6dQFjYF5YpsAUwZfGq",
-    "songs\Pantera - Cowboys from Hell.mp3",
+    r"spotify:track:4UDmDIqJIbrW0hMBQMFOsM",
+    r"songs\Hello, how are you I am under the water.mp3",
+    r"spotify:track:7GWU6dQFjYF5YpsAUwZfGq",
+    r"songs\Pantera - Cowboys from Hell.mp3",
 ]
 
 instance = vlc.Instance()
@@ -60,8 +61,10 @@ def playSong():
                 if not paused:
                     sleep(1)
                     counter += 1
+                    print(counter)
                 else:
                     sleep(1)
+                    print(counter)
             queue.pop(0)
 
 

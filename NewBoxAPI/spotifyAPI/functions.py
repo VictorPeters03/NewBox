@@ -17,9 +17,8 @@ def getUserDetails():
 
 # Song related functions
 def getPlaybackInfo():
-    try:
-        result = spotifyHandler.current_playback()
-    except TypeError:
+    result = spotifyHandler.current_playback()
+    if result is None:
         return {'status': 'error',
                 'message': 'No song playing'}
 
@@ -32,7 +31,6 @@ def getPlaybackInfo():
     shuffleState = result['shuffle_state']
     isPlaying = result['is_playing']
     artistId = result['item']['artists'][0]['id']
-    genre = spotifyHandler.artist(artistId)['genres'][0]
 
     progressMinutes = math.floor(result['progress_ms'] / 60000)
     progressSeconds = math.floor((result['progress_ms'] / 1000) % 60)
@@ -46,6 +44,11 @@ def getPlaybackInfo():
     duration = f"{durationMinutes}.{durationSeconds}"
 
     coverImage = result['item']['album']['images'][0]['url']
+
+    try:
+        genre = spotifyHandler.artist(artistId)['genres'][0]
+    except IndexError:
+        genre = "None"
 
     info = {'track': track,
             'artist': artist,

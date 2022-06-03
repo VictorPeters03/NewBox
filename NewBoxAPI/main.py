@@ -195,7 +195,12 @@ async def getCurrentlyPlaying():
 async def pauseSpotify():
     player.pause()
 
+
 @app.put("/use/playSpotify")
 async def playSpotify():
     player.play()
 
+
+@app.get("/use/getDevice")
+async def getDevice():
+    return functions.spotifyHandler.devices()
