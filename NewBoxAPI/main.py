@@ -11,23 +11,23 @@ queue = []
 
 def get_volume_limits():
     f = open('max.txt', 'r')
-    max_volume = f.read()
+    max_volume = int(f.read())
     f.close()
     
     f = open('min.txt', 'r')
-    min_volume = f.read()
+    min_volume = int(f.read())
     f.close()
     return min_volume, max_volume
 
 def set_volume_limit(amount : int, limit : str):
     if limit == 'min':
         f = open('min.txt', 'r')
-        volume_limit = f.read()
+        volume_limit = int(f.read())
         f.close()
         return volume_limit
     elif limit == 'max':
         f = open('max.txt', 'r')
-        volume_limit = f.read()
+        volume_limit = int(f.read())
         f.close()
         return volume_limit
     return volume_limit
