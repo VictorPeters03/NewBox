@@ -10,7 +10,7 @@ import vlc
 import asyncio
 import player
 
-functions.getUserDetails()
+# functions.getUserDetails()
 
 app = FastAPI()
 
@@ -193,6 +193,9 @@ async def getCurrentlyPlaying():
 
 @app.put("/use/pauseSpotify")
 async def pauseSpotify():
-    player.paused = True
-    return functions.pause()
+    player.pause()
+
+@app.put("/use/playSpotify")
+async def playSpotify():
+    player.play()
 

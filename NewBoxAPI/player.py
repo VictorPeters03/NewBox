@@ -19,6 +19,20 @@ instance = vlc.Instance()
 player = instance.media_player_new()
 
 
+def pause():
+    global paused
+    if not paused:
+        paused = True
+    functions.pause()
+
+
+def play():
+    global paused
+    if paused:
+        paused = False
+    functions.pause()
+
+
 def SongFinished(event):
     global finish
     print("\nEvent reports - finished")
@@ -46,8 +60,6 @@ def playSong():
                 if not paused:
                     sleep(1)
                     counter += 1
-                    print(paused)
-                    print(counter)
                 else:
                     sleep(1)
             queue.pop(0)
