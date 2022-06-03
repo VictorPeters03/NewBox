@@ -8,6 +8,7 @@ import os
 from time import sleep
 import vlc
 import asyncio
+import player
 
 functions.getUserDetails()
 
@@ -188,4 +189,10 @@ async def getUserDetails():
 @app.get("/use/currentlyPlaying")
 async def getCurrentlyPlaying():
     return functions.getPlaybackInfo()
+
+
+@app.put("/use/pauseSpotify")
+async def pauseSpotify():
+    player.paused = True
+    return functions.pause()
 
