@@ -7,10 +7,12 @@ from NewBoxAPI.spotifyAPI import functions
 
 finish = 0
 
+paused = 0
+
 queue = [
-    "songs\Hello, how are you I am under the water.mp3",
-    "spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2",
-    "songs\Pantera - Cowboys from Hell.mp3",
+    r"songs\Hello, how are you I am under the water.mp3",
+    r"spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2",
+    r"songs\Pantera - Cowboys from Hell.mp3",
 ]
 
 instance = vlc.Instance()
@@ -42,8 +44,11 @@ def playSong():
             duration = float(functions.getPlaybackInfo()['duration_seconds'])
             counter = 0
             while counter < duration:
-                sleep(1)
-                counter += 1
+                if not paused:
+                    sleep(1)
+                    counter += 1
+                else:
+                    sleep(1)
             queue.pop(0)
 
 
