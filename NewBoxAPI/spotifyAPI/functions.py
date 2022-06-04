@@ -1,8 +1,9 @@
 import spotipy
 from .authorization import spotifyHandler
-from .secrets import SPOTIFY_REDIRECT_URI, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, USER, SCOPES, DEVICE_ID
-import json
+from .secrets import USER
 import math
+
+DEVICE_ID = spotifyHandler.devices()['devices'][0]['id']
 
 
 # User related functions
@@ -13,6 +14,10 @@ def getUserDetails():
     info = {'id': userId,
             'uri': userUri}
     return info
+
+
+def getDevices():
+    return spotifyHandler.devices()['id']
 
 
 # Song related functions

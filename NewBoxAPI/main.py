@@ -203,4 +203,4 @@ async def playSpotify():
 
 @app.get("/use/getDevice")
 async def getDevice():
-    return functions.spotifyHandler.devices()
+    return functions.spotifyHandler.devices()['devices'][0]['id']
