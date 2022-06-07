@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b30fe37a-933a-4449-a63d-19c1b65bcd40" name="Changes" comment="Updated play and pause functions and endpoints and added function to add song to queue.">
+    <list default="true" id="b30fe37a-933a-4449-a63d-19c1b65bcd40" name="Changes" comment="Songs can now be queued via api.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBoxAPI/.cache" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBoxAPI/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -166,7 +167,7 @@
       <workItem from="1653982583699" duration="1245000" />
       <workItem from="1654072221126" duration="25968000" />
       <workItem from="1654584608608" duration="1110000" />
-      <workItem from="1654585741412" duration="2773000" />
+      <workItem from="1654585741412" duration="5577000" />
     </task>
     <task id="LOCAL-00001" summary="Queue works for downloaded songs. These can be paused and played.">
       <created>1654239221245</created>
@@ -189,7 +190,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654586530858</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Songs can now be queued via api.">
+      <created>1654588842987</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1654588842987</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,7 +218,8 @@
     <MESSAGE value="Queue works for downloaded songs. These can be paused and played." />
     <MESSAGE value="Improved queue for spotify tracks. Needs testing." />
     <MESSAGE value="Updated play and pause functions and endpoints and added function to add song to queue." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated play and pause functions and endpoints and added function to add song to queue." />
+    <MESSAGE value="Songs can now be queued via api." />
+    <option name="LAST_COMMIT_MESSAGE" value="Songs can now be queued via api." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NewBox$player.coverage" NAME="player Coverage Results" MODIFIED="1654248779443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI" />
