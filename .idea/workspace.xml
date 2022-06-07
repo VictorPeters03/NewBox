@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="added requirements.txt.">
-      <change afterPath="$PROJECT_DIR$/NewBox/templates/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewBox/adminpanel/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewBox/adminPanel/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/NewBox/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/NewBox/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBox/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewBox/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/core/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,6 +164,8 @@
       <workItem from="1654592439794" duration="5000" />
       <workItem from="1654592453886" duration="12705000" />
       <workItem from="1654611474221" duration="886000" />
+      <workItem from="1654612441737" duration="48000" />
+      <workItem from="1654612501944" duration="441000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed problem with import I think">
       <created>1653983897599</created>
