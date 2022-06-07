@@ -1,14 +1,15 @@
 import string
-from flaskApp import create_app
+from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+
 
 # ***** PASSWORD FUNCTIONS *****
 
 # Password register check
 
-app = create_app()
-
-if __name__ == '__HtmlPlaceholder__':
-    app.run(debug = True)
+def register(request) :
+    form = UserCreationForm()
+    return render(request, 'adminPanel/register.html', {'form': form})
 
 
 def click():
@@ -71,7 +72,7 @@ while not logged_in:
     if failed_attempts < max_attempts:
         print("***Login****")
         log_in_pin = input("Enter pin: ")
-        if register_password == log_in_pin:
+        if click().register_password == log_in_pin:
             print("Login successful")
             logged_in = True
         else:

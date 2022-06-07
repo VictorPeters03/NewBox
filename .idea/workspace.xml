@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="added requirements.txt.">
-      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/flaskApp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/NewBox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NewBox.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBox/adminPanel/adminFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/adminPanel/adminFunctions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBox/adminPanel/flaskApp.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="HTML File" />
         <option value="Python Script" />
       </list>
     </option>
@@ -45,15 +51,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/xampp/htdocs/GitHub/NewBox",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/scobu/Documenten/htdocs/GitHub/NewBox&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\school\Jaar 1\Periode 4\Project\NewBox" />
@@ -155,6 +162,10 @@
       <workItem from="1654159109228" duration="269000" />
       <workItem from="1654237890811" duration="5703000" />
       <workItem from="1654257080164" duration="3104000" />
+      <workItem from="1654584932920" duration="3840000" />
+      <workItem from="1654591659554" duration="767000" />
+      <workItem from="1654592439794" duration="5000" />
+      <workItem from="1654592453886" duration="11211000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed problem with import I think">
       <created>1653983897599</created>
