@@ -1,17 +1,23 @@
 import string
-
+from flaskApp import create_app
 
 # ***** PASSWORD FUNCTIONS *****
 
 # Password register check
 
-def click():
+app = create_app()
 
+if __name__ == '__HtmlPlaceholder__':
+    app.run(debug = True)
+
+
+def click():
     caps = string.ascii_uppercase
     numbers = []
     for i in range(10):
         numbers.append(str(i))
     special_chars = ['!', '@', '#', '$']
+    registered = False
 
     def number_found(pw):
         found = False
@@ -34,13 +40,16 @@ def click():
                 found = True
         return found
 
-    while True:
+    while not registered:
+        print("***Register Password****")
         register_password = input("Enter password: ")
+
         if caps_found(register_password):
             if special_found(register_password):
                 if number_found(register_password):
                     if len(register_password) > 7:
-                        # login here
+                        registered = True
+                        print("Your password has been registered")
                         break
                     else:
                         print("Password must be at least 8 characters long")
@@ -51,11 +60,8 @@ def click():
         else:
             print("Password must contain an uppercase letter")
 
+    # Login check
 
-# Login check
-
-print("***Register PIN****")
-register_pin = input("Enter pin: ")
 
 logged_in = False
 failed_attempts = 0
@@ -65,7 +71,7 @@ while not logged_in:
     if failed_attempts < max_attempts:
         print("***Login****")
         log_in_pin = input("Enter pin: ")
-        if register_pin == log_in_pin:
+        if register_password == log_in_pin:
             print("Login successful")
             logged_in = True
         else:
