@@ -9,9 +9,12 @@ from secrets import DEVICE_ID, USER
 from colormap import hex2rgb
 import serial
 import time
-
+from functions import *
 # Port would need to be changed to port that we use.
 arduino = serial.Serial(port='COM1', baudrate=115200, timeout=.1)
+from colorthief import ColorThief
+import urllib
+import os
 
 app = FastAPI()
 
@@ -194,22 +197,15 @@ async def no_music():
 
 # To get the genre of a track and change LED colors based on what it is.
 @app.put("/use/genre/{name}")
-def getTrackGenre(name: str):
-    getTrackId(result)
-    getTrackByID(artistGenre)
-
-    artist = getTrackByID(artistGenre)
-    genreString = print("artist genres:", artist["genres"])
-
-    if genreString.find("pop"):
-        arduino.write(change_genre(rgb))
-        data = arduino.readline()
-        return data
-    elif genreString.find("metal"):
-        arduino.write(change_genre(rgb))
-        data = arduino.readline()
-        return data
-    return
+def get_track_color(name: str):
+    url = getTrackCoverImage(name)
+    tmp_file= 'tmp.jpg'
+    '''Downloads ths image file and analyzes the dominant color'''
+    urllib.urlretrieve(url, tmp_file)
+    color_thief = ColorThief(tmp_file)
+    dominant_color = color_thief.get_color(quality=1)
+    os.remove(tmp_file)
+    return dominant_color
 
 
 # endpoint for led light colors based on category
