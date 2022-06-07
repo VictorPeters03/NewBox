@@ -7,6 +7,8 @@ from spotifyAPI import functions
 
 finish = 0
 
+counter = 1
+
 paused = False
 
 queue = []
@@ -57,8 +59,16 @@ def addToQueue(uri):
 def SongFinished(event):
     global finish
     print("\nEvent reports - finished")
-    queue.pop(0)
     finish = 1
+
+
+def skip():
+    if "spotify" not in queue[0]:
+        global finish
+        finish = 1
+    else:
+        global counter
+        counter = float(functions.getPlaybackInfo()['duration_seconds'])
 
 
 def playSong():
@@ -73,10 +83,12 @@ def playSong():
             player.play()
             while finish == 0:
                 sleep(0.5)
+            queue.pop(0)
         else:
             functions.play(queue[0])
             sleep(1)
             duration = float(functions.getPlaybackInfo()['duration_seconds'])
+            global counter
             counter = 1
             while counter < duration:
                 if not paused:
