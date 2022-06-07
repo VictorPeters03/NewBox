@@ -192,6 +192,7 @@ async def turn_off():
 
 @app.put()
 async def no_music():
+    
     return
 
 
@@ -205,7 +206,7 @@ def get_track_color(name: str):
     color_thief = ColorThief(tmp_file)
     dominant_color = color_thief.get_color(quality=1)
     os.remove(tmp_file)
-    return dominant_color
+    return json.dumps({"color": dominant_color})
 
 
 # endpoint for led light colors based on category
