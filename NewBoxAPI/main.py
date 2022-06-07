@@ -62,19 +62,15 @@ async def set_min_volume(amount: int):
 
 
 # endpoint for adding a song to the queue
-@app.put("/use/queue/{id}")
-def add_to_queue(id: str):
-    if len(queue) is 0:
-        queue.append(id)
-        play_music()
-    else:
-        queue.append(id)
+@app.put("/use/queue/{uri}")
+def add_to_queue(uri: str):
+    player.addToQueue(uri)
 
 
 # endpoint for getting the queue
 @app.get("/use/getqueue")
 async def get_queue():
-    return queue
+    return player.queue
 
 
 @app.get("/use/play/")
@@ -191,13 +187,13 @@ async def getCurrentlyPlaying():
     return functions.getPlaybackInfo()
 
 
-@app.put("/use/pauseSpotify")
-async def pauseSpotify():
+@app.put("/use/pause")
+async def pause():
     player.pause()
 
 
-@app.put("/use/playSpotify")
-async def playSpotify():
+@app.put("/use/play")
+async def play():
     player.play()
 
 

@@ -23,15 +23,32 @@ player = instance.media_player_new()
 def pause():
     global paused
     if not paused:
-        paused = True
-    functions.pause()
+        if "spotify" not in queue[0]:
+            paused = True
+            player.pause()
+        else:
+            paused = True
+            functions.pause()
 
 
 def play():
     global paused
     if paused:
-        paused = False
-    functions.pause()
+        if "spotify" not in queue[0]:
+            paused = False
+            player.pause()
+        else:
+            paused = False
+            functions.pause()
+
+
+def addToQueue(uri):
+    if len(queue) == 0:
+        newThread = threading.Thread(target=playSong)
+        queue.append(uri)
+        newThread.start()
+    else:
+        queue.append(uri)
 
 
 def SongFinished(event):
@@ -55,8 +72,9 @@ def playSong():
                 sleep(0.5)
         else:
             functions.play(queue[0])
+            sleep(1)
             duration = float(functions.getPlaybackInfo()['duration_seconds'])
-            counter = 0
+            counter = 1
             while counter < duration:
                 if not paused:
                     sleep(1)
@@ -69,13 +87,4 @@ def playSong():
 
 
 newThread = threading.Thread(target=playSong)
-if len(queue) > 0:
-    newThread.start()
-
-# x = input("pause ")
-# if x == "yes":
-#     player.pause()
-
-# y = input("play ")
-# if y == "yes":
-# player.play()
+newThread.start()
