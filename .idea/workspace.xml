@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="added requirements.txt.">
-      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/register.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/users.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NewBox/adminPanel/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/NewBox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/NewBox.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -165,7 +162,7 @@
       <workItem from="1654584932920" duration="3840000" />
       <workItem from="1654591659554" duration="767000" />
       <workItem from="1654592439794" duration="5000" />
-      <workItem from="1654592453886" duration="11211000" />
+      <workItem from="1654592453886" duration="11526000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed problem with import I think">
       <created>1653983897599</created>
