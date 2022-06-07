@@ -7,11 +7,6 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Password register check
 
-def register(request) :
-    form = UserCreationForm()
-    return render(request, 'adminPanel/register.html', {'form': form})
-
-
 def click():
     caps = string.ascii_uppercase
     numbers = []
