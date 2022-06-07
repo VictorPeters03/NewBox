@@ -9,12 +9,7 @@ finish = 0
 
 paused = False
 
-queue = [
-    r"spotify:track:4UDmDIqJIbrW0hMBQMFOsM",
-    r"songs\Hello, how are you I am under the water.mp3",
-    r"spotify:track:7GWU6dQFjYF5YpsAUwZfGq",
-    r"songs\Pantera - Cowboys from Hell.mp3",
-]
+queue = []
 
 instance = vlc.Instance()
 player = instance.media_player_new()
@@ -45,10 +40,18 @@ def play():
 def addToQueue(uri):
     if len(queue) == 0:
         newThread = threading.Thread(target=playSong)
-        queue.append(uri)
+        if "spotify" not in uri:
+            newUri = "songs/" + uri
+            queue.append(repr(newUri)[1:-1])
+        else:
+            queue.append(repr(uri)[1:-1])
         newThread.start()
     else:
-        queue.append(uri)
+        if "spotify" not in uri:
+            newUri = "songs/" + uri
+            queue.append(repr(newUri)[1:-1])
+        else:
+            queue.append(repr(uri)[1:-1])
 
 
 def SongFinished(event):
@@ -84,7 +87,3 @@ def playSong():
                     sleep(1)
                     print(counter)
             queue.pop(0)
-
-
-newThread = threading.Thread(target=playSong)
-newThread.start()
