@@ -200,3 +200,13 @@ async def play():
 @app.get("/use/getDevice")
 async def getDevice():
     return functions.spotifyHandler.devices()['devices'][0]['id']
+
+
+@app.put("/use/skip")
+async def skip():
+    return player.skip()
+
+
+@app.put("/use/playSong")
+async def playSong():
+    player.playSong()

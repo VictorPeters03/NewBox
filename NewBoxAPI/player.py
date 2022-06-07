@@ -1,12 +1,12 @@
 from time import sleep
-
+import math
 import vlc
 import threading
 
 from spotifyAPI import functions
 
 finish = 0
-
+counter = 1
 paused = False
 
 queue = []
@@ -14,6 +14,18 @@ queue = []
 instance = vlc.Instance()
 player = instance.media_player_new()
 
+
+def skip():
+    global finish
+    if len(queue) > 0:
+        if "spotify" not in queue[0]:
+            finish = 1
+            queue.pop(0)
+            player.stop()
+        else:
+            global counter
+            functions.pause()
+            counter = functions.getPlaybackInfo()['duration_seconds']
 
 def pause():
     global paused
@@ -57,7 +69,8 @@ def addToQueue(uri):
 def SongFinished(event):
     global finish
     print("\nEvent reports - finished")
-    queue.pop(0)
+    if queue:
+        queue.pop(0)
     finish = 1
 
 
@@ -76,7 +89,8 @@ def playSong():
         else:
             functions.play(queue[0])
             sleep(1)
-            duration = float(functions.getPlaybackInfo()['duration_seconds'])
+            duration = math.floor(functions.getSongDuration(queue[0]))
+            global counter
             counter = 1
             while counter < duration:
                 if not paused:
@@ -87,3 +101,5 @@ def playSong():
                     sleep(1)
                     print(counter)
             queue.pop(0)
+
+

@@ -97,6 +97,11 @@ def getSongUri(trackName):
     return uri
 
 
+def getSongDuration(uri):
+    duration = round(spotifyHandler.track(uri)['duration_ms'] / 1000)
+    return duration
+
+
 # Search related functions
 def searchFor(resultSize, searchQuery, returnType='track'):
     # Check if result size is valid
