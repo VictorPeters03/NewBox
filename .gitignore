@@ -4,6 +4,8 @@ NewBox/NewBoxAPI/__pycache__/*
 # Default ignored files
 /shelf/
 workspace.xml
+/.idea/
+NewBox/.idea/workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
@@ -12,3 +14,6 @@ workspace.xml
 
 #Ignore docker compose file.
 /Docker/
+/NewBox/.idea/
+/NewBoxAPI/.idea/
+/_venv38.win32/
