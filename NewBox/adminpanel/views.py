@@ -17,4 +17,4 @@ def get_name(request):
     else:
         form = NameForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'login.html', {'form': form})
