@@ -112,7 +112,7 @@ function searchSong()
 
 function queueSong(uri)
 {
-    axios.put("http://127.0.0.1:8086/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
+    axios.put("http://127.0.0.1:8086/use/queue/")
     .then(resp => {
         console.log(resp)
     })
