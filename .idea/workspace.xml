@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+    <list default="true" id="b30fe37a-933a-4449-a63d-19c1b65bcd40" name="Changes" comment="Songs can now be queued via api.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBoxAPI/.cache" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBoxAPI/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/player.py" afterDir="false" />
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -39,6 +43,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jesse/PycharmProjects/NewBox/NewBoxAPI/spotifyAPI&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
     &quot;last_opened_file_path&quot;: &quot;C:/xampp/htdocs/GitHub/NewBox&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
@@ -50,6 +56,50 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.player">
+    <configuration name="authorization" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NewBox" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NewBoxAPI/spotifyAPI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/authorization.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="functions" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NewBox" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NewBoxAPI/spotifyAPI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NewBoxAPI/spotifyAPI/functions.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="functions2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="NewBox" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -97,6 +147,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.player" />
+        <item itemvalue="Python.functions" />
+        <item itemvalue="Python.authorization" />
         <item itemvalue="Python.functions2" />
       </list>
     </recent_temporary>
@@ -116,6 +168,38 @@
       <workItem from="1653289837280" duration="6885000" />
       <workItem from="1653310703376" duration="5513000" />
       <workItem from="1653376847833" duration="5543000" />
+      <workItem from="1653982583699" duration="1245000" />
+      <workItem from="1654072221126" duration="25968000" />
+      <workItem from="1654584608608" duration="1110000" />
+      <workItem from="1654585741412" duration="5577000" />
+    </task>
+    <task id="LOCAL-00001" summary="Queue works for downloaded songs. These can be paused and played.">
+      <created>1654239221245</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1654239221245</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Improved queue for spotify tracks. Needs testing.">
+      <created>1654244925519</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1654244925519</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Updated play and pause functions and endpoints and added function to add song to queue.">
+      <created>1654586530858</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1654586530858</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Songs can now be queued via api.">
+      <created>1654588842987</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1654588842987</updated>
       <workItem from="1653982583699" duration="7516000" />
       <workItem from="1654071368342" duration="3290000" />
       <workItem from="1654159109228" duration="269000" />
@@ -166,6 +250,17 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Queue works for downloaded songs. These can be paused and played." />
+    <MESSAGE value="Improved queue for spotify tracks. Needs testing." />
+    <MESSAGE value="Updated play and pause functions and endpoints and added function to add song to queue." />
+    <MESSAGE value="Songs can now be queued via api." />
+    <option name="LAST_COMMIT_MESSAGE" value="Songs can now be queued via api." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/NewBox$player.coverage" NAME="player Coverage Results" MODIFIED="1654248779443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI" />
+    <SUITE FILE_PATH="coverage/NewBox$functions2.coverage" NAME="functions2 Coverage Results" MODIFIED="1653295369892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBox/spotifyAPI" />
+    <SUITE FILE_PATH="coverage/NewBox$functions.coverage" NAME="functions Coverage Results" MODIFIED="1654172702802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI/spotifyAPI" />
+    <SUITE FILE_PATH="coverage/NewBox$authorization.coverage" NAME="authorization Coverage Results" MODIFIED="1654172308843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI/spotifyAPI" />
     <MESSAGE value="Fixed problem with import I think" />
     <MESSAGE value="Made music player for downloaded songs." />
     <MESSAGE value="uploaded test songs." />

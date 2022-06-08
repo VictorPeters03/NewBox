@@ -8,8 +8,9 @@ import os
 from time import sleep
 import vlc
 import asyncio
+import player
 
-functions.getUserDetails()
+# functions.getUserDetails()
 
 app = FastAPI()
 
@@ -25,9 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-queue = []
-
-songPlayer = vlc.MediaPlayer(queue[0])
+# queue = []
+#
+# songPlayer = vlc.MediaPlayer(queue[0])
 
 
 # endpoint for setting the volume
@@ -61,19 +62,15 @@ async def set_min_volume(amount: int):
 
 
 # endpoint for adding a song to the queue
-@app.put("/use/queue/{id}")
-async def add_to_queue(id: str):
-    if len(queue) is 0:
-        queue.append(id)
-        await play_music()
-    else:
-        queue.append(id)
+@app.put("/use/queue/{uri}")
+def add_to_queue(uri: str):
+    player.addToQueue(uri)
 
 
 # endpoint for getting the queue
 @app.get("/use/getqueue")
 async def get_queue():
-    return queue
+    return player.queue
 
 
 @app.get("/use/play/")
@@ -189,3 +186,27 @@ async def getUserDetails():
 async def getCurrentlyPlaying():
     return functions.getPlaybackInfo()
 
+
+@app.put("/use/pause")
+async def pause():
+    player.pause()
+
+
+@app.put("/use/play")
+async def play():
+    player.play()
+
+
+@app.get("/use/getDevice")
+async def getDevice():
+    return functions.spotifyHandler.devices()['devices'][0]['id']
+
+
+@app.put("/use/skip")
+async def skip():
+    return player.skip()
+
+
+@app.put("/use/playSong")
+async def playSong():
+    player.playSong()

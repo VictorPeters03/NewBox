@@ -1,8 +1,9 @@
 import spotipy
 from .authorization import spotifyHandler
-from .secrets import DEVICE_ID, USER
-import json
+from .secrets import USER
 import math
+
+DEVICE_ID = spotifyHandler.devices()['devices'][0]['id']
 
 
 # User related functions
@@ -15,11 +16,14 @@ def getUserDetails():
     return info
 
 
+def getDevices():
+    return spotifyHandler.devices()['id']
+
+
 # Song related functions
 def getPlaybackInfo():
-    try:
-        result = spotifyHandler.current_playback()
-    except TypeError:
+    result = spotifyHandler.current_playback()
+    if result is None:
         return {'status': 'error',
                 'message': 'No song playing'}
 
@@ -32,17 +36,24 @@ def getPlaybackInfo():
     shuffleState = result['shuffle_state']
     isPlaying = result['is_playing']
     artistId = result['item']['artists'][0]['id']
-    genre = spotifyHandler.artist(artistId)['genres'][0]
 
     progressMinutes = math.floor(result['progress_ms'] / 60000)
     progressSeconds = math.floor((result['progress_ms'] / 1000) % 60)
     progress = f"{progressMinutes}.{progressSeconds}"
+
+    progressSecondsAbsolute = math.floor(result['progress_ms'] / 1000)
+    durationSecondsAbsolute = math.floor(result['item']['duration_ms'] / 1000)
 
     durationMinutes = math.floor(result['item']['duration_ms'] / 60000)
     durationSeconds = math.floor((result['item']['duration_ms'] / 1000) % 60)
     duration = f"{durationMinutes}.{durationSeconds}"
 
     coverImage = result['item']['album']['images'][0]['url']
+
+    try:
+        genre = spotifyHandler.artist(artistId)['genres'][0]
+    except IndexError:
+        genre = "None"
 
     info = {'track': track,
             'artist': artist,
@@ -53,7 +64,9 @@ def getPlaybackInfo():
             'shuffleState': shuffleState,
             'isPlaying': isPlaying,
             'progress': progress,
+            'progress_seconds': progressSecondsAbsolute,
             'duration': duration,
+            'duration_seconds': durationSecondsAbsolute,
             'img': coverImage,
             'genre': genre}
 
@@ -82,6 +95,11 @@ def getSongUri(trackName):
 
     uri = {'uri': uri}
     return uri
+
+
+def getSongDuration(uri):
+    duration = round(spotifyHandler.track(uri)['duration_ms'] / 1000)
+    return duration
 
 
 # Search related functions
@@ -225,7 +243,7 @@ def getPlaylistItems(playlistId, offset=0, limit=100):
                           "id": id,
                           "img": img,
                           "total": total,
-                          "nr": count +1})
+                          "nr": count + 1})
 
             tracks.append(track)
 

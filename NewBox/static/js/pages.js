@@ -80,7 +80,7 @@ function getSettings()
     index.innerHTML = "<div id=\"settings\">\n" +
         "            <div class=\"setting\">\n" +
         "                <div class=\"setting-text\">\n" +
-        "                    <h1>Dark mode</h1>\n" +
+        "                    <h1>Dark Mode</h1>\n" +
         "                </div>\n" +
         "                <div class=\"setting-switch\"></div>\n" +
         "            </div>\n" +
@@ -112,7 +112,7 @@ function searchSong()
 
 function queueSong(uri)
 {
-    axios.put("http://127.0.0.1:8086/use/queue/" + uri)
+    axios.put("http://127.0.0.1:8086/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
     .then(resp => {
         console.log(resp)
     })

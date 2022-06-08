@@ -3,7 +3,7 @@ NewBox/core/__pycache__/*
 NewBox/NewBoxAPI/__pycache__/*
 # Default ignored files
 /shelf/
-NewBox/.idea/workspace.xml
+workspace.xml
 # Editor-based HTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
