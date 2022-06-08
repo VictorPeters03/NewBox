@@ -1,4 +1,8 @@
+import sys
+from functools import wraps
+
 import MySQLdb
+import requests
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import socket
@@ -10,7 +14,22 @@ import vlc
 import asyncio
 import player
 
-# functions.getUserDetails()
+# try:
+#     requests.get("https://api.spotify.com")
+# except requests.exceptions.ConnectionError as e:
+#     print(e)
+
+# def handle_connection(func):
+#     @wraps(func)
+#     def decorated(*args, **kwargs):
+#         try:
+#             func(*args, **kwargs)
+#         except requests.exceptions.ConnectionError:
+#             return 'fail'
+#         except Exception:
+#             return '2fil'
+#
+#     return decorated
 
 app = FastAPI()
 
@@ -177,6 +196,7 @@ async def debug():
     return
 
 
+# SPOTIFY FUNCTIONS
 @app.get("/use/userDetails")
 async def getUserDetails():
     return functions.getUserDetails()
@@ -199,7 +219,7 @@ async def play():
 
 @app.get("/use/getDevice")
 async def getDevice():
-    return functions.spotifyHandler.devices()['devices'][0]['id']
+    return functions.getDevice()
 
 
 @app.put("/use/skip")
