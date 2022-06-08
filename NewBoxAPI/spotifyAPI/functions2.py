@@ -1,6 +1,5 @@
 import spotipy
 from authorization import spotifyHandler
-from secrets import DEVICE_ID, USER
 
 
 def getArtistId(query):

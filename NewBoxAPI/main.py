@@ -182,8 +182,8 @@ async def getUserDetails():
     return functions.getUserDetails()
 
 
-@app.get("/use/currentlyPlaying")
-async def getCurrentlyPlaying():
+@app.get("/use/getPlaybackInfo")
+async def getPlaybackInfo():
     return functions.getPlaybackInfo()
 
 
@@ -210,3 +210,58 @@ async def skip():
 @app.put("/use/playSong")
 async def playSong():
     player.playSong()
+
+
+@app.get("/use/getOwnPlaylists")
+async def getOwnPlaylists():
+    return functions.getOwnPlaylists()
+
+
+@app.get("/use/getPlaylistItems/{id}")
+async def getPlaylistItems(id):
+    return functions.getPlaylistItems(id)
+
+
+@app.get("/use/getAlbumItems/{id}")
+async def getAlbumItems(id):
+    return functions.getAlbumItems(id)
+
+
+@app.get("/use/getFeaturedPlaylists")
+async def getFeaturedPlaylists():
+    return functions.getDefaultPlaylists()
+
+
+@app.get("/use/getFeaturedAlbums")
+async def getFeaturedAlbums():
+    return functions.getFeaturedAlbums()
+
+
+@app.post("/use/addSongToPlaylist/{trackUri}&{playlistId}")
+async def addSongToPlaylist(trackUri, playlistId):
+    return functions.addSongToPlaylist(trackUri, playlistId)
+
+
+@app.delete("/use/removeSongFromPlaylist/{trackUri}&{playlistId}")
+async def removeSongFromPlaylist(trackUri, playlistId):
+    return functions.removeSongFromPlaylist(trackUri, playlistId)
+
+
+@app.get("/use/searchInSpotify/{query}&{resultSize}")
+async def searchInSpotify(query, resultSize):
+    return functions.searchFor(query, int(resultSize))
+
+
+@app.get("/use/getTopTracks")
+async def getTopTracks():
+    return functions.getTopTracks()
+
+
+@app.get("/use/getTopArtists")
+async def getTopArtists():
+    return functions.getTopArtists()
+
+
+@app.get("/use/getCategories")
+async def getCategories():
+    return functions.getCategories()

@@ -103,7 +103,7 @@ def getSongDuration(uri):
 
 
 # Search related functions
-def searchFor(resultSize, searchQuery, returnType='track'):
+def searchFor(searchQuery, resultSize, returnType='track'):
     # Check if result size is valid
     if resultSize <= 0 or resultSize > 50 or not isinstance(resultSize, int):
         return {'status': 'error', 'message': 'Invalid result size'}
@@ -164,7 +164,7 @@ def addSongToPlaylist(trackUri, playlistId):
     return info
 
 
-def removeSongsFromPlaylist(trackUri, playlistId):
+def removeSongFromPlaylist(trackUri, playlistId):
     try:
         spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, [trackUri])
         info = {'status': 'executed',
@@ -204,9 +204,16 @@ def getOwnPlaylists():
     return playlists
 
 
-def getPlaylistTotal(playlistId):
+def getTotal(id, returnType):
+    # returnType can either be album or playlist
     try:
-        total = spotifyHandler.playlist(playlistId)['tracks']['total']
+        if returnType is "playlist":
+            total = spotifyHandler.playlist(id)['tracks']['total']
+        elif returnType is "album":
+            total = spotifyHandler.album(id)['total_tracks']
+        else:
+            total = {'status': 'error',
+                     'message': 'Invalid returnType'}
         return total
     except spotipy.SpotifyException:
         info = {'status': 'error',
@@ -216,7 +223,7 @@ def getPlaylistTotal(playlistId):
 
 def getPlaylistItems(playlistId, offset=0, limit=100):
     tracks = []
-    total = getPlaylistTotal(playlistId)
+    total = getTotal(id=playlistId, returnType="playlist")
     # Function above 'getPlaylistTotal' returns a dict if an error occurred.
     if isinstance(total, dict):
         return total
@@ -301,7 +308,7 @@ def getTrackCoverImage(trackName):
     return info
 
 
-def getDefaultPlaylists(limit):
+def getDefaultPlaylists(limit=20):
     # gets standard playlists to show on the front-end
 
     playlists = []
@@ -434,7 +441,7 @@ def repeat():
     return info
 
 
-def getFeaturedAlbums(limit):
+def getFeaturedAlbums(limit=20):
     albums = []
     items = spotifyHandler.new_releases(limit=limit)['albums']['items']
     for count, item in enumerate(items):
@@ -499,4 +506,37 @@ def getTopTracks(limit=20):
                       'img': img})
         tracks.append(track)
 
+    return tracks
+
+
+def getAlbumItems(albumId, offset=0, limit=50):
+    tracks = []
+    total = getTotal(id=albumId, returnType="album")
+    # Function above 'getPlaylistTotal' returns a dict if an error occurred.
+    if isinstance(total, dict):
+        return total
+
+    for i in range(0, total, 100):
+        album = spotifyHandler.album_tracks(album_id=albumId, market='NL', offset=offset, limit=limit)
+        offset += 100
+        for count, songs in enumerate(album['items']):
+            track = {}
+            artist = songs['artists'][0]['name']
+            trackName = songs['name']
+            id = songs['id']
+            uri = songs['uri']
+            # img = songs['track']['album']['images'][0]['url']
+            durationMinutes = math.floor(songs['duration_ms'] / 60000)
+            durationSeconds = math.floor((songs['duration_ms'] / 1000) % 60)
+            duration = f"{durationMinutes}.{durationSeconds}"
+
+            track.update({"artist": artist,
+                          "track": trackName,
+                          "duration": duration,
+                          "uri": uri,
+                          "id": id,
+                          "total": total,
+                          "nr": count + 1})
+
+            tracks.append(track)
     return tracks
