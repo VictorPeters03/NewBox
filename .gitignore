@@ -17,3 +17,4 @@ NewBox/.idea/workspace.xml
 /NewBox/.idea/
 /NewBoxAPI/.idea/
 /_venv38.win32/
+*.pyc
