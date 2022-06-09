@@ -4,14 +4,10 @@ import socket
 import json
 # import alsaaudio
 import spotipy
-# from authorization import spotifyHandler
-from secrets import DEVICE_ID, USER
 from colormap import hex2rgb
 import serial
 import time
 from functions import *
-# Port would need to be changed to port that we use.
-arduino = serial.Serial(port='COM1', baudrate=115200, timeout=.1)
 from colorthief import ColorThief
 import urllib
 import os
@@ -187,12 +183,17 @@ async def debug():
 # endpoint for turning of the led lights
 @app.put("/use/turnoff")
 async def turn_off():
+    cmd = json.dumps({"status": "off", "color": "none"})
+    arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
+    arduinoData.write(cmd.encode())
     return
 
 
 @app.put()
 async def no_music():
-    
+    cmd = json.dumps({"status": "off", "color": "neutural"})
+    arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
+    arduinoData.write(cmd.encode())
     return
 
 
@@ -206,7 +207,11 @@ def get_track_color(name: str):
     color_thief = ColorThief(tmp_file)
     dominant_color = color_thief.get_color(quality=1)
     os.remove(tmp_file)
-    return json.dumps({"color": dominant_color})
+    cmd = json.dumps({"status": "off", "color": dominant_color})
+    arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
+    arduinoData.write(cmd.encode())
+    #returns rgb
+    return
 
 
 # endpoint for led light colors based on category
@@ -216,4 +221,4 @@ async def change_genre(name: str):
     hexed = hex(base16INT)
     hexcode = '#' + hexed[2:][-6:].zfill(6)
     rgb = hex2rgb(hexcode)
-    return rgb
+    return json.dumps({"rgb" : rgb})
