@@ -24,7 +24,7 @@ def handle_connection(func):
             return {'status': 'error',
                     'message': 'ReadTimeOut, could not send request'}
         else:
-            return func()
+            return func(*args, **kwargs)
     return decorated
 
 

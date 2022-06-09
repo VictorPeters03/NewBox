@@ -90,6 +90,9 @@ def playSong():
             functions.play(queue[0])
             sleep(1)
             duration = math.floor(functions.getSongDuration(queue[0]))
+            # if isinstance(duration, dict):
+            #     return
+            # duration = math.floor(duration)
             global counter
             counter = 1
             while counter < duration:
