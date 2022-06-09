@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="Merge commit">
       <change afterPath="$PROJECT_DIR$/NewBox/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/NewBox/adminpanel/__init__.py" afterDir="false" />
@@ -19,6 +20,18 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBox/NewBox/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/NewBox/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBox/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/core/views.py" afterDir="false" />
+=======
+    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="Search and searchall updated and differentiated">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_09_10_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_09_10__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_05_2022_16_01_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_05_2022_16_01__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_18_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_18__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NewBoxAPI/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/main.py" afterDir="false" />
+>>>>>>> origin/api-local
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +153,7 @@
       <workItem from="1653289837280" duration="6885000" />
       <workItem from="1653310703376" duration="5513000" />
       <workItem from="1653376847833" duration="5543000" />
+<<<<<<< HEAD
       <workItem from="1653982583699" duration="7516000" />
       <workItem from="1654071368342" duration="3290000" />
       <workItem from="1654159109228" duration="269000" />
@@ -157,6 +171,10 @@
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
       <updated>1654100000337</updated>
+=======
+      <workItem from="1653986511412" duration="1044000" />
+      <workItem from="1653988602922" duration="1013000" />
+>>>>>>> origin/api-local
     </task>
     <task id="LOCAL-00003" summary="uploaded test songs.">
       <created>1654108427938</created>
