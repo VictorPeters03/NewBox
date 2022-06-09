@@ -1,5 +1,7 @@
 from time import sleep
 import math
+
+import requests.exceptions
 import vlc
 import threading
 
@@ -56,6 +58,8 @@ def addToQueue(uri):
             newUri = "songs/" + uri
             queue.append(repr(newUri)[1:-1])
         else:
+            if functions.DEVICE_ID is None:
+                return
             queue.append(repr(uri)[1:-1])
         newThread.start()
     else:
@@ -63,6 +67,8 @@ def addToQueue(uri):
             newUri = "songs/" + uri
             queue.append(repr(newUri)[1:-1])
         else:
+            if functions.DEVICE_ID is None:
+                return
             queue.append(repr(uri)[1:-1])
 
 
@@ -89,10 +95,10 @@ def playSong():
         else:
             functions.play(queue[0])
             sleep(1)
-            duration = math.floor(functions.getSongDuration(queue[0]))
-            # if isinstance(duration, dict):
-            #     return
-            # duration = math.floor(duration)
+            duration = functions.getSongDuration(queue[0])
+            if isinstance(duration, dict):
+                return
+            duration = math.floor(duration)
             global counter
             counter = 1
             while counter < duration:

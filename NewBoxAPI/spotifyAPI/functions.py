@@ -10,21 +10,22 @@ try:
     DEVICE_ID = spotifyHandler.devices()['devices'][0]['id']
 except requests.exceptions.ConnectionError:
     DEVICE_ID = None
+except IndexError:
+    DEVICE_ID = {'status': 'error',
+            'message': 'no spotify device detected, please open spotify'}
 
+# 'Decorator' that takes in a function as argument and checks if the function gives an error
 def handle_connection(func):
     @wraps(func)
     def decorated(*args, **kwargs):
         try:
-            func(*args, **kwargs)
-            # return func()
+            return func(*args, **kwargs)
         except requests.exceptions.ConnectionError:
             return {'status': 'error',
                     'message': 'ConnectionError, no internet'}
         except requests.exceptions.ReadTimeout:
             return {'status': 'error',
                     'message': 'ReadTimeOut, could not send request'}
-        else:
-            return func(*args, **kwargs)
     return decorated
 
 
@@ -41,7 +42,7 @@ def getUserDetails():
 
 @handle_connection
 def getDevice():
-    return spotifyHandler.devices()['devices'][0]['id']
+    return DEVICE_ID
 
 
 # Song related functions
@@ -403,6 +404,8 @@ def skip():
 
 @handle_connection
 def pause():
+    if spotifyHandler.current_playback() is None:
+        return None
     if spotifyHandler.current_playback()['is_playing'] is True:
         spotifyHandler.pause_playback(device_id=DEVICE_ID)
     else:
