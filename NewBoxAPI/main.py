@@ -9,6 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
+import pirestart
 
 # functions.getUserDetails()
 
@@ -210,3 +211,11 @@ async def skip():
 @app.put("/use/playSong")
 async def playSong():
     player.playSong()
+
+@app.put("/use/playSong")
+async def playSong():
+    player.playSong()
+
+@app.put("/use/reboot")
+def reboot():
+    pirestart.restart()

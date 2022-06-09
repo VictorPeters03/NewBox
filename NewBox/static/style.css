@@ -319,5 +319,12 @@ a:link, a:visited, a:hover {
     color: rgba(255, 255, 255, 0.6);
 }
 
-
 /*END FOOTER*/
+
+/* BEGIN ADMINPANEL*/
+
+.setting-text h1 {
+    /*font-size: 20px;*/
+}
+
+ /*END ADMINPANEL*/

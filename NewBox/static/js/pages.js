@@ -18,6 +18,35 @@ const query = document.querySelector("#navbar-search");
 
 const queue = document.querySelector(".button-one")
 
+
+function getSettings()
+{
+    index.innerHTML = "<div id=\"settings\">\n" +
+        "                    <h1>Rasberry Pi Settings</h1>\n" +
+        "                    <p onclick='pi_reboot()'>Reboot</p>\n" +
+        "                    <p>Shutdown</p>\n" +
+        "                </div>\n" +
+        "                <div class=\"setting-switch\"></div>\n" +
+        "            </div>\n" +
+        "        </div>"
+}
+
+function pi_reboot()
+{
+    axios.put("http://127.0.0.1:8086/use/reboot")
+    .then(resp => {
+        console.log(resp)
+    })
+}
+
+function queueSong(uri)
+{
+    axios.put("http://127.0.0.1:8086/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
+    .then(resp => {
+        console.log(resp)
+    })
+}
+
 function getHomePage()
 {
     index.innerHTML = ""
@@ -75,18 +104,6 @@ function getDownloaded()
     })
 }
 
-function getSettings()
-{
-    index.innerHTML = "<div id=\"settings\">\n" +
-        "            <div class=\"setting\">\n" +
-        "                <div class=\"setting-text\">\n" +
-        "                    <h1>Dark Mode</h1>\n" +
-        "                </div>\n" +
-        "                <div class=\"setting-switch\"></div>\n" +
-        "            </div>\n" +
-        "        </div>"
-}
-
 function searchSong()
 {
     index.innerHTML = '<div id="songs-downloaded"></div>\n'
@@ -112,7 +129,7 @@ function searchSong()
 
 function queueSong(uri)
 {
-    axios.put("http://127.0.0.1:8086/use/queue/")
+    axios.put("http://127.0.0.1:8086/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
     .then(resp => {
         console.log(resp)
     })
