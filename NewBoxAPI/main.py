@@ -9,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-import alsaaudio
+# import alsaaudio
 
 
 app = FastAPI()
@@ -62,8 +62,8 @@ async def set_volume(amount: int):
     while not valid:
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
-                mixer = alsaaudio.Mixer('PCM')
-                mixer.setvolume(amount)
+                # mixer = alsaaudio.Mixer('PCM')
+                # mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > limits[1]:
@@ -120,10 +120,9 @@ def add_to_queue(uri: str):
 
 
 # endpoint for getting the queue
-@app.get("/use/getqueue")
+@app.get("/use/getQueue")
 async def get_queue():
-    return player.queue
-
+    return player.getQueue()
 
 @app.get("/use/play/")
 async def play_music():
@@ -172,7 +171,7 @@ async def get_songs():
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-async def search_music(id: str):
+async def search_music(key: str):
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
