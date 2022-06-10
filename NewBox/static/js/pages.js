@@ -1,7 +1,3 @@
-const CLIENT_ID = "ec41429613ba45c8984f3119527186ff"
-
-const CLIENT_SECRET = "62547ecfa262441bb6789d1004b45e82"
-
 const songs = document.querySelector(".button-songs")
 
 const downloaded = document.querySelector(".button-downloaded")

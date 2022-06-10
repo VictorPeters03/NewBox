@@ -9,9 +9,9 @@ from time import sleep
 import vlc
 import asyncio
 import player
+import alsaaudio
 import pirestart
 
-# functions.getUserDetails()
 
 app = FastAPI()
 
@@ -27,23 +27,53 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# queue = []
-#
-# songPlayer = vlc.MediaPlayer(queue[0])
+
+queue = []
+
+def get_volume_limits():
+    f = open('max.txt', 'r')
+    max_volume = int(f.read())
+    f.close()
+    
+    f = open('min.txt', 'r')
+    min_volume = int(f.read())
+    f.close()
+    return min_volume, max_volume
+
+def set_volume_limit(amount : int, limit : str):
+    if limit == 'min':
+        f = open('min.txt', 'r')
+        volume_limit = int(f.read())
+        f.close()
+        return volume_limit
+    elif limit == 'max':
+        f = open('max.txt', 'r')
+        volume_limit = int(f.read())
+        f.close()
+        return volume_limit
+    return volume_limit
 
 
+# http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
 async def set_volume(amount: int):
     valid = False
+    limits = get_volume_limits()
     while not valid:
         try:
-            volume = amount
-            if (volume <= 100) and (volume >= 0):
+            if (amount <= limits[1]) and (amount >= limits[0]):
+                mixer = alsaaudio.Mixer('PCM')
+                mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
-            else:
-                volume = json.dumps({"volume": "null"})
+            elif amount > limits[1]:
+                volume = json.dumps({"volume": limits[1],
+                                     "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
+                valid = True
+            elif amount < limits[0]:
+                volume = json.dumps({"volume": limits[0],
+                                     "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
                 valid = True
         except ValueError:
             valid = False
@@ -53,13 +83,35 @@ async def set_volume(amount: int):
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
 async def set_max_volume(amount: int):
-    return
+    limits = get_volume_limits()
+    if (amount <= 100) and (amount >= 0) and (amount > limits[0]):
+        set_volume_limit(amount, 'max')
+        max_volume = amount
+        mess = "Maximum volume is set to" + str(max_volume) + "."
+    elif amount < limits[0]:
+        mess = "Maximum volume is lower than the minimum volume. That is not possible."
+        max_volume = limits[1]
+    else:
+        mess = "Maximum volume is not in the range of 0-100."
+        max_volume = limits[1]
+    return json.dumps({"mess": mess, "max_volume": max_volume})
 
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
 async def set_min_volume(amount: int):
-    return
+    limits = get_volume_limits()
+    if (amount <= 100) and (amount >= 0) and (limits[1] > amount):
+        set_volume_limit(amount, 'min')
+        min_volume = amount
+        mess = "Minimum volume is set to" + str(min_volume) + "."
+    elif limits[1] < amount:
+        min_volume = limits[0]
+        mess = "Minimum volume is higher than the maximum volume. That is not possible."
+    else:
+        min_volume = limits[0]
+        mess = "Minimum volume is not in the range of 0-100."
+    return json.dumps({"mess": mess, "min_volume": min_volume})
 
 
 # endpoint for adding a song to the queue
@@ -119,19 +171,9 @@ async def get_songs():
     return dictionary
 
 
-# endpoint to toggle the state of the current song
-@app.put("/use/toggleplay")
-async def toggle_music():
-    if songPlayer.is_playing():
-        songPlayer.pause()
-        return
-    else:
-        songPlayer.play()
-
-
-# endpoint for searching songs in the local database
+# endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-async def search_music(key: str):
+async def search_music(id: str):
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
@@ -166,6 +208,46 @@ async def search_music(key: str):
     return dictionary
 
 
+# endpoint to toggle the state of the current song
+@app.put("/use/toggleplay")
+async def toggle_music():
+    if songPlayer.is_playing():
+        songPlayer.pause()
+        return
+    else:
+        songPlayer.play()
+
+
+# endpoint for getting all songs
+@app.get("use/searchall/{key}")
+async def search_all(key: str):
+    # sets up a connection to the database
+    try:
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+    except:
+        return "Can't connect to database"
+
+    cursor = db.cursor()
+
+    # the SQL statement
+    sql = "SELECT * FROM `core_song`;"
+
+    # executes the statement
+    cursor.execute(sql)
+
+    # takes the data from the statement and places it in a variable
+    songs = cursor.fetchall()
+
+    db.close()
+
+    dictionary = []
+
+    for song in songs:
+        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+
+    return dictionary
+
+
 # endpoint for getting the ip off the rpi
 @app.get("/adminpanel/ip")
 async def get_ip():
@@ -178,13 +260,14 @@ async def debug():
     return
 
 
+# SPOTIFY FUNCTIONS
 @app.get("/use/userDetails")
 async def getUserDetails():
     return functions.getUserDetails()
 
 
-@app.get("/use/currentlyPlaying")
-async def getCurrentlyPlaying():
+@app.get("/use/getPlaybackInfo")
+async def getPlaybackInfo():
     return functions.getPlaybackInfo()
 
 
@@ -200,7 +283,7 @@ async def play():
 
 @app.get("/use/getDevice")
 async def getDevice():
-    return functions.spotifyHandler.devices()['devices'][0]['id']
+    return functions.getDevice()
 
 
 @app.put("/use/skip")
@@ -212,15 +295,57 @@ async def skip():
 async def playSong():
     player.playSong()
 
-@app.put("/use/playSong")
-async def playSong():
-    player.playSong()
 
-@app.put("/use/reboot")
-def reboot():
-    pirestart.restart()
+@app.get("/use/getOwnPlaylists")
+async def getOwnPlaylists():
+    return functions.getOwnPlaylists()
 
-    @app.put("/use/shutdown")
-def shutdown():
-    pishutdown.shutdown()
 
+@app.get("/use/getPlaylistItems/{id}")
+async def getPlaylistItems(id):
+    return functions.getPlaylistItems(id)
+
+
+@app.get("/use/getAlbumItems/{id}")
+async def getAlbumItems(id):
+    return functions.getAlbumItems(id)
+
+
+@app.get("/use/getFeaturedPlaylists")
+async def getFeaturedPlaylists():
+    return functions.getDefaultPlaylists()
+
+
+@app.get("/use/getFeaturedAlbums")
+async def getFeaturedAlbums():
+    return functions.getFeaturedAlbums()
+
+
+@app.post("/use/addSongToPlaylist/{trackUri}&{playlistId}")
+async def addSongToPlaylist(trackUri, playlistId):
+    return functions.addSongToPlaylist(trackUri, playlistId)
+
+
+@app.delete("/use/removeSongFromPlaylist/{trackUri}&{playlistId}")
+async def removeSongFromPlaylist(trackUri, playlistId):
+    return functions.removeSongFromPlaylist(trackUri, playlistId)
+
+
+@app.get("/use/searchInSpotify/{query}&{resultSize}")
+async def searchInSpotify(query, resultSize):
+    return functions.searchFor(query, int(resultSize))
+
+
+@app.get("/use/getTopTracks")
+async def getTopTracks():
+    return functions.getTopTracks()
+
+
+@app.get("/use/getTopArtists")
+async def getTopArtists():
+    return functions.getTopArtists()
+
+
+@app.get("/use/getCategories")
+async def getCategories():
+    return functions.getCategories()
