@@ -1,6 +1,7 @@
 from time import sleep
 import math
 
+import MySQLdb
 import requests.exceptions
 import vlc
 import threading
@@ -15,6 +16,46 @@ queue = []
 
 instance = vlc.Instance()
 player = instance.media_player_new()
+
+
+def getQueue():
+    info = []
+    if not queue:
+        return "Queue is empty"
+    for uri in queue:
+        songInfo = {}
+        if 'spotify' in uri:
+            song = functions.getSongByUri(uri)['name']
+            artist = functions.getSongByUri(uri)['artist']
+            songInfo.update({'uri': uri,
+                             'song': song,
+                             'artist': artist})
+            info.append(songInfo)
+        else:
+            for item in getInfoFromDb(uri):
+                song = item[1]
+                artist = item[0]
+            songInfo.update({'uri': uri,
+                             'song': song,
+                             'artist': artist})
+            info.append(songInfo)
+    return info
+
+def getInfoFromDb(uri):
+    try:
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+    except:
+        return "Can't connect to database"
+
+    cursor = db.cursor()
+
+    # the SQL statement
+    sql = "SELECT artist, song FROM `core_song` WHERE uri = %s;"
+    params = [uri]
+    cursor.execute(sql, params)
+    songs = cursor.fetchall()
+    db.close()
+    return songs
 
 
 def skip():
@@ -55,7 +96,7 @@ def addToQueue(uri):
     if len(queue) == 0:
         newThread = threading.Thread(target=playSong)
         if "spotify" not in uri:
-            newUri = "songs/" + uri
+            newUri = uri
             queue.append(repr(newUri)[1:-1])
         else:
             if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
@@ -64,7 +105,7 @@ def addToQueue(uri):
         newThread.start()
     else:
         if "spotify" not in uri:
-            newUri = "songs/" + uri
+            newUri = uri
             queue.append(repr(newUri)[1:-1])
         else:
             if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
@@ -83,7 +124,7 @@ def SongFinished(event):
 def playSong():
     while len(queue) > 0:
         if "spotify" not in queue[0]:
-            media = instance.media_new_path(queue[0])
+            media = instance.media_new_path("songs/" + queue[0])
             player.set_media(media)
             events = player.event_manager()
             events.event_attach(vlc.EventType.MediaPlayerEndReached, SongFinished)

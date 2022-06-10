@@ -123,8 +123,7 @@ def add_to_queue(uri: str):
 # endpoint for getting the queue
 @app.get("/use/getqueue")
 async def get_queue():
-    return player.queue
-
+    return player.getQueue()
 
 @app.get("/use/play/")
 async def play_music():
@@ -173,7 +172,7 @@ async def get_songs():
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-async def search_music(id: str):
+async def search_music(key: str):
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:

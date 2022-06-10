@@ -100,16 +100,18 @@ def getPlaybackInfo():
 
 
 @handle_connection
-def getSongById(trackId):
+def getSongByUri(trackUri):
     try:
-        track = spotifyHandler.track(trackId)['name']
+        track = spotifyHandler.track(trackUri)['name']
+        artist = spotifyHandler.track(trackUri)['artists'][0]['name']
     except spotipy.SpotifyException:
         info = {'status': 'error',
                 'message': 'Invalid id'}
         return info
 
-    track = {'track': track}
-    return track
+    info = {'name': track,
+            'artist': artist}
+    return info
 
 
 @handle_connection
