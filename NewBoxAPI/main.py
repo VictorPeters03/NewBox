@@ -2,7 +2,7 @@ import MySQLdb
 from fastapi import FastAPI
 import socket
 import json
-import alsaaudio
+# import alsaaudio
 
 app = FastAPI()
 global max_volume, min_volume
@@ -85,7 +85,7 @@ async def toggle_music():
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-async def search_music(id: str):
+def search_music(key: str):
     # sets up a connection to the database
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
@@ -103,8 +103,6 @@ async def search_music(id: str):
 
     # takes the data from the statement and places it in a variable
     songs = cursor.fetchall()
-
-    db.close()
 
     dictionary = []
 

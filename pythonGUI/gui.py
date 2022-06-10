@@ -1,6 +1,7 @@
-import tkinter as tk
+# import tkinter as tk
 from tkinter import ttk
 from tkinter import *
+from NewBoxAPI import main
 
 import requests
 
@@ -66,6 +67,8 @@ def btnSofter():
 def btnHarder():
     return
 
+def searchSongs():
+    print(main.search_music(e.get()))
 
 root = Tk()
 
@@ -82,14 +85,20 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 
 # searchbar
 
-Entry(root, text='search').place(x=20, y=20)
+e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white", font=('arial', 30, 'bold'), justify='center')
+cross = Button(root, text="close", background="#783FE3", borderwidth=0)
+search = Button(root, text="search", background="#783FE3", borderwidth=0, command=searchSongs)
+e.place(width=911, x=84, y=40, height=80)
+cross.place(width=70, height=80, x=930, y=40)
+search.place(width=70, height=80, x=82, y=40)
+
 #head buttons
 Button(root, text='Playlist', font=('arial', 12, 'normal'), command=btnPlaylist()).place(x=20, y=130,width=500, height=100)
 Button(root, text='Songs', font=('arial', 12, 'normal'), command=btnSongs()).place(x=560, y=130,width=500, height=100)
 Button(root, text='Artists', font=('arial', 12, 'normal'), command=btnArtists()).place(x=20, y=240,width=500, height=100)
 Button(root, text='Genres', font=('arial', 12, 'normal'), command=btnGenres()).place(x=560, y=240,width=500, height=100)
 Button(root, text='Albums', font=('arial', 12, 'normal'), command=btnAlbums()).place(x=20, y=350,width=500, height=100)
-Button(root, text='Downloads', command=btnDownloads()).place(x=560, y=350,width=500, height=100)
+Button(root, text='Downloads', font=('arial', 12, 'normal'), command=btnDownloads()).place(x=560, y=350,width=500, height=100)
 
 #style="topBtnStyle"
 
