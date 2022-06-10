@@ -2,7 +2,7 @@ import MySQLdb
 from fastapi import FastAPI
 import socket
 import json
-# import alsaaudio
+import alsaaudio
 import spotipy
 from colormap import hex2rgb
 import serial
@@ -183,13 +183,13 @@ async def debug():
 # endpoint for turning of the led lights
 @app.put("/use/turnoff")
 async def turn_off():
-    cmd = json.dumps({"status": "off", "color": "none"})
+    cmd = json.dumps({"status": "off", "color": [0,0,0]})
     arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
     arduinoData.write(cmd.encode())
     return
 
 
-@app.put()
+@app.put("use/nomusic")
 async def no_music():
     cmd = json.dumps({"status": "off", "color": "neutural"})
     arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
@@ -212,7 +212,6 @@ def get_track_color(name: str):
     arduinoData.write(cmd.encode())
     #returns rgb
     return
-
 
 # endpoint for led light colors based on category
 @app.put("/use/genre2/{name}")
