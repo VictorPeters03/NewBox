@@ -207,11 +207,12 @@ def get_track_color(name: str):
     color_thief = ColorThief(tmp_file)
     dominant_color = color_thief.get_color(quality=1)
     os.remove(tmp_file)
-    cmd = json.dumps({"status": "off", "color": dominant_color})
+    cmd = '{\\"status\\": \\"off\\", \\"color\\": ' + dominant_color +'}'
     arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
     arduinoData.write(cmd.encode())
     #returns rgb
     return
+
 
 # endpoint for led light colors based on category
 @app.put("/use/genre2/{name}")
