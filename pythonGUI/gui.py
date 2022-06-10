@@ -1,14 +1,14 @@
-# import tkinter as tk
+import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-from NewBoxAPI import main
 
 import requests
 
+URL_BASE = "https://localhost:8000/"
 
 def btnClickFunction():
-    url = "https://localhost:8000/use/playtest"
-    response = requests.put(url)
+    endpoint = "use/playtest"
+    response = requests.put(URL_BASE+endpoint)
 
     print(response.text)
 
@@ -73,7 +73,7 @@ def searchSongs():
 root = Tk()
 
 root.geometry('1080x1920')
-root.configure(background='#00ffff')
+root.configure(background='#1ED760')
 root.title('Newbox')
 
 topBtnStyle = ttk.Style()
@@ -93,27 +93,27 @@ cross.place(width=70, height=80, x=930, y=40)
 search.place(width=70, height=80, x=82, y=40)
 
 #head buttons
-Button(root, text='Playlist', font=('arial', 12, 'normal'), command=btnPlaylist()).place(x=20, y=130,width=500, height=100)
-Button(root, text='Songs', font=('arial', 12, 'normal'), command=btnSongs()).place(x=560, y=130,width=500, height=100)
-Button(root, text='Artists', font=('arial', 12, 'normal'), command=btnArtists()).place(x=20, y=240,width=500, height=100)
-Button(root, text='Genres', font=('arial', 12, 'normal'), command=btnGenres()).place(x=560, y=240,width=500, height=100)
-Button(root, text='Albums', font=('arial', 12, 'normal'), command=btnAlbums()).place(x=20, y=350,width=500, height=100)
-Button(root, text='Downloads', font=('arial', 12, 'normal'), command=btnDownloads()).place(x=560, y=350,width=500, height=100)
+Button(root, image=btnImgPlaylist, command=btnPlaylist, border=0).place(x=20, y=130, width=500, height=100)
+Button(root, image=btnImgSongs, command=btnSongs, border=0).place(x=560, y=130, width=500, height=100)
+Button(root, image=btnImgArtist, command=btnArtists, border=0).place(x=20, y=240, width=500, height=100)
+Button(root, image=btnImgGenres, command=btnGenres, border=0).place(x=560, y=240, width=500, height=100)
+Button(root, image=btnImgAlbums, command=btnAlbums, border=0).place(x=20, y=350, width=500, height=100)
+Button(root, image=btnImgDownloaded, command=btnDownloads, border=0).place(x=560, y=350, width=500, height=100)
 
 #style="topBtnStyle"
 
 #footer buttons
-Button(root, text='1', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn1()).place(x=10, y=1560,width=155, height=155)
-Button(root, text='2', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn2()).place(x=190, y=1560,width=155, height=155)
-Button(root, text='3', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn3()).place(x=370, y=1560,width=155, height=155)
-Button(root, text='4', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn4()).place(x=550, y=1560,width=155, height=155)
-Button(root, text='5', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn5()).place(x=730, y=1560,width=155, height=155)
-Button(root, text='6', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn6()).place(x=910, y=1560,width=155, height=155)
-Button(root, text='reverse', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnPrevious()).place(x=10, y=1730,width=155, height=155)
-Button(root, text='pause/play', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnPause()).place(x=190, y=1730,width=155, height=155)
-Button(root, text='next', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnNext()).place(x=370, y=1730,width=155, height=155)
-Button(root, text='mute', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnMute()).place(x=550, y=1730,width=155, height=155)
-Button(root, text='volume down', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnSofter()).place(x=730, y=1730,width=155, height=155)
-Button(root, text='volume up', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnHarder()).place(x=910, y=1730,width=155, height=155)
+Button(root, text='1', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn1).place(x=10, y=1560,width=155, height=155)
+Button(root, text='2', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn2).place(x=190, y=1560,width=155, height=155)
+Button(root, text='3', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn3).place(x=370, y=1560,width=155, height=155)
+Button(root, text='4', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn4).place(x=550, y=1560,width=155, height=155)
+Button(root, text='5', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn5).place(x=730, y=1560,width=155, height=155)
+Button(root, text='6', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn6).place(x=910, y=1560,width=155, height=155)
+Button(root, text='reverse', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnPrevious).place(x=10, y=1730,width=155, height=155)
+Button(root, text='pause/play', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnPause).place(x=190, y=1730,width=155, height=155)
+Button(root, text='next', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnNext).place(x=370, y=1730,width=155, height=155)
+Button(root, text='mute', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnMute).place(x=550, y=1730,width=155, height=155)
+Button(root, text='volume down', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnSofter).place(x=730, y=1730,width=155, height=155)
+Button(root, text='volume up', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btnHarder).place(x=910, y=1730,width=155, height=155)
 
 root.mainloop()
