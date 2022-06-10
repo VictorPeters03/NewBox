@@ -259,6 +259,7 @@ async def debug():
     return
 
 
+# SPOTIFY FUNCTIONS
 @app.get("/use/userDetails")
 async def getUserDetails():
     return functions.getUserDetails()
@@ -281,7 +282,7 @@ async def play():
 
 @app.get("/use/getDevice")
 async def getDevice():
-    return functions.spotifyHandler.devices()['devices'][0]['id']
+    return functions.getDevice()
 
 
 @app.put("/use/skip")
