@@ -1,8 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-
+from background import GradientFrame
 import requests
+
+
+import random
+
+random_number = random.randint(1118481,16777215)
+hex_number = str(hex(random_number))
+hex_number = '#'+ hex_number [2:]
 
 URL_BASE = "https://localhost:8000/"
 
@@ -71,9 +78,12 @@ def searchSongs():
     print(main.search_music(e.get()))
 
 root = Tk()
-
+gf = GradientFrame(root, colors = ("#4C0113", "black"),height=1920, width=1080)
+gf.config(direction = gf.top2bottom)
+gf.pack()
 root.geometry('1080x1920')
-root.configure(background='#1ED760')
+root.attributes('-fullscreen',True)
+# root.configure(background=hex_number)
 root.title('Newbox')
 
 topBtnStyle = ttk.Style()
@@ -85,6 +95,8 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 
 # searchbar
 
+# searchbar
+
 e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white", font=('arial', 30, 'bold'), justify='center')
 cross = Button(root, text="close", background="#783FE3", borderwidth=0)
 search = Button(root, text="search", background="#783FE3", borderwidth=0, command=searchSongs)
@@ -92,13 +104,33 @@ e.place(width=911, x=84, y=40, height=80)
 cross.place(width=70, height=80, x=930, y=40)
 search.place(width=70, height=80, x=82, y=40)
 
+#button images
+btnImgPlaylist = tk.PhotoImage(file='images/btnPlaylist.png',height=100, width=500)
+btnImgSongs = tk.PhotoImage(file='images/btnSongs.png',height=100, width=500)
+btnImgArtist = tk.PhotoImage(file='images/btnArtist.png',height=100, width=500)
+btnImgGenres = tk.PhotoImage(file='images/btnGenres.png',height=100, width=500)
+btnImgAlbums = tk.PhotoImage(file='images/btnAlbums.png',height=100, width=500)
+btnImgDownloaded = tk.PhotoImage(file='images/btnDownloaded.png',height=100, width=500)
+
+
+#icons
+
+iconImgPlaylist = tk.PhotoImage(file='images/icons/Playlist.png')
+iconImgSongs = tk.PhotoImage(file='images/icons/Songs.png')
+iconImgArtist = tk.PhotoImage(file='images/icons/Artist.png')
+iconImgGenres = tk.PhotoImage(file='images/icons/Genre.png')
+iconImgAlbums = tk.PhotoImage(file='images/icons/Albums.png')
+iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
+
+#text: arial, 30 bold white
+
 #head buttons
-Button(root, image=btnImgPlaylist, command=btnPlaylist, border=0).place(x=20, y=130, width=500, height=100)
-Button(root, image=btnImgSongs, command=btnSongs, border=0).place(x=560, y=130, width=500, height=100)
-Button(root, image=btnImgArtist, command=btnArtists, border=0).place(x=20, y=240, width=500, height=100)
-Button(root, image=btnImgGenres, command=btnGenres, border=0).place(x=560, y=240, width=500, height=100)
-Button(root, image=btnImgAlbums, command=btnAlbums, border=0).place(x=20, y=350, width=500, height=100)
-Button(root, image=btnImgDownloaded, command=btnDownloads, border=0).place(x=560, y=350, width=500, height=100)
+Button(root, image=iconImgPlaylist,text="hallo",font=('arial', 30, 'bold'),compound=tk.LEFT,command=btnPlaylist, border=0, bg='#4A272E').place(x=20, y=130, width=500, height=100)
+Button(root, image=iconImgSongs,text="hallo",font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnSongs, border=0, bg='#4A272E').place(x=560, y=130, width=500, height=100)
+Button(root, image=iconImgArtist,text="hallo",font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnArtists, border=0, bg='#4A272E').place(x=20, y=240, width=500, height=100)
+Button(root, image=iconImgGenres,text="hallo",font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnGenres, border=0, bg='#4A272E').place(x=560, y=240, width=500, height=100)
+Button(root, image=iconImgAlbums,text="hallo",font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnAlbums, border=0, bg='#4A272E').place(x=20, y=350, width=500, height=100)
+Button(root, image=iconImgDownloaded,text="hallo",font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnDownloads, border=0, bg='#4A272E').place(x=560, y=350, width=500, height=100)
 
 #style="topBtnStyle"
 
