@@ -22,11 +22,11 @@ function getSettings()
         "                    <p onclick='pi_reboot()'>Reboot</p>\n" +
         "                    <p onclick='pi_shutdown()'>Shutdown</p>\n" +
         "                    <H1>Queue</H1>\n" +
-        "                    <p>Show list</p>\n" +
-        "                </div>\n" +
-        "                <div class=\"setting-switch\"></div>\n" +
-        "            </div>\n" +
-        "        </div>"
+        "                    <div class='queue-element.title'> \n" +
+                                 function (queue_elementitle) {
+                                    for item in result
+                                    item["URI"]
+                                     return
 }
 
 function pi_reboot()
@@ -36,6 +36,10 @@ function pi_reboot()
         console.log(resp)
     })
 }
+
+function getQueue {
+    }
+
 
 function pi_shutdown()
 {
