@@ -2,6 +2,7 @@
 import os
 import time
 
+def shutdown():
 import GPIO as GPIO
 
 while True:
@@ -9,5 +10,3 @@ while True:
     result = os.popen("sudo shutdown -h now").read()
     return
   time.sleep(0.1)
-
-  enter

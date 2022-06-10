@@ -24,7 +24,9 @@ function getSettings()
     index.innerHTML = "<div id=\"settings\">\n" +
         "                    <h1>Rasberry Pi Settings</h1>\n" +
         "                    <p onclick='pi_reboot()'>Reboot</p>\n" +
-        "                    <p>Shutdown</p>\n" +
+        "                    <p onclick='pi_shutdown()'>Shutdown</p>\n" +
+        "                    <H1>Queue</H1>\n" +
+        "                    <p>Show list</p>\n" +
         "                </div>\n" +
         "                <div class=\"setting-switch\"></div>\n" +
         "            </div>\n" +
@@ -32,6 +34,14 @@ function getSettings()
 }
 
 function pi_reboot()
+{
+    axios.put("http://127.0.0.1:8086/use/reboot")
+    .then(resp => {
+        console.log(resp)
+    })
+}
+
+function pi_shutdown()
 {
     axios.put("http://127.0.0.1:8086/use/reboot")
     .then(resp => {

@@ -219,3 +219,8 @@ async def playSong():
 @app.put("/use/reboot")
 def reboot():
     pirestart.restart()
+
+    @app.put("/use/shutdown")
+def shutdown():
+    pishutdown.shutdown()
+
