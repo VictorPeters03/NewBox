@@ -58,7 +58,7 @@ def addToQueue(uri):
             newUri = "songs/" + uri
             queue.append(repr(newUri)[1:-1])
         else:
-            if functions.DEVICE_ID is None:
+            if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
                 return
             queue.append(repr(uri)[1:-1])
         newThread.start()
@@ -67,7 +67,7 @@ def addToQueue(uri):
             newUri = "songs/" + uri
             queue.append(repr(newUri)[1:-1])
         else:
-            if functions.DEVICE_ID is None:
+            if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
                 return
             queue.append(repr(uri)[1:-1])
 

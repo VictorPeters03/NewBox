@@ -42,7 +42,7 @@ def getUserDetails():
 
 @handle_connection
 def getDevice():
-    return DEVICE_ID
+    return spotifyHandler.devices()['devices'][0]['id']
 
 
 # Song related functions
