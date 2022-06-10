@@ -17,7 +17,6 @@ def btnPlaylist():
     return
 
 def btnSongs():
-    print("hallo")
     return
 
 def btnArtists():
@@ -68,6 +67,8 @@ def btnSofter():
 def btnHarder():
     return
 
+def searchSongs():
+    print(main.search_music(e.get()))
 
 root = Tk()
 
@@ -84,14 +85,12 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 
 # searchbar
 
-Entry(root, text='search').place(x=20, y=20)
-#button images
-btnImgPlaylist = tk.PhotoImage(file='images/btnPlaylist.png')
-btnImgSongs = tk.PhotoImage(file='images/btnSongs.png')
-btnImgArtist = tk.PhotoImage(file='images/btnArtist.png')
-btnImgGenres = tk.PhotoImage(file='images/btnGenres.png')
-btnImgAlbums = tk.PhotoImage(file='images/btnAlbums.png')
-btnImgDownloaded = tk.PhotoImage(file='images/btnDownloaded.png')
+e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white", font=('arial', 30, 'bold'), justify='center')
+cross = Button(root, text="close", background="#783FE3", borderwidth=0)
+search = Button(root, text="search", background="#783FE3", borderwidth=0, command=searchSongs)
+e.place(width=911, x=84, y=40, height=80)
+cross.place(width=70, height=80, x=930, y=40)
+search.place(width=70, height=80, x=82, y=40)
 
 #head buttons
 Button(root, image=btnImgPlaylist, command=btnPlaylist, border=0).place(x=20, y=130, width=500, height=100)
