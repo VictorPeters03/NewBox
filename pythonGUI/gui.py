@@ -42,7 +42,8 @@ def btnAlbums():
 
 
 def btnDownloads():
-    return
+    songList.place(width=911, height=1000, x=84, y=550)
+
 
 
 def btn1():
@@ -123,6 +124,7 @@ e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreg
           font=('arial', 30, 'bold'), justify='center')
 cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0)
 search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs)
+songList = Frame(root, width=911, bg="black")
 e.place(width=911, x=84, y=40, height=80)
 cross.place(width=70, height=80, x=930, y=40)
 search.place(width=70, height=80, x=82, y=40)
@@ -161,6 +163,10 @@ Button(root, image=iconImgDownloaded, text="hallo", font=('arial', 30, 'bold'), 
        border=0, bg='#4A272E').place(x=560, y=350, width=500, height=100)
 
 # style="topBtnStyle"
+
+#Downloaded songs
+
+songList.place(width=911, height=1000, x=84, y=550)
 
 # footer buttons
 Button(root, text='1', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn1).place(x=10, y=1560, width=155,
