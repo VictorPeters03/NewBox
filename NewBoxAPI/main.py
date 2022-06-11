@@ -369,7 +369,7 @@ async def turn_off():
 
 @app.put("use/nomusic")
 async def no_music():
-    cmd = json.dumps({"status": "off", "color": "neutural"})
+    cmd = json.dumps({"status": "off", "color": "neutural"  })
     arduinoData = serial.Serial('/dev/ttyUSB0', 115200)
     arduinoData.write(cmd.encode())
     return
@@ -386,11 +386,14 @@ def get_track_color(name: str):
     color_thief = ColorThief(tmp_file)
     dominant_color = str(color_thief.get_color(quality=1))
     os.remove(tmp_file)
-    cmd = '{\"status\": \"off\", \"color\": ' + dominant_color +'}'
-    arduinoData = serial.Serial('/dev/ttyUSB1', 115200)
+    cmd = "{'status': 'off', 'color': '"+ dominant_color +"'}" + '\n'
+    #  '{"status": "off", "color": ' + dominant_color +'}'
+    arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
+    # test = arduinoData.write(cmd.encode())
+    sleep(5)
     arduinoData.write(cmd.encode())
     #returns rgb
-    return
+    return cmd
 
 # print('{\\"status\\": \\"off\\", \\"color\\": ' + dominant_color +'}')
 
