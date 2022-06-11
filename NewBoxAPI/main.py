@@ -12,6 +12,7 @@ import player
 # import alsaaudio
 
 
+
 app = FastAPI()
 
 origins = [
@@ -171,7 +172,8 @@ async def get_songs():
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-async def search_music(key: str):
+def search_music(key: str):
+    # sets up a connection to the database
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
