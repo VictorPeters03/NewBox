@@ -4,36 +4,49 @@
 String rValue;
 String gValue;
 String bValue;
-// Parameter 1 = number of pixels in strip
-// Parameter 2 = pin number (most are valid)
-// Parameter 3 = pixel type flags, add together as needed:
-//   NEO_RGB     Pixels are wired for RGB bitstream
-//   NEO_GRB     Pixels are wired for GRB bitstream
-//   NEO_KHZ400  400 KHz bitstream (e.g. FLORA pixels)
-//   NEO_KHZ800  800 KHz bitstream (e.g. High Density LED strip)
+
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, 6, NEO_GRB + NEO_KHZ800);
 
 StaticJsonDocument<200> doc;
-
+const unsigned int MAX_LENGTH = 60;
 void setup() {
+  Serial.setTimeout(3000);
   // Initialize serial port
-  Serial.begin(300);
+  Serial.begin(1200);
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+
 }
 
 void loop() {
   // not used in this example
 while (!Serial) continue;
-//    char json[] =
-//       "{\"status\": \"off\", \"color\": \"(21, 30, 87)\"}";
-     String json = Serial.readStringUntil('#');
-  
-  while(Serial.available() > 0) {Serial.read();}
-//    Serial.print("I got: @");
-//    Serial.print(json);
-//    Serial.println("@");
-  // Deserialize the JSON document
+//     char json[] =
+//      "{\"status\": \"off\", \"color\": \"(21, 30, 87)\"}";
+//String json = "{\"status\": \"off\", \"color\": \"(21, 30, 87)\"}";
+
+
+
+
+while(Serial.available() > 0){
+  static char message[MAX_LENGTH];
+  static unsigned int message_pos = 0;
+
+  char inByte = Serial.read();
+
+  if (inByte != '\n' && message_pos < MAX_LENGTH -1){
+    message[message_pos] = inByte;
+    message_pos++;
+  }else {
+    message[message_pos] = '\0';
+    Serial.println(message);
+    message_pos = 0;
+
+  String json = message;
+//  json.remove(0, 1);
+//  int index = json.length()-1; 
+//  json.remove(index, 1); 
+  Serial.println(json);
   DeserializationError error = deserializeJson(doc, json);
   Serial.println("Works");
   // Test if parsing succeeds.
@@ -42,11 +55,10 @@ while (!Serial) continue;
     Serial.println(error.f_str());
     return;
   }
-
   // Fetch values.
   
   const char* stat = doc["status"];
-  const char*  color = doc["color"];
+  const char* color = doc["color"];
  
   String rValue = getValue(color, ',', 0);
   rValue.remove(0, 1);
@@ -57,10 +69,17 @@ while (!Serial) continue;
   int lastIndex = bValue.length()-1;
   bValue.remove(lastIndex, -1); 
 
+  Serial.println(bValue);
+  Serial.println(rValue);
+  Serial.println(gValue);
   
+  colorWipe(strip.Color(bValue.toInt(), rValue.toInt(), gValue.toInt()), 50);
+//  colorWipe(strip.Color(0, 222, 0), 50);
+  }
 
-  
-    colorWipe(strip.Color(bValue.toInt(), rValue.toInt(), gValue.toInt()), 50);
+//    colorWipe(strip.Color(0, 222, 0), 50);
+}
+
 
 }
 
