@@ -42,8 +42,26 @@ def btnAlbums():
 
 
 def btnDownloads():
-    songList.place(width=911, height=1000, x=84, y=550)
-
+    songs = requests.get("http://127.0.0.1:8000/use/getsongs")
+    songList = Frame(root)
+    songList.place(y=500, width=911, x=84)
+    canvas = Canvas(songList, bg="grey")
+    canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
+    vbar.pack(side=RIGHT, fill=Y)
+    # vbar.config(command=canvas.yview())
+    # canvas.config(width=911)
+    canvas.config(yscrollcommand=vbar.set)
+    canvasFrame = Frame(canvas)
+    canvas.create_window((0, 0), window=canvasFrame, anchor=NW)
+    for song in songs.json():
+        frame = Frame(canvasFrame, height=300, width=911, borderwidth=2, relief=GROOVE)
+        frame.pack()
+        artist = Label(frame, text=song["artist"], font=('arial', 20))
+        artist.pack()
+        title = Label(frame, text=song["title"], font=('arial', 15))
+        title.pack(pady=40)
+    canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
 
 
 def btn1():
@@ -106,6 +124,7 @@ root.geometry('1080x1920')
 # root.attributes('-fullscreen',True)
 # root.configure(background=hex_number)
 root.title('Newbox')
+root.wm_attributes()
 
 topBtnStyle = ttk.Style()
 topBtnStyle.configure("custom.TButton", foreground="#42242C",
@@ -124,7 +143,6 @@ e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreg
           font=('arial', 30, 'bold'), justify='center')
 cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0)
 search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs)
-songList = Frame(root, width=911, bg="black")
 e.place(width=911, x=84, y=40, height=80)
 cross.place(width=70, height=80, x=930, y=40)
 search.place(width=70, height=80, x=82, y=40)
@@ -165,8 +183,6 @@ Button(root, image=iconImgDownloaded, text="hallo", font=('arial', 30, 'bold'), 
 # style="topBtnStyle"
 
 #Downloaded songs
-
-songList.place(width=911, height=1000, x=84, y=550)
 
 # footer buttons
 Button(root, text='1', bg='#FFFFFF', font=('arial', 12, 'normal'), command=btn1).place(x=10, y=1560, width=155,

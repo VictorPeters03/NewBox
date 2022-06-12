@@ -172,7 +172,7 @@ async def get_songs():
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-def search_music(key: str):
+async def search_music(key: str):
     # sets up a connection to the database
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
