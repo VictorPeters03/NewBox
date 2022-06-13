@@ -9,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-import alsaaudio
+# import alsaaudio
 import pirestart
 
 

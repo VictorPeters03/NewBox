@@ -20,7 +20,7 @@ player = instance.media_player_new()
 
 def getQueue():
     info = []
-    if not queue:
+    if len(queue) == 0:
         return "Queue is empty"
     for uri in queue:
         songInfo = {}
@@ -35,10 +35,10 @@ def getQueue():
             for item in getInfoFromDb(uri):
                 song = item[1]
                 artist = item[0]
-            songInfo.update({'uri': uri,
-                             'song': song,
-                             'artist': artist})
-            info.append(songInfo)
+                songInfo.update({'uri': uri,
+                                 'song': song,
+                                 'artist': artist})
+                info.append(songInfo)
     return info
 
 def getInfoFromDb(uri):

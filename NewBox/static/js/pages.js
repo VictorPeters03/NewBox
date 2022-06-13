@@ -1,3 +1,5 @@
+//import axios from "axios";
+
 const songs = document.querySelector(".button-songs")
 
 const downloaded = document.querySelector(".button-downloaded")
@@ -21,12 +23,17 @@ function getSettings()
         "                    <h1>Rasberry Pi Settings</h1>\n" +
         "                    <p onclick='pi_reboot()'>Reboot</p>\n" +
         "                    <p onclick='pi_shutdown()'>Shutdown</p>\n" +
-        "                    <H1>Queue</H1>\n" +
-        "                    <div class='queue-element.title'> \n" +
-                                 function (queue_elementitle) {
-                                    for item in result
-                                    item["URI"]
-                                     return
+        "                    <H1>Queue</H1>\n"
+        axios.get("http://127.0.0.1:8086/use/getqueue")
+        .then(resp => {
+            console.log(resp)
+            resp.data.forEach(element =>
+                index.innerHTML +=
+                '<div class="title"><p>' + element["song"] + '</p></div>' +
+                '<div class="artist"><p>' + element["artist"] + '</p></div>'
+            )
+        })
+    
 }
 
 function pi_reboot()
@@ -37,8 +44,9 @@ function pi_reboot()
     })
 }
 
-function getQueue {
-    }
+function get_queue_title() {
+        axios.put("http://127.0.0.1:8086/use/getqueuetitle")
+}
 
 
 function pi_shutdown()
