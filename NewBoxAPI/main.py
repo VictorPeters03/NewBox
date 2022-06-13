@@ -271,14 +271,14 @@ async def getPlaybackInfo():
     return functions.getPlaybackInfo()
 
 
-@app.put("/use/pause")
-async def pause():
-    player.pause()
+@app.put("/use/toggle")
+async def toggle():
+    player.toggle()
 
 
-@app.put("/use/play")
-async def play():
-    player.play()
+# @app.put("/use/play")
+# async def play():
+#     player.play()
 
 
 @app.get("/use/getDevice")

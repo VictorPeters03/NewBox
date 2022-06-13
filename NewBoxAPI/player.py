@@ -70,18 +70,18 @@ def skip():
             functions.pause()
             counter = functions.getPlaybackInfo()['duration_seconds']
 
-def pause():
-    global paused
-    if not paused:
-        if "spotify" not in queue[0]:
-            paused = True
-            player.pause()
-        else:
-            paused = True
-            functions.pause()
+# def pause():
+#     global paused
+#     if not paused:
+#         if "spotify" not in queue[0]:
+#             paused = True
+#             player.pause()
+#         else:
+#             paused = True
+#             functions.pause()
 
 
-def play():
+def toggle():
     global paused
     if paused:
         if "spotify" not in queue[0]:
@@ -89,6 +89,13 @@ def play():
             player.pause()
         else:
             paused = False
+            functions.pause()
+    elif not paused:
+        if "spotify" not in queue[0]:
+            paused = True
+            player.pause()
+        else:
+            paused = True
             functions.pause()
 
 

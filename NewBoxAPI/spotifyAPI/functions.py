@@ -42,7 +42,12 @@ def getUserDetails():
 
 @handle_connection
 def getDevice():
-    return spotifyHandler.devices()['devices'][0]['id']
+    try:
+        return spotifyHandler.devices()['devices'][0]['id']
+    except IndexError:
+        return None
+    except requests.exceptions.ConnectionError:
+        return None
 
 
 # Song related functions

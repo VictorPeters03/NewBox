@@ -7,6 +7,9 @@ from functools import partial
 
 
 import random
+
+transBackground = '#ABCABC'
+
 def randomNumber():
     random_number = random.randint(1118481, 16777215)
     hex_number = str(hex(random_number))
@@ -38,26 +41,33 @@ def btnAlbums():
 
 def btnDownloads():
     songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-    songList = Frame(root, height=1000)
-    canvas = Canvas(songList, height=1000)
+
+    transparant_background = tk.PhotoImage("images/transparant.png")
+    songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
+    canvas = Canvas(songList, height=1000, borderwidth=0, highlightthickness=0)
     vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
-    canvasFrame = Frame(canvas)
+    canvasFrame = Frame(canvas, borderwidth=0, highlightthickness=0)
+
     canvas.create_window((0, 0), window=canvasFrame, anchor="nw", width=890)
+    # canvas.create_image(1000, 890, image=transparant_background, anchor="nw")
     canvas.configure(yscrollcommand=vbar.set)
+
     songList.place(y=500, width=911, x=84)
     canvas.pack(side=LEFT, fill=BOTH, expand=1)
     vbar.pack(side=RIGHT, fill=Y)
     for index, song in enumerate(songs.json()):
-        songEntry = Frame(canvasFrame, height=102, pady=30, borderwidth=1, width=911, relief=RIDGE)
-        songInfo = Frame(songEntry, height=2)
+        songEntry = Frame(canvasFrame, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+        songInfo = Frame(songEntry, height=2, bg="#4A272E")
         songQueue = Frame(songEntry, height=2)
-        songArtist = Label(songInfo, text=song['artist'])
-        songTitle = Label(songInfo, text=song['title'])
+        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+        margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+        songTitle = Label(songInfo, text=song['title'], font=('arial', 20), bg="#4A272E", fg="#C7C7C7")
 
         songEntry.pack(fill=X)
         songInfo.pack(side=LEFT)
         songQueue.pack(side=RIGHT)
         songArtist.pack(anchor="w")
+        margin.pack(anchor='w')
         songTitle.pack(anchor="w")
         # Frame(canvasFrame, height=300, bg="blue", borderwidth=1, relief=RIDGE, width=911).pack()
         Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(anchor='e')
@@ -88,7 +98,7 @@ def btnPrevious():
     return
 
 def btnPause():
-    return
+    requests.put("http://127.0.0.1:8000/use/toggle")
 
 def btnNext():
     return
@@ -116,10 +126,13 @@ gf = GradientFrame(root, colors=(randomNumber(), randomNumber()), height=1930, w
 gf.config(direction=gf.top2bottom)
 gf.pack()
 root.geometry('1080x1920')
+
 # root.attributes('-fullscreen',True)
 # root.configure(background=hex_number)
 root.title('Newbox')
-root.wm_attributes()
+# root.overrideredirect(True)
+root.wm_attributes('-transparentcolor', transBackground)
+root.wait_visibility(root)
 
 
 topBtnStyle = ttk.Style()
