@@ -93,8 +93,8 @@ def btnPause():
 
 
 def btnNext():
-    for widget in songList.winfo_children():
-        widget.destroy()
+    # for widget in songList.winfo_children():
+    #     widget.destroy()
     return
 
 
@@ -160,17 +160,17 @@ iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
 
 # head buttons
 Button(root, image=iconImgPlaylist, text="Playlist", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, command=btnPlaylist, border=0, bg='#4A272E').place(x=20, y=130, width=500, height=100)
+       compound=tk.LEFT, command=btnPlaylist, border=0, bg='#4A272E').place(x=84, y=130, width=436, height=100)
 Button(root, image=iconImgSongs, text="Songs", anchor="w", padx=45, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, command=btnSongs, border=0, bg='#4A272E').place(x=560, y=130, width=500, height=100)
+       compound=tk.LEFT, command=btnSongs, border=0, bg='#4A272E').place(x=560, y=130, width=436, height=100)
 Button(root, image=iconImgArtist, text="Artist", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, command=btnArtists, border=0, bg='#4A272E').place(x=20, y=240, width=500, height=100)
+       compound=tk.LEFT, command=btnArtists, border=0, bg='#4A272E').place(x=84, y=240, width=436, height=100)
 Button(root, image=iconImgGenres, text="Genres", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, command=btnGenres, border=0, bg='#4A272E').place(x=560, y=240, width=500, height=100)
+       compound=tk.LEFT, command=btnGenres, border=0, bg='#4A272E').place(x=560, y=240, width=436, height=100)
 Button(root, image=iconImgAlbums, text="Albums", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, command=btnAlbums, border=0, bg='#4A272E').place(x=20, y=350, width=500, height=100)
+       compound=tk.LEFT, command=btnAlbums, border=0, bg='#4A272E').place(x=84, y=350, width=436, height=100)
 Button(root, image=iconImgDownloaded, text="Downloaded", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, border=0, bg='#4A272E').place(x=560, y=350, width=500, height=100)
+       compound=tk.LEFT, border=0, bg='#4A272E').place(x=560, y=350, width=436, height=100)
 
 # style="topBtnStyle"
 
@@ -192,17 +192,17 @@ for song in songs.json():
     songEntry = Frame(canvasFrame, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
     songInfo = Frame(songEntry, height=2, bg="#4A272E")
     songQueue = Frame(songEntry, height=2)
-    songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 30),
-                       bg="#4A272E", fg="#FFFFFF")
+    songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+                       bg="#4A272E", fg="#C7C7C7")
     margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
-    songTitle = Label(songInfo, text=song['title'], font=('arial', 20), bg="#4A272E", fg="#C7C7C7")
+    songTitle = Label(songInfo, text=song['title'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
 
     songEntry.pack(fill=X)
     songInfo.pack(side=LEFT)
     songQueue.pack(side=RIGHT)
-    songArtist.pack(anchor="w")
-    margin.pack(anchor='w')
     songTitle.pack(anchor="w")
+    margin.pack(anchor='w')
+    songArtist.pack(anchor="w")
     Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
         anchor='e')
 songList.place(y=500, width=911, x=84)

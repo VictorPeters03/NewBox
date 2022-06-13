@@ -125,17 +125,6 @@ def add_to_queue(uri: str):
 async def get_queue():
     return player.getQueue()
 
-@app.get("/use/play/")
-async def play_music():
-    while len(queue) > 0:
-        if 'spotify' in queue[0]:
-            pass
-        else:
-            songPlayer.play()
-            while songPlayer.is_playing():
-                await asyncio.sleep(1)
-            queue.pop(0)
-
 
 # endpoint for playing songs
 @app.get("/use/getsongs")
@@ -208,16 +197,6 @@ async def search_music(key: str):
     return dictionary
 
 
-# endpoint to toggle the state of the current song
-@app.put("/use/toggleplay")
-async def toggle_music():
-    if songPlayer.is_playing():
-        songPlayer.pause()
-        return
-    else:
-        songPlayer.play()
-
-
 # endpoint for getting all songs
 @app.get("use/searchall/{key}")
 async def search_all(key: str):
@@ -254,12 +233,6 @@ async def get_ip():
     return json.dumps({"ip": socket.gethostbyname(socket.gethostname())})
 
 
-# endpoint to debug and test functions
-@app.get("/use/debug")
-async def debug():
-    return
-
-
 # SPOTIFY FUNCTIONS
 @app.get("/use/userDetails")
 async def getUserDetails():
@@ -274,11 +247,6 @@ async def getPlaybackInfo():
 @app.put("/use/toggle")
 async def toggle():
     player.toggle()
-
-
-# @app.put("/use/play")
-# async def play():
-#     player.play()
 
 
 @app.get("/use/getDevice")
