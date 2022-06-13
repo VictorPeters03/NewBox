@@ -22,6 +22,7 @@ String getValue(String data, char separator, int index){
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
+
 void idleChristmas() {
     uint16_t newR, newG, newB, startR, startG, startB, endR, endG, endB;
     uint32_t color = wheelColor(fadeColor, lampBrightness);
@@ -76,7 +77,6 @@ void idleChristmas() {
     strip.show();
     if ( activePixels < strip.numPixels() ) activePixels++;
 }
-
 
 uint32_t wheelColor(uint16_t WheelPos, uint16_t iBrightness) {
   float R, G, B;

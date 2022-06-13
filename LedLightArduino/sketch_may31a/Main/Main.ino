@@ -14,6 +14,7 @@ String music;
 StaticJsonDocument<200> doc;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NEO_KHZ800);
+//Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB);
 void setup(){
   jsonsetup();
   strip.begin();
@@ -22,16 +23,15 @@ void setup(){
 }
 
 void loop(){
-  while (!Serial) continue;
   while(Serial.available() > 0){
     json();
   }
-  // Fetch values.
+    // Fetch values.
     const String stat = doc["status"];
     const String music = doc["music"];
     const String color = doc["color"];
 
-      if(stat == "on" && music == "on"){
+    if(stat == "on" && music == "on"){
       //trim off unnecessary characters
       String rValue = getValue(color, ',', 0);
       rValue.remove(0, 1);
@@ -50,7 +50,5 @@ void loop(){
     }else if(stat == "off"){
       colorWipe(strip.Color(0, 0, 0), 50);
       return;
-    }else{
-      //Something went wrong, turning of the lights
     }
 }

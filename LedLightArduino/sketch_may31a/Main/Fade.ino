@@ -1,3 +1,10 @@
+#include <Adafruit_NeoPixel.h>
+#define PIXEL_COUNT 60
+#define PIXEL_PIN 6
+
+//Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB);
+
+
 double lastColorUpdate = 0;     // Epoch of last color update (local or remote)
 String colorFromID;             // String, Tracks who sent the color (for debug)
 uint16_t colorRecieved;         // 0 - 255, Tracks the color received from another lamp
@@ -13,8 +20,7 @@ int16_t lampBrightness = 70;     // 0 - 255, Tracks current lamp brightness
 byte activePixels = 0;          // Tracks Pixels active during various functions
 uint32_t fadeColor = 0;
 
-
 void fade() {
     idleChristmas();
-    delay(10);
+    delay(20);
 }

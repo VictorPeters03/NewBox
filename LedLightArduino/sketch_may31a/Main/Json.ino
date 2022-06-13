@@ -1,4 +1,4 @@
-const unsigned int MAX_LENGTH = 80;
+const unsigned int MAX_LENGTH = 100;
 
 
 void jsonsetup() {
