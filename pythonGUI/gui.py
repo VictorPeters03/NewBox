@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import *
 from background import GradientFrame
 import requests
+from functools import partial
 
 
 import random
@@ -39,25 +40,38 @@ def btnDownloads():
     songs = requests.get("http://127.0.0.1:8000/use/getsongs")
     songList = Frame(root)
     songList.place(y=500, width=911, x=84)
-    canvas = Canvas(songList)
-    canvas.pack(side=LEFT, fill=BOTH, expand=1)
-    vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
-    vbar.pack(side=RIGHT, fill=Y)
-    canvas.configure(yscrollcommand=vbar.set)
-    canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
-    canvasFrame = Frame(canvas)
-    canvas.create_window((0, 0), window=canvasFrame, anchor=NW)
+    # canvas = Canvas(songList)
+    # canvas.pack(side=LEFT, fill=BOTH, expand=1)
+    # vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
+    # vbar.pack(side=RIGHT, fill=Y)
+    # canvas.configure(yscrollcommand=vbar.set)
+    # canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
+    # canvasFrame = Frame(canvas)
+    # canvas.create_window((0, 0), window=canvasFrame, anchor=NW)
+
     for index, song in enumerate(songs.json()):
-        mainframe = Frame(canvasFrame, height=80, width=911, borderwidth=2, relief=GROOVE)
-        mainframe.grid(row=index)
-        frame = Frame(mainframe, height=800)
-        frame.grid(row=0, column=0)
-        artist = Label(frame, text=song["artist"], font=('arial', 20))
-        artist.grid(row=0, column=0)
-        title = Label(frame, text=song["title"], font=('arial', 15))
-        title.grid(row=1, column=0)
-        queue = Label(frame, text="add to queue")
-        queue.grid(row=0, column=1)
+        # mainframe = Frame(canvasFrame, height=80, width=911)
+        # mainframe.grid(row=index)
+        # frame = Frame(mainframe, height=800)
+        # frame.grid(row=0, column=0)
+        # artist = Label(frame, text=song["artist"], font=('arial', 20))
+        # artist.grid(row=0, column=0)
+        # title = Label(frame, text=song["title"], font=('arial', 15))
+        # title.grid(row=1, column=0)
+        # queue = Label(frame, text="add to queue")
+        # queue.grid(row=0, column=1)
+        songEntry = Frame(songList, height=2, borderwidth=1, relief=RIDGE)
+        songInfo = Frame(songEntry, height=2)
+        songQueue = Frame(songEntry, height=2)
+        songArtist = Label(songInfo, text=song['artist'])
+        songTitle = Label(songInfo, text=song['title'])
+
+        songEntry.pack(fill=X, expand=1)
+        songInfo.pack(side=LEFT)
+        songQueue.pack(side=RIGHT)
+        songArtist.pack(anchor="w")
+        songTitle.pack(anchor="w")
+        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(anchor='e')
         # Button(canvasFrame, text=index).grid(row=index)
 
 def btn1():
@@ -100,13 +114,17 @@ def searchSongs():
     print(requests.get("http://127.0.0.1:8000/use/search/" + e.get()))
 
 
+def addToQueue(uri):
+    requests.put("http://127.0.0.1:8000/use/queue/" + uri)
+
+
 root = Tk()
 # gf = GradientFrame(root, colors=("#4C0113", "black"), height=1920, width=1080)
 gf = GradientFrame(root, colors=(randomNumber(), randomNumber()), height=1930, width=1090)
 gf.config(direction=gf.top2bottom)
 gf.pack()
 root.geometry('1080x1920')
-root.attributes('-fullscreen',True)
+# root.attributes('-fullscreen',True)
 # root.configure(background=hex_number)
 root.title('Newbox')
 root.wm_attributes()
