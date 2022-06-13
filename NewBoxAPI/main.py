@@ -117,7 +117,7 @@ async def set_min_volume(amount: int):
 # endpoint for adding a song to the queue
 @app.put("/use/queue/{uri}")
 def add_to_queue(uri: str):
-    player.addToQueue(uri)
+    return player.addToQueue(uri)
 
 
 # endpoint for getting the queue
@@ -273,7 +273,7 @@ async def getPlaybackInfo():
 
 @app.put("/use/pause")
 async def pause():
-    player.pause()
+    return player.pauseAndPlay()
 
 
 @app.put("/use/play")
