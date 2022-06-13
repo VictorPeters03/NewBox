@@ -5,119 +5,15 @@ from background import GradientFrame
 import requests
 from functools import partial
 
-
 import random
 
 transBackground = '#ABCABC'
+
 
 def randomNumber():
     random_number = random.randint(1118481, 16777215)
     hex_number = str(hex(random_number))
     return '#' + hex_number[2:]
-
-URL_BASE = "https://localhost:8000/"
-
-def btnClickFunction():
-    endpoint = "use/playtest"
-    response = requests.put(URL_BASE+endpoint)
-
-    print(response.text)
-
-def btnPlaylist():
-    url = "https://localhost:8000/"
-    return
-
-def btnSongs():
-    return
-
-def btnArtists():
-    return
-
-def btnGenres():
-    return
-
-def btnAlbums():
-    return
-
-def btnDownloads():
-    songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-
-    transparant_background = tk.PhotoImage("images/transparant.png")
-    songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
-    canvas = Canvas(songList, height=1000, borderwidth=0, highlightthickness=0)
-    vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
-    canvasFrame = Frame(canvas, borderwidth=0, highlightthickness=0)
-
-    canvas.create_window((0, 0), window=canvasFrame, anchor="nw", width=890)
-    # canvas.create_image(1000, 890, image=transparant_background, anchor="nw")
-    canvas.configure(yscrollcommand=vbar.set)
-
-    songList.place(y=500, width=911, x=84)
-    canvas.pack(side=LEFT, fill=BOTH, expand=1)
-    vbar.pack(side=RIGHT, fill=Y)
-    for index, song in enumerate(songs.json()):
-        songEntry = Frame(canvasFrame, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
-        songInfo = Frame(songEntry, height=2, bg="#4A272E")
-        songQueue = Frame(songEntry, height=2)
-        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
-        margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
-        songTitle = Label(songInfo, text=song['title'], font=('arial', 20), bg="#4A272E", fg="#C7C7C7")
-
-        songEntry.pack(fill=X)
-        songInfo.pack(side=LEFT)
-        songQueue.pack(side=RIGHT)
-        songArtist.pack(anchor="w")
-        margin.pack(anchor='w')
-        songTitle.pack(anchor="w")
-        # Frame(canvasFrame, height=300, bg="blue", borderwidth=1, relief=RIDGE, width=911).pack()
-        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(anchor='e')
-    songList.place(y=500, width=911, x=84)
-    canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
-    canvas.pack(side=LEFT, fill=BOTH, expand=1)
-    vbar.pack(side=RIGHT, fill=Y)
-
-def btn1():
-    return
-
-def btn2():
-    return
-
-def btn3():
-    return
-
-def btn4():
-    return
-
-def btn5():
-    return
-
-def btn6():
-    return
-
-def btnPrevious():
-    return
-
-def btnPause():
-    requests.put("http://127.0.0.1:8000/use/toggle")
-
-def btnNext():
-    return
-
-def btnMute():
-    return
-
-def btnSofter():
-    return
-
-def btnHarder():
-    return
-
-def searchSongs():
-    print(requests.get("http://127.0.0.1:8000/use/search/" + e.get()))
-
-
-def addToQueue(uri):
-    requests.put("http://127.0.0.1:8000/use/queue/" + uri)
 
 
 root = Tk()
@@ -133,6 +29,93 @@ root.title('Newbox')
 # root.overrideredirect(True)
 root.wm_attributes('-transparentcolor', transBackground)
 root.wait_visibility(root)
+
+URL_BASE = "https://localhost:8000/"
+
+
+def btnClickFunction():
+    endpoint = "use/playtest"
+    response = requests.put(URL_BASE + endpoint)
+
+    print(response.text)
+
+
+def btnPlaylist():
+    url = "https://localhost:8000/"
+    return
+
+
+def btnSongs():
+    return
+
+
+def btnArtists():
+    return
+
+
+def btnGenres():
+    return
+
+
+def btnAlbums():
+    return
+
+def btn1():
+    return
+
+
+def btn2():
+    return
+
+
+def btn3():
+    return
+
+
+def btn4():
+    return
+
+
+def btn5():
+    return
+
+
+def btn6():
+    return
+
+
+def btnPrevious():
+    return
+
+
+def btnPause():
+    requests.put("http://127.0.0.1:8000/use/toggle")
+
+
+def btnNext():
+    for widget in songList.winfo_children():
+        widget.destroy()
+    return
+
+
+def btnMute():
+    return
+
+
+def btnSofter():
+    return
+
+
+def btnHarder():
+    return
+
+
+def searchSongs():
+    print(requests.get("http://127.0.0.1:8000/use/search/" + e.get()))
+
+
+def addToQueue(uri):
+    requests.put("http://127.0.0.1:8000/use/queue/" + uri)
 
 
 topBtnStyle = ttk.Style()
@@ -175,46 +158,105 @@ iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
 
 # text: arial, 30 bold white
 
-#head buttons
-Button(root, image=iconImgPlaylist,text="Playlist",anchor="w",padx=30,fg='white',font=('arial', 30, 'bold'),compound=tk.LEFT,command=btnPlaylist, border=0, bg='#4A272E').place(x=20, y=130, width=500, height=100)
-Button(root, image=iconImgSongs,text="Songs",anchor="w",padx=45,fg='white',font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnSongs, border=0, bg='#4A272E').place(x=560, y=130, width=500, height=100)
-Button(root, image=iconImgArtist,text="Artist",anchor="w",padx=30,fg='white',font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnArtists, border=0, bg='#4A272E').place(x=20, y=240, width=500, height=100)
-Button(root, image=iconImgGenres,text="Genres",anchor="w",padx=30,fg='white',font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnGenres, border=0, bg='#4A272E').place(x=560, y=240, width=500, height=100)
-Button(root, image=iconImgAlbums,text="Albums",anchor="w",padx=30,fg='white',font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnAlbums, border=0, bg='#4A272E').place(x=20, y=350, width=500, height=100)
-Button(root, image=iconImgDownloaded,text="Downloaded",anchor="w",padx=30,fg='white',font=('arial', 30, 'bold'),compound=tk.LEFT, command=btnDownloads, border=0, bg='#4A272E').place(x=560, y=350, width=500, height=100)
+# head buttons
+Button(root, image=iconImgPlaylist, text="Playlist", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, command=btnPlaylist, border=0, bg='#4A272E').place(x=20, y=130, width=500, height=100)
+Button(root, image=iconImgSongs, text="Songs", anchor="w", padx=45, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, command=btnSongs, border=0, bg='#4A272E').place(x=560, y=130, width=500, height=100)
+Button(root, image=iconImgArtist, text="Artist", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, command=btnArtists, border=0, bg='#4A272E').place(x=20, y=240, width=500, height=100)
+Button(root, image=iconImgGenres, text="Genres", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, command=btnGenres, border=0, bg='#4A272E').place(x=560, y=240, width=500, height=100)
+Button(root, image=iconImgAlbums, text="Albums", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, command=btnAlbums, border=0, bg='#4A272E').place(x=20, y=350, width=500, height=100)
+Button(root, image=iconImgDownloaded, text="Downloaded", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, border=0, bg='#4A272E').place(x=560, y=350, width=500, height=100)
 
 # style="topBtnStyle"
 
-#Downloaded songs
+# Downloaded songs
+songs = requests.get("http://127.0.0.1:8000/use/getsongs")
+songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
+# songList.configure(height=1000, borderwidth=0, highlightthickness=0)
+canvas = Canvas(songList, height=1000, borderwidth=0, highlightthickness=0)
+vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
+canvasFrame = Frame(canvas, borderwidth=0, highlightthickness=0)
+
+canvas.create_window((0, 0), window=canvasFrame, anchor="nw", width=890)
+canvas.configure(yscrollcommand=vbar.set)
+
+songList.place(y=500, width=911, x=84)
+canvas.pack(side=LEFT, fill=BOTH, expand=1)
+vbar.pack(side=RIGHT, fill=Y)
+for song in songs.json():
+    songEntry = Frame(canvasFrame, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+    songInfo = Frame(songEntry, height=2, bg="#4A272E")
+    songQueue = Frame(songEntry, height=2)
+    songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 30),
+                       bg="#4A272E", fg="#FFFFFF")
+    margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+    songTitle = Label(songInfo, text=song['title'], font=('arial', 20), bg="#4A272E", fg="#C7C7C7")
+
+    songEntry.pack(fill=X)
+    songInfo.pack(side=LEFT)
+    songQueue.pack(side=RIGHT)
+    songArtist.pack(anchor="w")
+    margin.pack(anchor='w')
+    songTitle.pack(anchor="w")
+    Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+        anchor='e')
+songList.place(y=500, width=911, x=84)
+canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
+canvas.pack(side=LEFT, fill=BOTH, expand=1)
+vbar.pack(side=RIGHT, fill=Y)
 
 # footer buttons
-Button(root, text='1', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btn1).place(x=10, y=1560, width=155,
-                                                                                       height=155)
-Button(root, text='2', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btn2).place(x=190, y=1560, width=155,
-                                                                                       height=155)
-Button(root, text='3', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btn3).place(x=370, y=1560, width=155,
-                                                                                       height=155)
-Button(root, text='4', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btn4).place(x=550, y=1560, width=155,
-                                                                                       height=155)
-Button(root, text='5', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btn5).place(x=730, y=1560, width=155,
-                                                                                       height=155)
-Button(root, text='6', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btn6).place(x=910, y=1560, width=155,
-                                                                                       height=155)
-Button(root, text='reverse', bg='#4A272E', fg='white', font=('arial', 30, 'bold'),border=0, command=btnPrevious).place(x=10, y=1730,
-                                                                                                    width=155,
-                                                                                                    height=155)
-Button(root, text='pause/\nplay', bg='#4A272E',fg='white', font=('arial', 30, 'bold'),border=0, command=btnPause).place(x=190, y=1730,
-                                                                                                    width=155,
-                                                                                                    height=155)
-Button(root, text='next', bg='#4A272E',fg='white', font=('arial', 30, 'bold'),border=0, command=btnNext).place(x=370, y=1730, width=155,
-                                                                                             height=155)
-Button(root, text='mute', bg='#4A272E',fg='white', font=('arial', 30, 'bold'),border=0, command=btnMute).place(x=550, y=1730, width=155,
-                                                                                             height=155)
-Button(root, text='volume\ndown', bg='#4A272E',fg='white', font=('arial', 30, 'bold'),border=0, command=btnSofter).place(x=730, y=1730,
-                                                                                                      width=155,
-                                                                                                      height=155)
-Button(root, text='volume\nup', bg='#4A272E',fg='white', font=('arial', 30, 'bold'),border=0, command=btnHarder).place(x=910, y=1730,
-                                                                                                    width=155,
-                                                                                                    height=155)
+Button(root, text='1', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn1).place(x=10, y=1560,
+                                                                                                           width=155,
+                                                                                                           height=155)
+Button(root, text='2', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn2).place(x=190,
+                                                                                                           y=1560,
+                                                                                                           width=155,
+                                                                                                           height=155)
+Button(root, text='3', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn3).place(x=370,
+                                                                                                           y=1560,
+                                                                                                           width=155,
+                                                                                                           height=155)
+Button(root, text='4', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn4).place(x=550,
+                                                                                                           y=1560,
+                                                                                                           width=155,
+                                                                                                           height=155)
+Button(root, text='5', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn5).place(x=730,
+                                                                                                           y=1560,
+                                                                                                           width=155,
+                                                                                                           height=155)
+Button(root, text='6', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn6).place(x=910,
+                                                                                                           y=1560,
+                                                                                                           width=155,
+                                                                                                           height=155)
+Button(root, text='reverse', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnPrevious).place(
+    x=10, y=1730,
+    width=155,
+    height=155)
+Button(root, text='pause/\nplay', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
+       command=btnPause).place(x=190, y=1730,
+                               width=155,
+                               height=155)
+Button(root, text='next', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnNext).place(x=370,
+                                                                                                                 y=1730,
+                                                                                                                 width=155,
+                                                                                                                 height=155)
+Button(root, text='mute', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnMute).place(x=550,
+                                                                                                                 y=1730,
+                                                                                                                 width=155,
+                                                                                                                 height=155)
+Button(root, text='volume\ndown', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
+       command=btnSofter).place(x=730, y=1730,
+                                width=155,
+                                height=155)
+Button(root, text='volume\nup', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
+       command=btnHarder).place(x=910, y=1730,
+                                width=155,
+                                height=155)
 
 root.mainloop()
