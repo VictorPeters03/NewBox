@@ -19,70 +19,50 @@ void setup() {
 }
 
 void loop() {
-  // not used in this example
-while (!Serial) continue;
-//     char json[] =
-//      "{\"status\": \"off\", \"color\": \"(21, 30, 87)\"}";
-//String json = "{\"status\": \"off\", \"color\": \"(21, 30, 87)\"}";
+  while (!Serial) continue;
+  while(Serial.available() > 0){
+    static char message[MAX_LENGTH];
+    static unsigned int message_pos = 0;
 
+    char inByte = Serial.read();
 
+    if (inByte != '\n' && message_pos < MAX_LENGTH -1){
+      message[message_pos] = inByte;
+      message_pos++;
+    }else {
+      message[message_pos] = '\0';
+      Serial.println(message);
+      message_pos = 0;
 
+      String json = message;
+      Serial.println(json);
+      DeserializationError error = deserializeJson(doc, json);
+      Serial.println("Works");
+      // Test if parsing succeeds.
+      if (error) {
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.f_str());
+        return;
+      }
+      // Fetch values.
+      const char* stat = doc["status"];
+      const char* color = doc["color"];
 
-while(Serial.available() > 0){
-  static char message[MAX_LENGTH];
-  static unsigned int message_pos = 0;
+      //trim off unnecessary characters
+      String rValue = getValue(color, ',', 0);
+      rValue.remove(0, 1);
+      String gValue = getValue(color, ',', 1);
+      gValue.remove(0, 1);
+      String bValue = getValue(color, ',', 2);
+      bValue.remove(0, 1);
+      int lastIndex = bValue.length()-1;
+      bValue.remove(lastIndex, -1); 
 
-  char inByte = Serial.read();
-
-  if (inByte != '\n' && message_pos < MAX_LENGTH -1){
-    message[message_pos] = inByte;
-    message_pos++;
-  }else {
-    message[message_pos] = '\0';
-    Serial.println(message);
-    message_pos = 0;
-
-  String json = message;
-//  json.remove(0, 1);
-//  int index = json.length()-1; 
-//  json.remove(index, 1); 
-  Serial.println(json);
-  DeserializationError error = deserializeJson(doc, json);
-  Serial.println("Works");
-  // Test if parsing succeeds.
-  if (error) {
-    Serial.print(F("deserializeJson() failed: "));
-    Serial.println(error.f_str());
-    return;
+      
+      colorWipe(strip.Color(bValue.toInt(), rValue.toInt(), gValue.toInt()), 50);
+    }
   }
-  // Fetch values.
-  
-  const char* stat = doc["status"];
-  const char* color = doc["color"];
- 
-  String rValue = getValue(color, ',', 0);
-  rValue.remove(0, 1);
-  String gValue = getValue(color, ',', 1);
-  gValue.remove(0, 1);
-  String bValue = getValue(color, ',', 2);
-  bValue.remove(0, 1);
-  int lastIndex = bValue.length()-1;
-  bValue.remove(lastIndex, -1); 
-
-  Serial.println(bValue);
-  Serial.println(rValue);
-  Serial.println(gValue);
-  
-  colorWipe(strip.Color(bValue.toInt(), rValue.toInt(), gValue.toInt()), 50);
-//  colorWipe(strip.Color(0, 222, 0), 50);
-  }
-
-//    colorWipe(strip.Color(0, 222, 0), 50);
 }
-
-
-}
-
 
 String getValue(String data, char separator, int index)
 {
@@ -97,7 +77,6 @@ String getValue(String data, char separator, int index)
         strIndex[1] = (i == maxIndex) ? i+1 : i;
     }
   }
-
   return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
