@@ -41,6 +41,7 @@ def getQueue():
             info.append(songInfo)
     return info
 
+
 def getInfoFromDb(uri):
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
@@ -70,8 +71,12 @@ def skip():
             functions.pause()
             counter = functions.getPlaybackInfo()['duration_seconds']
 
-def pause():
+
+def pauseAndPlay():
     global paused
+    global counter
+    if not queue:
+        return
     if not paused:
         if "spotify" not in queue[0]:
             paused = True
@@ -79,6 +84,16 @@ def pause():
         else:
             paused = True
             functions.pause()
+            counter = functions.getPlaybackInfo()['progress_seconds']
+        return "Paused"
+    else:
+        if "spotify" not in queue[0]:
+            paused = False
+            player.pause()
+        else:
+            paused = False
+            functions.pause()
+        return "Resumed"
 
 
 def play():
@@ -93,6 +108,9 @@ def play():
 
 
 def addToQueue(uri):
+    if len(queue) == 5:
+        return "Can only have 5 songs in queue"
+
     if len(queue) == 0:
         newThread = threading.Thread(target=playSong)
         if "spotify" not in uri:
@@ -100,7 +118,7 @@ def addToQueue(uri):
             queue.append(repr(newUri)[1:-1])
         else:
             if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
-                return
+                return "Could not add spotify song, check internet connection"
             queue.append(repr(uri)[1:-1])
         newThread.start()
     else:
@@ -109,7 +127,7 @@ def addToQueue(uri):
             queue.append(repr(newUri)[1:-1])
         else:
             if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
-                return
+                return "Could not add spotify song, check internet connection"
             queue.append(repr(uri)[1:-1])
 
 
