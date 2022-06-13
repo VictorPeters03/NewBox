@@ -361,7 +361,7 @@ async def getCategories():
 # endpoint for turning of the led lights
 @app.put("/use/turnoff")
 async def turn_off():
-    cmd = "{'status': 'off', 'music': 'off', 'color': '[0, 0, 0]'}" + '\n'
+    cmd = "{'status': 'off', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
     arduinoData.write(cmd.encode())
     return
@@ -369,7 +369,7 @@ async def turn_off():
 
 @app.put("/use/nomusic")
 async def no_music():
-    cmd = "{'status': 'on', 'music': 'off', 'color': '[0, 0, 0]'}" + '\n'
+    cmd = "{'status': 'on', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
     arduinoData.write(cmd.encode())
     return 
@@ -391,7 +391,7 @@ def get_track_color(name: str):
     sleep(5)
     arduinoData.write(cmd.encode())
     #returns rgb
-    return 
+    return
 
 # endpoint for led light colors based on category
 @app.put("/use/genre2/{name}")
