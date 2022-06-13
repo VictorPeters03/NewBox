@@ -1,3 +1,5 @@
+#bron: https://codingshiksha.com/python/python-3-tkinter-gradient-background-color-frame-gui-desktop-app-full-project-for-beginners/
+
 from tkinter import Canvas
 
 
