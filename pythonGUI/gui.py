@@ -38,8 +38,8 @@ def btnAlbums():
 
 def btnDownloads():
     songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-    songList = Frame(root)
-    canvas = Canvas(songList)
+    songList = Frame(root, height=1000)
+    canvas = Canvas(songList, height=1000)
     vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
     canvasFrame = Frame(canvas)
     canvas.create_window((0, 0), window=canvasFrame, anchor="nw", width=890)
@@ -62,7 +62,7 @@ def btnDownloads():
         # Frame(canvasFrame, height=300, bg="blue", borderwidth=1, relief=RIDGE, width=911).pack()
         Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(anchor='e')
     songList.place(y=500, width=911, x=84)
-    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+    canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
     canvas.pack(side=LEFT, fill=BOTH, expand=1)
     vbar.pack(side=RIGHT, fill=Y)
 
