@@ -4,6 +4,7 @@ from tkinter import *
 from background import GradientFrame
 import requests
 from functools import partial
+import VerticalScrolledFrame
 
 import random
 
@@ -176,20 +177,11 @@ Button(root, image=iconImgDownloaded, text="Downloaded", anchor="w", padx=30, fg
 
 # Downloaded songs
 songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
-# songList.configure(height=1000, borderwidth=0, highlightthickness=0)
-canvas = Canvas(songList, height=1000, borderwidth=0, highlightthickness=0)
-vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
-canvasFrame = Frame(canvas, borderwidth=0, highlightthickness=0)
-
-canvas.create_window((0, 0), window=canvasFrame, anchor="nw", width=890)
-canvas.configure(yscrollcommand=vbar.set)
-
+# songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
+songList = VerticalScrolledFrame.VerticalScrolledFrame(root, bg='#4A272E')
 songList.place(y=500, width=911, x=84)
-canvas.pack(side=LEFT, fill=BOTH, expand=1)
-vbar.pack(side=RIGHT, fill=Y)
 for song in songs.json():
-    songEntry = Frame(canvasFrame, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+    songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
     songInfo = Frame(songEntry, height=2, bg="#4A272E")
     songQueue = Frame(songEntry, height=2)
     songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
@@ -203,12 +195,39 @@ for song in songs.json():
     songTitle.pack(anchor="w")
     margin.pack(anchor='w')
     songArtist.pack(anchor="w")
-    Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
-        anchor='e')
-songList.place(y=500, width=911, x=84)
-canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
-canvas.pack(side=LEFT, fill=BOTH, expand=1)
-vbar.pack(side=RIGHT, fill=Y)
+    Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(anchor='e')
+# # songList.configure(height=1000, borderwidth=0, highlightthickness=0)
+# canvas = Canvas(songList, height=1000, borderwidth=0, highlightthickness=0)
+# vbar = Scrollbar(songList, orient=VERTICAL, command=canvas.yview)
+# canvasFrame = Frame(canvas, borderwidth=0, highlightthickness=0)
+#
+# canvas.create_window((0, 0), window=canvasFrame, anchor="nw", width=890)
+# canvas.configure(yscrollcommand=vbar.set)
+#
+# songList.place(y=500, width=911, x=84)
+# canvas.pack(side=LEFT, fill=BOTH, expand=1)
+# vbar.pack(side=RIGHT, fill=Y)
+# for song in songs.json():
+#     songEntry = Frame(canvasFrame, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+#     songInfo = Frame(songEntry, height=2, bg="#4A272E")
+#     songQueue = Frame(songEntry, height=2)
+#     songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+#                        bg="#4A272E", fg="#C7C7C7")
+#     margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+#     songTitle = Label(songInfo, text=song['title'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+#
+#     songEntry.pack(fill=X)
+#     songInfo.pack(side=LEFT)
+#     songQueue.pack(side=RIGHT)
+#     songTitle.pack(anchor="w")
+#     margin.pack(anchor='w')
+#     songArtist.pack(anchor="w")
+#     Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+#         anchor='e')
+# songList.place(y=500, width=911, x=84)
+# canvas.bind('<Configure>', lambda f: canvas.configure(scrollregion=canvas.bbox("all")))
+# canvas.pack(side=LEFT, fill=BOTH, expand=1)
+# vbar.pack(side=RIGHT, fill=Y)
 
 # footer buttons
 Button(root, text='1', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btn1).place(x=10, y=1560,
