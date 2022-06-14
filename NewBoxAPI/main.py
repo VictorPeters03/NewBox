@@ -124,6 +124,13 @@ def add_to_queue(uri: str):
 @app.get("/use/getQueue")
 async def get_queue():
     return player.getQueue()
+    # try:
+    #     return player.getQueue()
+    # except KeyError:
+    #     player.checkQueue()
+    # finally:
+    #     return player.getQueue()
+
 
 @app.get("/use/play/")
 async def play_music():
@@ -257,7 +264,7 @@ async def get_ip():
 # endpoint to debug and test functions
 @app.get("/use/debug")
 async def debug():
-    return
+    return player.queue
 
 
 # SPOTIFY FUNCTIONS
