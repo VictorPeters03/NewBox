@@ -18,7 +18,6 @@ NewBox/.idea/workspace.xml
 /NewBox/.idea/
 /NewBoxAPI/.idea/
 /_venv38.win32/
-=======
 .idea/shelf/*
 .idea/workspace.xml
->>>>>>> origin/api-local
+*.pyc
