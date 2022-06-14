@@ -363,6 +363,7 @@ async def getCategories():
 async def turn_off():
     cmd = "{'status': 'off', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
+    sleep(5)
     arduinoData.write(cmd.encode())
     return
 
@@ -371,8 +372,9 @@ async def turn_off():
 async def no_music():
     cmd = "{'status': 'on', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
+    sleep(5)
     arduinoData.write(cmd.encode())
-    return 
+    return
 
 
 # To get the genre of a track and change LED colors based on what it is.
@@ -386,7 +388,7 @@ def get_track_color(name: str):
     color_thief = ColorThief(tmp_file)
     dominant_color = str(color_thief.get_color(quality=1))
     os.remove(tmp_file)
-    cmd = "{'status': 'on', 'music': 'on', 'color': '"+ dominant_color +"'}" + '\n'
+    cmd = "{'status': 'on', 'music': 'on', 'color': '"+ (dominant_color) +"'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
     sleep(5)
     arduinoData.write(cmd.encode())
