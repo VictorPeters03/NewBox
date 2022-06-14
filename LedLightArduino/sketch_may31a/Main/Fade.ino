@@ -1,9 +1,4 @@
 #include <Adafruit_NeoPixel.h>
-#define PIXEL_COUNT 60
-#define PIXEL_PIN 6
-
-//Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB);
-
 
 double lastColorUpdate = 0;     // Epoch of last color update (local or remote)
 String colorFromID;             // String, Tracks who sent the color (for debug)

@@ -47,7 +47,7 @@ void loop(){
     }else if(stat == "on" && music == "off"){
       fade();
       return;
-    }else if(stat == "off"){
+    }else if(stat == "off" && music == "off"){
       colorWipe(strip.Color(0, 0, 0), 50);
       return;
     }
