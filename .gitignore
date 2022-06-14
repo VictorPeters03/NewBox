@@ -14,10 +14,10 @@ NewBox/.idea/workspace.xml
 
 #Ignore docker compose file.
 /Docker/
-<<<<<<< HEAD
 /NewBox/.idea/
 /NewBoxAPI/.idea/
 /_venv38.win32/
 .idea/shelf/*
 .idea/workspace.xml
+*.xml
 *.pyc

@@ -12,6 +12,7 @@ import player
 # import alsaaudio
 
 
+
 app = FastAPI()
 
 origins = [
@@ -116,7 +117,7 @@ async def set_min_volume(amount: int):
 # endpoint for adding a song to the queue
 @app.put("/use/queue/{uri}")
 def add_to_queue(uri: str):
-    player.addToQueue(uri)
+    return player.addToQueue(uri)
 
 
 # endpoint for getting the queue
@@ -171,7 +172,8 @@ async def get_songs():
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-async def search_music(key: str):
+def search_music(key: str):
+    # sets up a connection to the database
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
@@ -271,7 +273,7 @@ async def getPlaybackInfo():
 
 @app.put("/use/pause")
 async def pause():
-    player.pause()
+    return player.pauseAndPlay()
 
 
 @app.put("/use/play")
