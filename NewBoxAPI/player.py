@@ -78,13 +78,11 @@ def getInfoFromDb(uri):
     return songList
 
 
+# If there is no connection, skip button must be disabled
 def skip():
     global finish
     if len(queue) > 0:
-        if "spotify" in queue[0] and 'message' not in getQueue()[0].keys():
-            # finish = 1
-            # queue.pop(0)
-            # player.stop()
+        if "spotify" in queue[0] and functions.getDevice() is not None:
             global counter
             functions.pause()
             try:
@@ -92,9 +90,6 @@ def skip():
             except KeyError:
                 counter = 10000
         elif "spotify" not in queue[0]:
-            # global counter
-            # functions.pause()
-            # counter = functions.getPlaybackInfo()['duration_seconds']
             finish = 1
             queue.pop(0)
             player.stop()
@@ -184,7 +179,11 @@ def playSong():
             while finish == 0:
                 sleep(0.5)
         else:
+            if functions.getDevice() is None:
+                skip()
+                continue
             functions.play(queue[0])
+
             sleep(1)
             duration = functions.getSongDuration(queue[0])
             if isinstance(duration, dict):
@@ -194,6 +193,9 @@ def playSong():
             counter = 1
             while counter < duration:
                 if not paused:
+                    if counter % 10 == 0 and functions.getDevice() is None:
+                        skip()
+                        counter = duration
                     sleep(1)
                     counter += 1
                     print(counter)

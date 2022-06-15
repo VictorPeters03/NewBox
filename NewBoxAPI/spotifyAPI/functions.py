@@ -11,8 +11,7 @@ try:
 except requests.exceptions.ConnectionError:
     DEVICE_ID = None
 except IndexError:
-    DEVICE_ID = {'status': 'error',
-            'message': 'no spotify device detected, please open spotify'}
+    DEVICE_ID = None
 
 
 # 'Decorator' that takes in a function as argument and checks if the function gives an error
@@ -383,6 +382,9 @@ def getDefaultPlaylists(limit=20):
 # Player related functions
 @handle_connection
 def play(uri):
+    if DEVICE_ID is None:
+        return {'status': 'error',
+                'message': 'No device found'}
     try:
         if 'track' in uri:
             uris = [uri]
