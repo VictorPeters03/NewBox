@@ -179,7 +179,7 @@ Button(root, image=iconImgDownloaded, text="Downloaded", anchor="w", padx=30, fg
 songs = requests.get("http://127.0.0.1:8000/use/getsongs")
 # songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
 songList = VerticalScrolledFrame.VerticalScrolledFrame(root, bg='#4A272E')
-songList.place(y=500, width=911, x=84)
+songList.place(y=500, width=911, height=1000, x=84)
 for song in songs.json():
     songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
     songInfo = Frame(songEntry, height=2, bg="#4A272E")
