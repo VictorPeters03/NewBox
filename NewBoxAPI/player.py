@@ -1,6 +1,7 @@
 from time import sleep
 import math
 
+import MySQLdb
 import requests.exceptions
 import vlc
 import threading
@@ -17,6 +18,47 @@ instance = vlc.Instance()
 player = instance.media_player_new()
 
 
+def getQueue():
+    info = []
+    if not queue:
+        return "Queue is empty"
+    for uri in queue:
+        songInfo = {}
+        if 'spotify' in uri:
+            song = functions.getSongByUri(uri)['name']
+            artist = functions.getSongByUri(uri)['artist']
+            songInfo.update({'uri': uri,
+                             'song': song,
+                             'artist': artist})
+            info.append(songInfo)
+        else:
+            for item in getInfoFromDb(uri):
+                song = item[1]
+                artist = item[0]
+            songInfo.update({'uri': uri,
+                             'song': song,
+                             'artist': artist})
+            info.append(songInfo)
+    return info
+
+
+def getInfoFromDb(uri):
+    try:
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+    except:
+        return "Can't connect to database"
+
+    cursor = db.cursor()
+
+    # the SQL statement
+    sql = "SELECT artist, song FROM `core_song` WHERE uri = %s;"
+    params = [uri]
+    cursor.execute(sql, params)
+    songs = cursor.fetchall()
+    db.close()
+    return songs
+
+
 def skip():
     global finish
     if len(queue) > 0:
@@ -29,8 +71,12 @@ def skip():
             functions.pause()
             counter = functions.getPlaybackInfo()['duration_seconds']
 
-def pause():
+
+def pauseAndPlay():
     global paused
+    global counter
+    if not queue:
+        return
     if not paused:
         if "spotify" not in queue[0]:
             paused = True
@@ -38,6 +84,16 @@ def pause():
         else:
             paused = True
             functions.pause()
+            counter = functions.getPlaybackInfo()['progress_seconds']
+        return "Paused"
+    else:
+        if "spotify" not in queue[0]:
+            paused = False
+            player.pause()
+        else:
+            paused = False
+            functions.pause()
+        return "Resumed"
 
 
 def play():
@@ -52,23 +108,26 @@ def play():
 
 
 def addToQueue(uri):
+    if len(queue) == 5:
+        return "Can only have 5 songs in queue"
+
     if len(queue) == 0:
         newThread = threading.Thread(target=playSong)
         if "spotify" not in uri:
-            newUri = "songs/" + uri
+            newUri = uri
             queue.append(repr(newUri)[1:-1])
         else:
             if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
-                return
+                return "Could not add spotify song, check internet connection"
             queue.append(repr(uri)[1:-1])
         newThread.start()
     else:
         if "spotify" not in uri:
-            newUri = "songs/" + uri
+            newUri = uri
             queue.append(repr(newUri)[1:-1])
         else:
             if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
-                return
+                return "Could not add spotify song, check internet connection"
             queue.append(repr(uri)[1:-1])
 
 
@@ -83,7 +142,7 @@ def SongFinished(event):
 def playSong():
     while len(queue) > 0:
         if "spotify" not in queue[0]:
-            media = instance.media_new_path(queue[0])
+            media = instance.media_new_path("songs/" + queue[0])
             player.set_media(media)
             events = player.event_manager()
             events.event_attach(vlc.EventType.MediaPlayerEndReached, SongFinished)

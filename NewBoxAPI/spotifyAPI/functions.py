@@ -14,6 +14,7 @@ except IndexError:
     DEVICE_ID = {'status': 'error',
             'message': 'no spotify device detected, please open spotify'}
 
+
 # 'Decorator' that takes in a function as argument and checks if the function gives an error
 def handle_connection(func):
     @wraps(func)
@@ -42,7 +43,12 @@ def getUserDetails():
 
 @handle_connection
 def getDevice():
-    return spotifyHandler.devices()['devices'][0]['id']
+    try:
+        return spotifyHandler.devices()['devices'][0]['id']
+    except IndexError:
+        return None
+    except requests.exceptions.ConnectionError:
+        return None
 
 
 # Song related functions
@@ -100,16 +106,18 @@ def getPlaybackInfo():
 
 
 @handle_connection
-def getSongById(trackId):
+def getSongByUri(trackUri):
     try:
-        track = spotifyHandler.track(trackId)['name']
+        track = spotifyHandler.track(trackUri)['name']
+        artist = spotifyHandler.track(trackUri)['artists'][0]['name']
     except spotipy.SpotifyException:
         info = {'status': 'error',
                 'message': 'Invalid id'}
         return info
 
-    track = {'track': track}
-    return track
+    info = {'name': track,
+            'artist': artist}
+    return info
 
 
 @handle_connection
