@@ -1,4 +1,4 @@
-//import axios from "axios";
+// import axios from "axios";
 
 const songs = document.querySelector(".button-songs")
 
@@ -8,7 +8,7 @@ const index = document.querySelector("#sub-container")
 
 const logo = document.querySelector("#logo")
 
-const settings = document.querySelector(".navbar-settings img")
+const settings = document.querySelector(".navbar-settings img") //settings
 
 const search = document.querySelector(".navbar-search-small img")
 
@@ -16,15 +16,45 @@ const query = document.querySelector("#navbar-search");
 
 const queue = document.querySelector(".button-one")
 
+const maxVolume = document.querySelector("#maxVolume")
+
+const minVolume = document.querySelector("#minVolume")
 
 function getSettings()
 {
     index.innerHTML = "<div id=\"settings\">\n" +
+        "                   <form>" +
         "                    <h1>Rasberry Pi Settings</h1>\n" +
-        "                    <p onclick='pi_reboot()'>Reboot</p>\n" +
-        "                    <p onclick='pi_shutdown()'>Shutdown</p>\n" +
-        "                    <H1>Queue</H1>\n"
-        axios.get("http://127.0.0.1:8086/use/getqueue")
+        "                    <label for='maxVolume'></label>" +
+        "                       <input type='text' name='maxVolume' id='maxVolume' placeholder='Type here to set max volume'>\n" +
+        "                       </br>" +
+        "                    <label for='minVolume'></label>" +
+        "                       <input type='text' name='minVolume' id='minVolume' placeholder='Type here to set min volume'>\n" +
+        "                       </br>" +
+        "                   <label class='switch'>\n" +
+        "                       <input type='checkbox'>" +
+        "                       <span class='slider round'></span>" +
+        "                   </label>" +
+        "                    <button onclick='pi_reboot()'>Reboot</button>\n" +
+        "                    <button onclick='pi_shutdown()'>Shutdown</button>\n" +
+        "                    <h1 onclick='get_queue()'>Queue</h1>\n" 
+    
+}
+
+function set_max_vol(max)
+{
+    axios.put("/adminpanel/volume/" + maxVolume.value)
+        .then(resp => {
+            console.log(resp)
+        })
+}
+
+function set_min_vol(min){
+    axios.pi_shutdownset_min_vol
+}
+
+function get_queue(){
+    axios.get("/use/getqueue")
         .then(resp => {
             console.log(resp)
             resp.data.forEach(element =>
@@ -33,45 +63,42 @@ function getSettings()
                 '<div class="artist"><p>' + element["artist"] + '</p></div>'
             )
         })
-    
 }
 
-function pi_reboot()
-{
-    axios.put("http://127.0.0.1:8086/use/reboot")
+function pi_reboot(){
+    axios.put("/use/reboot")
     .then(resp => {
         console.log(resp)
     })
 }
 
 function get_queue_title() {
-        axios.put("http://127.0.0.1:8086/use/getqueuetitle")
+        axios.put("/use/getqueuetitle")
+        .then(resp => {
+            console.log(resp)
+        })
 }
 
 
-function pi_shutdown()
-{
-    axios.put("http://127.0.0.1:8086/use/reboot")
+function pi_shutdown(){
+    axios.put("/use/reboot")
     .then(resp => {
         console.log(resp)
     })
 }
 
-function queueSong(uri)
-{
-    axios.put("http://127.0.0.1:8086/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
+function queueSong(uri){
+    axios.put("/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
     .then(resp => {
         console.log(resp)
     })
 }
 
-function getHomePage()
-{
+function getHomePage(){
     index.innerHTML = ""
 }
 
-function getSongs()
-{
+function getSongs(){
     index.innerHTML = '<div id="songs-downloaded"></div>\n'
 
     let songs_downloaded = document.querySelector('#songs-downloaded')
@@ -99,13 +126,12 @@ function getSongs()
     });
 }
 
-function getDownloaded()
-{
+function getDownloaded(){
     index.innerHTML = '<div id="songs-downloaded"></div>\n'
 
     let songs_downloaded = document.querySelector('#songs-downloaded')
 
-    axios.get('http://127.0.0.1:8086/use/getsongs')
+    axios.get('/use/getsongs')
     .then(resp => {
         // console.log(resp)
         resp.data.forEach(element =>
@@ -122,14 +148,13 @@ function getDownloaded()
     })
 }
 
-function searchSong()
-{
+function searchSong(){
     index.innerHTML = '<div id="songs-downloaded"></div>\n'
     query.focus()
 
     let songs_downloaded = document.querySelector('#songs-downloaded')
 
-    axios.get('http://127.0.0.1:8086/use/search/' + query.value)
+    axios.get('/use/search/' + query.value)
     .then(resp => {
         resp.data.forEach(element =>
             // console.log(element)
@@ -145,17 +170,15 @@ function searchSong()
     })
 }
 
-function queueSong(uri)
-{
-    axios.put("http://127.0.0.1:8086/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
+function queueSong(uri){
+    axios.put("/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
     .then(resp => {
         console.log(resp)
     })
 }
 
-function getQueue()
-{
-    axios.get("http://127.0.0.1:8086/use/getqueue")
+function getQueue(){
+    axios.get("/use/getqueue")
     .then(resp => {
         console.log(resp)
     })
@@ -167,3 +190,5 @@ logo.addEventListener("click", getHomePage)
 settings.addEventListener("click", getSettings)
 search.addEventListener("click", searchSong)
 queue.addEventListener("click", getQueue)
+maxvolume.addEventListener("click", set_max_vol)
+minvolume.addEventListener("click", set_min_vol)
