@@ -9,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-# import alsaaudio
+import alsaaudio
 import pirestart
 
 
@@ -131,8 +131,8 @@ async def play_music():
         if 'spotify' in queue[0]:
             pass
         else:
-            songPlayer.play()
-            while songPlayer.is_playing():
+            player.play()
+            while player.is_playing():
                 await asyncio.sleep(1)
             queue.pop(0)
 
@@ -348,3 +348,15 @@ async def getTopArtists():
 @app.get("/use/getCategories")
 async def getCategories():
     return functions.getCategories()
+
+@app.get("/use/reboot")
+async def reboot():
+    os.system('sudo reboot')
+    test = "Works"
+    return test
+
+@app.get("/use/shutdown")
+async def shutdown():
+      os.popen("sudo shutdown -h now").read()
+      sleep(0.1)
+      return
