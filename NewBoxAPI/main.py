@@ -10,7 +10,6 @@ import vlc
 import asyncio
 import player
 import alsaaudio
-import pirestart
 
 
 app = FastAPI()
