@@ -140,7 +140,7 @@ def getSongDuration(uri):
 
 # Search related functions
 @handle_connection
-def searchFor(searchQuery, resultSize, returnType='track'):
+def searchFor(resultSize, searchQuery, returnType='track'):
     # Check if result size is valid
     if resultSize <= 0 or resultSize > 50 or not isinstance(resultSize, int):
         return {'status': 'error', 'message': 'Invalid result size'}
@@ -149,19 +149,37 @@ def searchFor(searchQuery, resultSize, returnType='track'):
     searchResult = spotifyHandler.search(q=searchQuery, type=returnType, limit=resultSize)[returnType + 's']['items']
 
     # Loop over all the search results and store each item with info to a dictionary and add the dict to a list
-    for count, item in enumerate(searchResult):
-        itemInfo = {}
+    if returnType == "track":
+        for count, item in enumerate(searchResult):
+            # return item
+            itemInfo = {}
 
-        id = item['id']
-        name = item['name']
-        uri = item['uri']
+            id = item['artists'][0]['id']
+            name = item['name']
+            artist = item['artists'][0]['name']
+            uri = item['uri']
 
-        itemInfo.update({'nr': count + 1,
-                         'type': returnType,
-                         'id': id,
-                         'name': name,
-                         'uri': uri})
-        items.append(itemInfo)
+            itemInfo.update({'nr': count + 1,
+                             'type': returnType,
+                             'id': id,
+                             'artist': artist,
+                             'track': name,
+                             'uri': uri})
+            items.append(itemInfo)
+    elif returnType == 'artist':
+        for count, item in enumerate(searchResult):
+            itemInfo = {}
+
+            id = item['id']
+            artist = item['name']
+            uri = item['uri']
+
+            itemInfo.update({'nr': count + 1,
+                             'type': returnType,
+                             'id': id,
+                             'artist': artist,
+                             'uri': uri})
+            items.append(itemInfo)
 
     if not items:
         # if items is empty, return this

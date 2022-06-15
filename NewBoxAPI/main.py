@@ -154,7 +154,7 @@ async def get_songs():
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2], "uri": song[3]})
+        dictionary.append({"id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     return dictionary
 
@@ -185,17 +185,27 @@ async def search_music(key: str):
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        dictionary.append({"type": "downloaded", "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     cursor.execute(sqlArtists, params)
 
     songs = cursor.fetchall()
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        dictionary.append({"type": "downloaded", "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
+
+    artistsSpotify = functions.searchFor(2, key, 'artist')
+
+    for artist in artistsSpotify:
+        dictionary.append({"type": artist["type"], "id": artist['id'], "artist": artist['artist'], "uri": artist['uri']})
+
+    songsSpotify = functions.searchFor(10, key)
+
+    for song in songsSpotify:
+        dictionary.append({"type": song["type"], "id": song['id'], "artist": song['artist'], "track": song['track'], "uri": song['uri']})
 
     return dictionary
-
+    # return artistsSpotify
 
 # endpoint for getting all songs
 @app.get("use/searchall/{key}")
