@@ -10,7 +10,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-import alsaaudio
+# import alsaaudio
 from colorthief import ColorThief
 from colormap import hex2rgb
 import serial
@@ -343,7 +343,7 @@ async def removeSongFromPlaylist(trackUri, playlistId):
 
 @app.get("/use/searchInSpotify/{query}&{resultSize}")
 async def searchInSpotify(query, resultSize):
-    return functions.searchFor(query, int(resultSize))
+    return functions.searchFor(query, int(resultSize), returnType='artist')
 
 
 @app.get("/use/getTopTracks")
@@ -359,6 +359,11 @@ async def getTopArtists():
 @app.get("/use/getCategories")
 async def getCategories():
     return functions.getCategories()
+
+
+@app.get("/use/artistTopTracks/{id}")
+async def getArtistTopTracks(id):
+    return functions.getArtistTopTracks(id)
 
 # LEDLIGHTS#
 

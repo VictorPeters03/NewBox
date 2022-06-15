@@ -140,7 +140,7 @@ def getSongDuration(uri):
 
 # Search related functions
 @handle_connection
-def searchFor(resultSize, searchQuery, returnType='track'):
+def searchFor(searchQuery, resultSize, returnType='track'):
     # Check if result size is valid
     if resultSize <= 0 or resultSize > 50 or not isinstance(resultSize, int):
         return {'status': 'error', 'message': 'Invalid result size'}
@@ -606,3 +606,20 @@ def getAlbumItems(albumId, offset=0, limit=50):
 
             tracks.append(track)
     return tracks
+
+
+@handle_connection
+def getArtistTopTracks(id):
+    tracks = []
+    items = spotifyHandler.artist_top_tracks(id)
+    for item in items['tracks']:
+        track = {}
+        id = item['id']
+        name = item['name']
+        artist = item['artists'][0]['name']
+        uri = item['uri']
+        img = item['album']['images'][0]['url']
+        track.update({'id': id, 'name': name, 'artist': artist, 'uri': uri, 'img': img})
+        tracks.append(track)
+    return tracks
+
