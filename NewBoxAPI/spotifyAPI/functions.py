@@ -140,7 +140,7 @@ def getSongDuration(uri):
 
 # Search related functions
 @handle_connection
-def searchFor(searchQuery, resultSize, returnType='track'):
+def searchFor(resultSize, searchQuery, returnType='track'):
     # Check if result size is valid
     if resultSize <= 0 or resultSize > 50 or not isinstance(resultSize, int):
         return {'status': 'error', 'message': 'Invalid result size'}

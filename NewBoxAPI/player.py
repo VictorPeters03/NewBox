@@ -18,7 +18,7 @@ instance = vlc.Instance()
 player = instance.media_player_new()
 
 
-def checkQueue():
+def filterQueue():
     global queue
     if functions.getDevice() is None:
         queue[:] = (uri for uri in queue if 'spotify' not in uri)
@@ -135,8 +135,8 @@ def play():
 
 
 def addToQueue(uri):
-    if len(queue) == 5:
-        return "Can only have 5 songs in queue"
+    if len(queue) == 5 or uri in queue:
+        return "Queue limit reached or song is already in queue"
 
     if len(queue) == 0:
         newThread = threading.Thread(target=playSong)

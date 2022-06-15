@@ -123,11 +123,10 @@ def add_to_queue(uri: str):
 # endpoint for getting the queue
 @app.get("/use/getQueue")
 async def get_queue():
-    # return player.getQueue()
     try:
         return player.getQueue()
     except KeyError:
-        player.checkQueue()
+        player.filterQueue()
     finally:
         return player.getQueue()
 
