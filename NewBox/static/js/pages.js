@@ -1,5 +1,3 @@
-// import axios from "axios";
-
 const songs = document.querySelector(".button-songs")
 
 const downloaded = document.querySelector(".button-downloaded")
@@ -23,14 +21,16 @@ const minVolume = document.querySelector("#minVolume")
 function getSettings()
 {
     index.innerHTML = "<div id=\"settings\">\n" +
-        "                   <form>" +
         "                    <h1>Rasberry Pi Settings</h1>\n" +
-        "                    <label for='maxVolume'></label>" +
-        "                       <input type='text' name='maxVolume' id='maxVolume' placeholder='Type here to set max volume'>\n" +
+        "                   <form name='setVolume' target='#here' method='post'>" + 
+        "                       <label for='maxVolume'></label>" +
+        "                           <input type='text' name='maxVolume' id='maxVolume' placeholder='Type here to set max volume'>\n" +
         "                       </br>" +
-        "                    <label for='minVolume'></label>" +
-        "                       <input type='text' name='minVolume' id='minVolume' placeholder='Type here to set min volume'>\n" +
-        "                       </br>" +
+        "                   </form>" +
+        "                   <form name='setVolume' target='#here' method='post'>" +
+        "                       <label for='minVolume'></label>" +
+        "                           <input type='text' name='minVolume' id='minVolume' placeholder='Type here to set min volume'>\n" +
+        "                       </form>" +
         "                   <label class='switch'>\n" +
         "                       <input type='checkbox'>" +
         "                       <span class='slider round'></span>" +
@@ -39,6 +39,10 @@ function getSettings()
         "                    <button onclick='pi_shutdown()'>Shutdown</button>\n" +
         "                    <h1 onclick='get_queue()'>Queue</h1>\n" 
     
+}
+
+function set_volume_limit(){
+    axios.put()
 }
 
 function set_max_vol(max)
@@ -66,7 +70,14 @@ function get_queue(){
 }
 
 function pi_reboot(){
-    axios.put("/use/reboot")
+    axios.get("http://127.0.0.1:8000/use/reboot")
+    .then(resp => {
+        console.log(resp)
+    })
+}
+
+function pi_shutdown(){
+    axios.get("http://127.0.0.1:8000/use/shutdown")
     .then(resp => {
         console.log(resp)
     })
@@ -80,12 +91,6 @@ function get_queue_title() {
 }
 
 
-function pi_shutdown(){
-    axios.put("/use/reboot")
-    .then(resp => {
-        console.log(resp)
-    })
-}
 
 function queueSong(uri){
     axios.put("/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
