@@ -1,3 +1,4 @@
+from xml import dom
 import MySQLdb
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,9 +10,12 @@ from time import sleep
 import vlc
 import asyncio
 import player
-# import alsaaudio
-
-
+import alsaaudio
+from colorthief import ColorThief
+from colormap import hex2rgb
+import serial
+from urllib.request import urlretrieve
+import urllib3
 
 app = FastAPI()
 
@@ -349,3 +353,53 @@ async def getTopArtists():
 @app.get("/use/getCategories")
 async def getCategories():
     return functions.getCategories()
+
+# LEDLIGHTS#
+
+# https://stackoverflow.com/questions/57336022/make-an-addressable-led-strip-shift-from-one-pattern-to-the-next-after-a-set-amo
+
+# endpoint for turning of the led lights
+@app.put("/use/turnoff")
+async def turn_off():
+    cmd = "{'status': 'off', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
+    arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
+    sleep(5)
+    arduinoData.write(cmd.encode())
+    return
+
+
+@app.put("/use/nomusic")
+async def no_music():
+    cmd = "{'status': 'on', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
+    arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
+    sleep(5)
+    arduinoData.write(cmd.encode())
+    return
+
+
+# To get the genre of a track and change LED colors based on what it is.
+@app.put("/use/genre/{name}")
+def get_track_color(name: str):
+    url = functions.getTrackCoverImage(name)['img']
+    tmp_file= 'tmp.jpg'
+    
+    '''Downloads ths image file and analyzes the dominant color'''
+    urlretrieve(url, tmp_file)
+    color_thief = ColorThief(tmp_file)
+    dominant_color = str(color_thief.get_color(quality=1))
+    os.remove(tmp_file)
+    cmd = "{'status': 'on', 'music': 'on', 'color': '"+ (dominant_color) +"'}" + '\n'
+    arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
+    sleep(5)
+    arduinoData.write(cmd.encode())
+    #returns rgb
+    return
+
+# endpoint for led light colors based on category
+@app.put("/use/genre2/{name}")
+async def change_genre(name: str):
+    base16INT = int(name, 32)
+    hexed = hex(base16INT)
+    hexcode = '#' + hexed[2:][-6:].zfill(6)
+    rgb = hex2rgb(hexcode)
+    return json.dumps({"rgb" : rgb})
