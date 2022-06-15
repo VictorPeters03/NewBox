@@ -18,6 +18,16 @@ instance = vlc.Instance()
 player = instance.media_player_new()
 
 
+def filterQueue():
+    global queue
+    if functions.getDevice() is None:
+        queue[:] = (uri for uri in queue if 'spotify' not in uri)
+        # for count, uri in enumerate(queue):
+        #     if 'spotify' in uri:
+        #         queue.pop(count)
+    return queue
+
+
 def getQueue():
     info = []
     if not queue:
@@ -25,16 +35,21 @@ def getQueue():
     for uri in queue:
         songInfo = {}
         if 'spotify' in uri:
-            song = functions.getSongByUri(uri)['name']
-            artist = functions.getSongByUri(uri)['artist']
-            songInfo.update({'uri': uri,
-                             'song': song,
-                             'artist': artist})
-            info.append(songInfo)
+            try:
+                song = functions.getSongByUri(uri)['name']
+                artist = functions.getSongByUri(uri)['artist']
+                songInfo.update({'uri': uri,
+                                 'song': song,
+                                 'artist': artist})
+                info.append(songInfo)
+            except KeyError:
+                songInfo.update({'uri': uri,
+                                 'message': 'Failed to get info from from spotify, check internet connection'})
+                info.append(songInfo)
         else:
-            for item in getInfoFromDb(uri):
-                song = item[1]
-                artist = item[0]
+            result = getInfoFromDb(uri)
+            song = result[1]
+            artist = result[0]
             songInfo.update({'uri': uri,
                              'song': song,
                              'artist': artist})
@@ -56,20 +71,32 @@ def getInfoFromDb(uri):
     cursor.execute(sql, params)
     songs = cursor.fetchall()
     db.close()
-    return songs
+    songList = []
+    for song in songs:
+        songList.append(song[0])
+        songList.append(song[1])
+    return songList
 
 
+# If there is no connection, skip button must be disabled
 def skip():
     global finish
     if len(queue) > 0:
-        if "spotify" not in queue[0]:
+        if "spotify" in queue[0] and functions.getDevice() is not None:
+            global counter
+            functions.pause()
+            try:
+                counter = functions.getPlaybackInfo()['duration_seconds']
+            except KeyError:
+                counter = 10000
+        elif "spotify" not in queue[0]:
             finish = 1
             queue.pop(0)
             player.stop()
         else:
-            global counter
-            functions.pause()
-            counter = functions.getPlaybackInfo()['duration_seconds']
+            for i in range(len(getQueue())):
+                if 'message' in getQueue()[0].keys():
+                    queue.pop(0)
 
 
 def pauseAndPlay():
@@ -108,8 +135,8 @@ def play():
 
 
 def addToQueue(uri):
-    if len(queue) == 5:
-        return "Can only have 5 songs in queue"
+    if len(queue) == 5 or uri in queue:
+        return "Queue limit reached or song is already in queue"
 
     if len(queue) == 0:
         newThread = threading.Thread(target=playSong)
@@ -152,7 +179,11 @@ def playSong():
             while finish == 0:
                 sleep(0.5)
         else:
+            if functions.getDevice() is None:
+                skip()
+                continue
             functions.play(queue[0])
+
             sleep(1)
             duration = functions.getSongDuration(queue[0])
             if isinstance(duration, dict):
@@ -162,12 +193,16 @@ def playSong():
             counter = 1
             while counter < duration:
                 if not paused:
+                    if counter % 10 == 0 and functions.getDevice() is None:
+                        skip()
+                        counter = duration
                     sleep(1)
                     counter += 1
                     print(counter)
                 else:
                     sleep(1)
                     print(counter)
-            queue.pop(0)
+            if functions.getDevice() is not None:
+                queue.pop(0)
 
 
