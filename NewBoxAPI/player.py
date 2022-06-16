@@ -106,8 +106,8 @@ def addToQueue(uri):
             newUri = uri
             queue.append(repr(newUri)[1:-1])
         else:
-            if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
-                return
+            # if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
+            #     return
             queue.append(repr(uri)[1:-1])
         newThread.start()
     else:
@@ -115,8 +115,8 @@ def addToQueue(uri):
             newUri = uri
             queue.append(repr(newUri)[1:-1])
         else:
-            if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
-                return
+            # if functions.getDevice() is None or isinstance(functions.getDevice(), dict):
+            #     return
             queue.append(repr(uri)[1:-1])
 
 
