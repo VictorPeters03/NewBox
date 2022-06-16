@@ -2,7 +2,7 @@
 
 This project was made by Team NewBox.
 
-Team NewBox consists of the following members: <br>
+Team NewBox consists of the following members:
 <ul>
     <li>Victor Peters</li>
     <li>Nikita Hoogeveen</li>
