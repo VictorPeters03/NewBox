@@ -327,3 +327,7 @@ async def getTopArtists():
 @app.get("/use/getCategories")
 async def getCategories():
     return functions.getCategories()
+
+@app.get("/use/getArtistTopTracks/{artist}")
+def getArtistTopTracks(artist):
+    return functions.getTopSongsByArtist(artist)

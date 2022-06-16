@@ -562,10 +562,12 @@ def getTopArtists(limit=20):
         id = item['id']
         popularity = item['popularity']
         img = item['images'][0]['url']
+        uri = item['uri']
         artist.update({'name': name,
                        'id': id,
                        'popularity': popularity,
-                       'img': img})
+                       'img': img,
+                       'uri': uri})
         artists.append(artist)
     return artists
 
@@ -620,4 +622,23 @@ def getAlbumItems(albumId, offset=0, limit=50):
                           "nr": count + 1})
 
             tracks.append(track)
+    return tracks
+
+
+@handle_connection
+def getTopSongsByArtist(artistId):
+    tracks = []
+    items = spotifyHandler.artist_top_tracks(artistId)["tracks"]
+    for count, item in enumerate(items):
+        track = {}
+        name = item['name']
+        id = item['id']
+        uri = item['uri']
+        img = item['album']['images'][0]['url']
+        track.update({'track': name,
+                      'id': id,
+                      'uri': uri,
+                      'img': img})
+        tracks.append(track)
+
     return tracks

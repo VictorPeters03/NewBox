@@ -28,7 +28,7 @@ root.geometry('1080x1920')
 # root.configure(background=hex_number)
 root.title('Newbox')
 # root.overrideredirect(True)
-root.wm_attributes('-transparentcolor', transBackground)
+# root.wm_attributes('-transparentcolor', transBackground)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
@@ -59,7 +59,22 @@ def btnSongs():
 
 
 def btnArtists():
-    return
+    artists = requests.get("http://127.0.0.1:8000/use/getTopArtists")
+    songList.resetY()
+    for widget in songList.interior.winfo_children():
+        widget.destroy()
+    for artist in artists.json():
+        artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+        artistInfo = Frame(artistEntry, height=2, bg="#4A272E")
+        artistLink = Frame(artistEntry, height=2)
+        artistName = Label(artistInfo, text=artist['name'], relief='flat', borderwidth=4, font=('arial', 30),
+                           bg="#4A272E", fg="#FFFFFF")
+        artistEntry.pack(fill=X)
+        artistInfo.pack(side=LEFT)
+        artistLink.pack(side=RIGHT)
+        artistName.pack(anchor="w")
+        Button(artistLink, text="get top songs", justify="right", command=partial(getTopSongs, artist["uri"])).pack(
+            anchor='e')
 
 def btnDownloads():
     songs = requests.get("http://127.0.0.1:8000/use/getsongs")
@@ -127,6 +142,29 @@ def searchSongs():
 
 def addToQueue(uri):
     requests.put("http://127.0.0.1:8000/use/queue/" + uri)
+
+def getTopSongs(uri):
+    artistSongs = requests.get("http://127.0.0.1:8000/use/getArtistTopTracks/" + uri)
+    songList.resetY()
+    for widget in songList.interior.winfo_children():
+        widget.destroy()
+    for song in artistSongs.json():
+        songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+        songInfo = Frame(songEntry, height=2, bg="#4A272E")
+        songQueue = Frame(songEntry, height=2)
+        # songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+        #                    bg="#4A272E", fg="#C7C7C7")
+        margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+        songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+
+        songEntry.pack(fill=X)
+        songInfo.pack(side=LEFT)
+        songQueue.pack(side=RIGHT)
+        songTitle.pack(anchor="w")
+        margin.pack(anchor='w')
+        # songArtist.pack(anchor="w")
+        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+            anchor='e')
 
 
 topBtnStyle = ttk.Style()
