@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="ignored svg errors">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="added function to remove song from queue and play the next song">
       <change beforePath="$PROJECT_DIR$/NewBox/static/js/pages.js" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/static/js/pages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewBoxAPI/.cache" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NewBoxAPI/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/NewBoxAPI/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +140,7 @@
       <workItem from="1654159109228" duration="269000" />
       <workItem from="1655112947449" duration="645000" />
       <workItem from="1655367158170" duration="5427000" />
-      <workItem from="1655447818725" duration="8124000" />
+      <workItem from="1655447818725" duration="8201000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed problem with import I think">
       <created>1653983897599</created>
@@ -201,7 +198,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655454149995</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added function to remove song from queue and play the next song">
+      <created>1655457262091</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1655457262091</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +233,8 @@
     <MESSAGE value="add function so the adminpanel can see the queue" />
     <MESSAGE value="add function so the adminpanel so a song can be deleted from the queue" />
     <MESSAGE value="ignored svg errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="ignored svg errors" />
+    <MESSAGE value="added function to remove song from queue and play the next song" />
+    <option name="LAST_COMMIT_MESSAGE" value="added function to remove song from queue and play the next song" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NewBox$player.coverage" NAME="player Coverage Results" MODIFIED="1654099893290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI" />

@@ -47,7 +47,7 @@ function set_volume_limit(){
 
 function delete_from_queue(uri)
 {
-    axios.put("http://127.0.0.1:8086/admin/remove/" + uri)
+    axios.put("http://127.0.0.1:8000/admin/remove/" + uri)
 }
 
 function set_max_vol(max)
