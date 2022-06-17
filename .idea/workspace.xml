@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="change to port so it matches the Pi">
+    <list default="true" id="ce628b6d-a87f-42fd-9372-34015bafc5a7" name="Changes" comment="Changed format on the admin panel">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NewBox/static/js/pages.js" beforeDir="false" afterPath="$PROJECT_DIR$/NewBox/static/js/pages.js" afterDir="false" />
     </list>
@@ -141,7 +141,7 @@
       <workItem from="1654159109228" duration="269000" />
       <workItem from="1655112947449" duration="645000" />
       <workItem from="1655367158170" duration="5427000" />
-      <workItem from="1655447818725" duration="8397000" />
+      <workItem from="1655447818725" duration="9622000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed problem with import I think">
       <created>1653983897599</created>
@@ -213,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655457358659</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Changed format on the admin panel">
+      <created>1655457546067</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1655457546067</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,7 +250,8 @@
     <MESSAGE value="ignored svg errors" />
     <MESSAGE value="added function to remove song from queue and play the next song" />
     <MESSAGE value="change to port so it matches the Pi" />
-    <option name="LAST_COMMIT_MESSAGE" value="change to port so it matches the Pi" />
+    <MESSAGE value="Changed format on the admin panel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed format on the admin panel" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NewBox$player.coverage" NAME="player Coverage Results" MODIFIED="1654099893290" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NewBoxAPI" />

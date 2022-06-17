@@ -79,14 +79,14 @@ function get_queue()
 }
 
 function pi_reboot(){
-    axios.get("http://127.0.0.1:8000/use/reboot")
+    axios.get("/use/reboot")
     .then(resp => {
         console.log(resp)
     })
 }
 
 function pi_shutdown(){
-    axios.get("http://127.0.0.1:8000/use/shutdown")
+    axios.get("/use/shutdown")
     .then(resp => {
         console.log(resp)
     })
