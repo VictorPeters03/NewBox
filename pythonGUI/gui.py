@@ -9,8 +9,6 @@ from PIL import ImageTk, Image
 
 import random
 
-transBackground = '#ABCABC'
-
 
 def randomNumber():
     random_number = random.randint(1118481, 16777215)
@@ -19,21 +17,23 @@ def randomNumber():
 
 
 root = Tk()
-# gf = GradientFrame(root, colors=("#4C0113", "black"), height=1920, width=1080)
-gf = GradientFrame(root, colors=(randomNumber(), randomNumber()), height=1930, width=1090)
+
+screenWidth = root.winfo_screenwidth()
+screenHeight = root.winfo_screenheight()
+
+gf = GradientFrame(root, colors=(randomNumber(), randomNumber()), height=screenHeight, width=screenWidth, highlightthickness=0)
 gf.config(direction=gf.top2bottom)
 gf.pack()
-root.geometry('1080x1920')
 
-# root.attributes('-fullscreen',True)
-# root.configure(background=hex_number)
+resolutionString = "%dx%d" % (screenWidth, screenHeight)
+root.geometry(resolutionString)
+root.attributes('-fullscreen',True)
+root.attributes("-toolwindow",1)
 root.title('Newbox')
-# root.overrideredirect(True)
-# root.wm_attributes('-transparentcolor', transBackground)
+root.overrideredirect(True)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
-
 
 def btnSongs():
     songs = requests.get("http://127.0.0.1:8000/use/getPlaylistItems/37i9dQZEVXbKCF6dqVpDkS")
@@ -252,36 +252,29 @@ Button(root, image=iconImgDownloaded, text="Downloaded", anchor="w", padx=30, fg
 
 # Downloaded songs
 songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-# songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
+songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
 songList = VerticalScrolledFrame.VerticalScrolledFrame(root, bg='#4A272E')
 songList.place(y=500, width=911, height=1000, x=84)
 btnDownloads()
 
 # footer buttons
 
-# Button(root, text='reverse', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnPrevious).place(
-#     x=10, y=1730,
-#     width=155,
-#     height=155)
 Button(root, text='pause/\nplay', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
-       command=btnPause).place(x=190, y=1730,
-                               width=155,
+       command=btnPause).place(x=84, y=1530,
+                               width=436,
                                height=155)
-# Button(root, text='next', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnNext).place(x=370,
-#                                                                                                                  y=1730,
-#                                                                                                                  width=155,
-#                                                                                                                  height=155)
-Button(root, text='mute', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnMute).place(x=550,
-                                                                                                                 y=1730,
-                                                                                                                 width=155,
+
+Button(root, text='mute', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnMute).place(x=560,
+                                                                                                                 y=1530,
+                                                                                                                 width=436,
                                                                                                                  height=155)
 Button(root, text='volume\ndown', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
-       command=btnSofter).place(x=730, y=1730,
-                                width=155,
+       command=btnSofter).place(x=84, y=1730,
+                                width=436,
                                 height=155)
 Button(root, text='volume\nup', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
-       command=btnHarder).place(x=910, y=1730,
-                                width=155,
+       command=btnHarder).place(x=560, y=1730,
+                                width=436,
                                 height=155)
 
 root.mainloop()

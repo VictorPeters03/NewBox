@@ -28,6 +28,7 @@ class GradientFrame(Canvas):
         self.__colors = colors
         self.__direction = direction
 
+
         # Desenha o degradê no Canvas.
         self.__draw_gradient()
 
