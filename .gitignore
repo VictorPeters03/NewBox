@@ -19,3 +19,4 @@ NewBox/.idea/workspace.xml
 /_venv38.win32/
 .idea
 *.xml
+*.pyc

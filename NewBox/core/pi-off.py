@@ -1,4 +1,8 @@
 # Power off Pi
+import os
+import time
+
+import GPIO as GPIO
 
 while True:
   if GPIO.input(GPIO_BUTTON) == 0:
