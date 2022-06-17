@@ -365,6 +365,11 @@ async def getCategories():
 async def getArtistTopTracks(id):
     return functions.getArtistTopTracks(id)
 
+
+@app.put("/use/removeFromQueue/{uri}")
+async def removeFromQueue(uri):
+    return player.removeSongFromQueue(uri)
+
 # LEDLIGHTS#
 
 # https://stackoverflow.com/questions/57336022/make-an-addressable-led-strip-shift-from-one-pattern-to-the-next-after-a-set-amo

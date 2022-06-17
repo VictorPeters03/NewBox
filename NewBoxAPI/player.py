@@ -135,7 +135,7 @@ def play():
 
 
 def addToQueue(uri):
-    if len(queue) == 5 or uri in queue:
+    if len(queue) == 5:
         return "Queue limit reached or song is already in queue"
 
     if len(queue) == 0:
@@ -191,7 +191,7 @@ def playSong():
             duration = math.floor(duration)
             global counter
             counter = 1
-            while counter < duration:
+            while counter < duration and counter != 0:
                 if not paused:
                     if counter % 10 == 0 and functions.getDevice() is None:
                         skip()
@@ -205,4 +205,15 @@ def playSong():
             if functions.getDevice() is not None:
                 queue.pop(0)
 
+
+def removeSongFromQueue(uri):
+    global counter
+    if len(queue) < 1:
+        return
+    index = queue.index(uri)
+    if index == 0:
+        skip()
+    else:
+        queue.pop(index)
+    return getQueue()
 
