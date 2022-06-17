@@ -9,7 +9,8 @@ from time import sleep
 import vlc
 import asyncio
 import player
-#import alsaaudio
+
+# import alsaaudio
 
 
 app = FastAPI()
@@ -26,20 +27,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 queue = []
+
 
 def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
     f.close()
-    
+
     f = open('min.txt', 'r')
     min_volume = int(f.read())
     f.close()
     return min_volume, max_volume
 
-def set_volume_limit(amount : int, limit : str):
+
+def set_volume_limit(amount: int, limit: str):
     if limit == 'min':
         f = open('min.txt', 'r')
         volume_limit = int(f.read())
@@ -123,6 +125,7 @@ def add_to_queue(uri: str):
 @app.get("/use/getqueue")
 async def get_queue():
     return player.getQueue()
+
 
 @app.get("/use/play/")
 async def play_music():
@@ -348,19 +351,25 @@ async def getTopArtists():
 async def getCategories():
     return functions.getCategories()
 
+
 @app.get("/use/reboot")
 async def reboot():
     os.system('sudo reboot')
     test = "Works"
     return test
 
+
 @app.get("/use/shutdown")
 async def shutdown():
-      os.popen("sudo shutdown -h now").read()
-      sleep(0.1)
-      return
+    os.popen("sudo shutdown -h now").read()
+    sleep(0.1)
+    return
+
 
 @app.put("/admin/remove/{uri}")
 def removeFromQueue(uri):
     if uri in player.queue:
-        player.queue.pop(uri)
+        if uri in player.queue[0]:
+            player.skip()
+        else:
+            player.queue.remove(uri)

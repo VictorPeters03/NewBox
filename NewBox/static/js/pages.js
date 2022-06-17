@@ -22,7 +22,7 @@ function getSettings()
 {
     index.innerHTML = "<div id=\"settings\">\n" +
         "                    <h1>Rasberry Pi Settings</h1>\n" +
-        "                   <form name='setVolume' target='#here' method='post'>" + 
+        "                   <form name='setVolume' target='#here' method='post'>" +
         "                       <label for='maxVolume'></label>" +
         "                           <input type='text' name='maxVolume' id='maxVolume' placeholder='Type here to set max volume'>\n" +
         "                       </br>" +
@@ -37,8 +37,8 @@ function getSettings()
         "                   </label>" +
         "                    <button onclick='pi_reboot()'>Reboot</button>\n" +
         "                    <button onclick='pi_shutdown()'>Shutdown</button>\n" +
-        "                    <h1 onclick='get_queue()'>Queue</h1>\n" 
-    
+        "                    <h1 onclick='get_queue()'>Queue</h1>\n"
+
 }
 
 function set_volume_limit(){
@@ -47,7 +47,7 @@ function set_volume_limit(){
 
 function delete_from_queue(uri)
 {
-
+    axios.put("http://127.0.0.1:8086/admin/remove/" + uri)
 }
 
 function set_max_vol(max)
@@ -62,8 +62,9 @@ function set_min_vol(min){
     axios.pi_shutdownset_min_vol
 }
 
-function get_queue(){
-    axios.get("http://127.0.0.1:8086/use/getqueue")
+function get_queue()
+{
+    axios.get("http://127.0.0.1:8000/use/getqueue")
         .then(resp => {
             console.log(resp)
             resp.data.forEach(element =>
@@ -178,13 +179,6 @@ function searchSong(){
                 '<div class="add-to-playlist"><img src="../static/images/Playlist.svg" alt="Add to playlist"></div>' +
         '                   </div>\n'
         )
-    })
-}
-
-function queueSong(uri){
-    axios.put("/use/queue/spotify:track:5oD2Z1OOx1Tmcu2mc9sLY2")
-    .then(resp => {
-        console.log(resp)
     })
 }
 
