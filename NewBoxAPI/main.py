@@ -135,17 +135,6 @@ async def get_queue():
         return player.getQueue()
 
 
-@app.get("/use/play/")
-async def play_music():
-    while len(queue) > 0:
-        if 'spotify' in queue[0]:
-            pass
-        else:
-            songPlayer.play()
-            while songPlayer.is_playing():
-                await asyncio.sleep(1)
-            queue.pop(0)
-
 
 # endpoint for playing songs
 @app.get("/use/getsongs")
@@ -175,14 +164,14 @@ async def get_songs():
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2], "uri": song[3]})
+        dictionary.append({"id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     return dictionary
 
 
 # endpoint for searching individual songs in the local database
 @app.get("/use/search/{key}")
-def search_music(key: str):
+async def search_music(key: str):
     # sets up a connection to the database
     try:
         db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
@@ -206,27 +195,27 @@ def search_music(key: str):
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     cursor.execute(sqlArtists, params)
 
     songs = cursor.fetchall()
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
+
+    artistsSpotify = functions.searchFor(2, key, 'artist')
+
+    for artist in artistsSpotify:
+        dictionary.append({"type": artist["type"], "id": artist['id'], "artist": artist['artist'], "uri": artist['uri']})
+
+    songsSpotify = functions.searchFor(10, key)
+
+    for song in songsSpotify:
+        dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'], "track": song['track'], "uri": song['uri']})
 
     return dictionary
-
-
-# endpoint to toggle the state of the current song
-@app.put("/use/toggleplay")
-async def toggle_music():
-    if songPlayer.is_playing():
-        songPlayer.pause()
-        return
-    else:
-        songPlayer.play()
-
+    # return artistsSpotify
 
 # endpoint for getting all songs
 @app.get("use/searchall/{key}")
@@ -262,8 +251,8 @@ async def search_all(key: str):
 @app.get("/adminpanel/ip")
 async def get_ip():
     return json.dumps({"ip": socket.gethostbyname(socket.gethostname())})
-
-
+  
+  
 # endpoint to debug and test functions
 @app.get("/use/debug")
 async def debug():
@@ -281,14 +270,9 @@ async def getPlaybackInfo():
     return functions.getPlaybackInfo()
 
 
-@app.put("/use/pause")
-async def pause():
-    return player.pauseAndPlay()
-
-
-@app.put("/use/play")
-async def play():
-    player.play()
+@app.put("/use/toggle")
+async def toggle():
+    player.toggle()
 
 
 @app.get("/use/getDevice")
@@ -361,9 +345,9 @@ async def getCategories():
     return functions.getCategories()
 
 
-@app.get("/use/artistTopTracks/{id}")
-async def getArtistTopTracks(id):
-    return functions.getArtistTopTracks(id)
+@app.get("/use/getArtistTopTracks/{artist}")
+def getArtistTopTracks(artist):
+    return functions.getTopSongsByArtist(artist)
 
 # LEDLIGHTS#
 
