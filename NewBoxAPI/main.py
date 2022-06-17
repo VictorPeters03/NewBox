@@ -9,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-import alsaaudio
+#import alsaaudio
 
 
 app = FastAPI()
@@ -359,3 +359,8 @@ async def shutdown():
       os.popen("sudo shutdown -h now").read()
       sleep(0.1)
       return
+
+@app.put("/admin/remove/{uri}")
+def removeFromQueue(uri):
+    if uri in player.queue:
+        player.queue.pop(uri)

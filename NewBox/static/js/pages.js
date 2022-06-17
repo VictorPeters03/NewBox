@@ -45,6 +45,11 @@ function set_volume_limit(){
     axios.put()
 }
 
+function delete_from_queue(uri)
+{
+
+}
+
 function set_max_vol(max)
 {
     axios.put("/adminpanel/volume/" + maxVolume.value)
@@ -58,13 +63,14 @@ function set_min_vol(min){
 }
 
 function get_queue(){
-    axios.get("/use/getqueue")
+    axios.get("http://127.0.0.1:8086/use/getqueue")
         .then(resp => {
             console.log(resp)
             resp.data.forEach(element =>
                 index.innerHTML +=
                 '<div class="title"><p>' + element["song"] + '</p></div>' +
-                '<div class="artist"><p>' + element["artist"] + '</p></div>'
+                '<div class="artist"><p>' + element["artist"] + '</p></div>' +
+                '<div class="remove-songs"><p onclick="delete_from_queue(' + "'" + element["uri"] + "'" + ')">Remove</p></div>'
             )
         })
 }
