@@ -321,7 +321,7 @@ a:link, a:visited, a:hover {
 
 /*END FOOTER*/
 
-/* BEGIN ADMINPANEL*/
+/* BEGIN ADMIN-PANEL*/
 .switch {
     position: relative;
     display: inline-block;
@@ -388,4 +388,4 @@ a:link, a:visited, a:hover {
     /*font-size: 20px;*/
 }
 
- /*END ADMINPANEL*/
+ /*END ADMIN-PANEL*/
