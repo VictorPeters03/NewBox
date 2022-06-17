@@ -185,14 +185,14 @@ async def search_music(key: str):
     dictionary = []
 
     for song in songs:
-        dictionary.append({"type": "downloaded", "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
+        dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     cursor.execute(sqlArtists, params)
 
     songs = cursor.fetchall()
 
     for song in songs:
-        dictionary.append({"type": "downloaded", "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
+        dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     artistsSpotify = functions.searchFor(2, key, 'artist')
 
@@ -202,7 +202,7 @@ async def search_music(key: str):
     songsSpotify = functions.searchFor(10, key)
 
     for song in songsSpotify:
-        dictionary.append({"type": song["type"], "id": song['id'], "artist": song['artist'], "track": song['track'], "uri": song['uri']})
+        dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'], "track": song['track'], "uri": song['uri']})
 
     return dictionary
     # return artistsSpotify

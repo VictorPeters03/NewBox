@@ -5,6 +5,7 @@ from background import GradientFrame
 import requests
 from functools import partial
 import VerticalScrolledFrame
+from PIL import ImageTk, Image
 
 import random
 
@@ -64,7 +65,8 @@ def btnArtists():
     for widget in songList.interior.winfo_children():
         widget.destroy()
     for artist in artists.json():
-        artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+        artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
+                            bg='#4A272E')
         artistInfo = Frame(artistEntry, height=2, bg="#4A272E")
         artistLink = Frame(artistEntry, height=2)
         artistName = Label(artistInfo, text=artist['name'], relief='flat', borderwidth=4, font=('arial', 30),
@@ -75,6 +77,7 @@ def btnArtists():
         artistName.pack(anchor="w")
         Button(artistLink, text="get top songs", justify="right", command=partial(getTopSongs, artist["uri"])).pack(
             anchor='e')
+
 
 def btnDownloads():
     songs = requests.get("http://127.0.0.1:8000/use/getsongs")
@@ -103,6 +106,7 @@ def btnDownloads():
 def btnPause():
     requests.put("http://127.0.0.1:8000/use/toggle")
 
+
 def btnMute():
     return
 
@@ -122,26 +126,51 @@ def searchSongs():
         widget.destroy()
     for song in songs.json():
         if song['type'] == 'track':
-            songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+            songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
+                              bg='#4A272E')
             songInfo = Frame(songEntry, height=2, bg="#4A272E")
             songQueue = Frame(songEntry, height=2)
+
             songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
                                bg="#4A272E", fg="#C7C7C7")
             margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
-            songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+            songTitleImage = Frame(songInfo, borderwidth=0, highlightthickness=0, bg="#4A272E")
+            downloadedLabel = Label(songTitleImage, image=songIcon, bg="#4A272E")
+            spotifyLabel = Label(songTitleImage, image=spotifyIcon, bg="#4A272E")
+            songTitle = Label(songTitleImage, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
 
             songEntry.pack(fill=X)
             songInfo.pack(side=LEFT)
             songQueue.pack(side=RIGHT)
-            songTitle.pack(anchor="w")
+            songTitleImage.pack(anchor=W)
+            if song['isDownloaded']:
+                downloadedLabel.pack(side=LEFT)
+            else:
+                spotifyLabel.pack(side=LEFT)
             margin.pack(anchor='w')
+            songTitle.pack(anchor="w")
             songArtist.pack(anchor="w")
             Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
                 anchor='e')
+        elif song['type'] == 'artist':
+            artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
+                                bg='#4A272E')
+            artistInfo = Frame(artistEntry, height=2, bg="#4A272E")
+            artistLink = Frame(artistEntry, height=2)
+            artistName = Label(artistInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 30),
+                               bg="#4A272E", fg="#FFFFFF")
+            artistEntry.pack(fill=X)
+            artistInfo.pack(side=LEFT)
+            artistLink.pack(side=RIGHT)
+            artistName.pack(anchor="w")
+            Button(artistLink, text="get top songs", justify="right", command=partial(getTopSongs, song["uri"])).pack(
+                anchor='e')
+
 
 
 def addToQueue(uri):
     requests.put("http://127.0.0.1:8000/use/queue/" + uri)
+
 
 def getTopSongs(uri):
     artistSongs = requests.get("http://127.0.0.1:8000/use/getArtistTopTracks/" + uri)
@@ -180,11 +209,13 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 btnCloseSearchBar = tk.PhotoImage(file='images/icons/Cross-small.png')
 btnSearchSearchBar = tk.PhotoImage(file='images/icons/Search-small.png')
 
-e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
+searchBarBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
+e = Entry(searchBarBox, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
           font=('arial', 30, 'bold'), justify='center')
 cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0)
 search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs)
-e.place(width=911, x=84, y=40, height=80)
+searchBarBox.place(width=911, x=84, y=40)
+e.place(width=911, height=80)
 cross.place(width=70, height=80, x=930, y=40)
 search.place(width=70, height=80, x=82, y=40)
 
@@ -204,6 +235,8 @@ iconImgArtist = tk.PhotoImage(file='images/icons/Artist.png')
 iconImgGenres = tk.PhotoImage(file='images/icons/Genre.png')
 iconImgAlbums = tk.PhotoImage(file='images/icons/Albums.png')
 iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
+songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
+spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
 
 # text: arial, 30 bold white
 
