@@ -33,6 +33,7 @@ app.add_middleware(
 )
 
 queue = []
+titleLimit = 40
 
 
 # endpoint for getting volume limits
@@ -68,6 +69,7 @@ def set_volume_limit(amount: int, limit: str):
 async def set_volume(amount: int):
     valid = False
     limits = get_volume_limits()
+    volume = 0
     while not valid:
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
@@ -167,10 +169,21 @@ async def get_songs():
     dictionary = []
 
     for song in songs:
-        if len(song[2]) > 30:
-            dictionary.append({"id": song[0], "artist": song[1], "track": song[2][0:30] + "...", "uri": song[3]})
+        if len(song[1]) <= titleLimit < len(song[2]):
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif len(song[1]) > titleLimit and len(song[2]) > titleLimit:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif len(song[1]) > titleLimit >= len(song[2]):
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2],
+                 "uri": song[3]})
         else:
-            dictionary.append({"id": song[0], "artist": song[1], "track": song[2][0:30] + "...", "uri": song[3]})
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2],
+                 "uri": song[3]})
 
     return dictionary
 
@@ -201,17 +214,36 @@ def search_music(key: str):
     dictionary = []
 
     for song in songs:
-        dictionary.append(
-            {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
+        if len(song[1]) <= titleLimit < len(song[2]):
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif len(song[1]) > titleLimit and len(song[2]) > titleLimit:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif len(song[1]) > titleLimit >= len(song[2]):
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2],
+                 "uri": song[3]})
+        else:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2],
+                 "uri": song[3]})
 
     cursor.execute(sqlArtists, params)
 
     songs = cursor.fetchall()
 
     for song in songs:
-        if len(song[2]) > 30:
+        if len(song[1]) <= titleLimit < len(song[2]):
             dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
-                               "track": song[2][0:30] + "...", "uri": song[3]})
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif len(song[1]) > titleLimit and len(song[2]) > titleLimit:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...", "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif len(song[1]) > titleLimit >= len(song[2]):
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...", "track": song[2],
+                 "uri": song[3]})
         else:
             dictionary.append(
                 {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2],
@@ -220,18 +252,29 @@ def search_music(key: str):
     artistsSpotify = functions.searchFor(2, key, 'artist')
 
     for artist in artistsSpotify:
-        dictionary.append(
-            {"type": artist["type"], "id": artist['id'], "artist": artist['artist'], "uri": artist['uri']})
+        if "status" in artist:
+            break
+        elif len(artist["artist"]) > titleLimit:
+            dictionary.append({"type": artist["type"], "id": artist['id'], "artist": artist['artist'][0:titleLimit] + "...", "uri": artist['uri']})
+        else:
+            dictionary.append({"type": artist["type"], "id": artist["id"], "artist": artist["artist"], "uri": artist["uri"]})
 
     songsSpotify = functions.searchFor(10, key)
 
     for song in songsSpotify:
-        if len(song["track"]) > 30:
+        if len(song["track"]) > titleLimit >= len(song['artist']):
             dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'],
-                               "track": song['track'][0:30] + "...", "uri": song['uri']})
-        else:
-            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'],
+                               "track": song['track'][0:titleLimit] + "...", "uri": song['uri']})
+        elif len(song["track"]) > titleLimit and len(song["artist"]) > titleLimit:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'][0:titleLimit] + "...",
+                               "track": song['track'][0:titleLimit] + "...", "uri": song['uri']})
+        elif len(song["track"]) <= titleLimit < len(song["artist"]):
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'][0:titleLimit] + "...",
                                "track": song['track'], "uri": song['uri']})
+        else:
+            dictionary.append(
+                {"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'],
+                 "track": song['track'], "uri": song['uri']})
 
     return dictionary
     # return artistsSpotify
