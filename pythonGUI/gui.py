@@ -21,19 +21,21 @@ root = Tk()
 screenWidth = root.winfo_screenwidth()
 screenHeight = root.winfo_screenheight()
 
-gf = GradientFrame(root, colors=(randomNumber(), randomNumber()), height=screenHeight, width=screenWidth, highlightthickness=0)
+gf = GradientFrame(root, colors=(randomNumber(), randomNumber()), height=screenHeight, width=screenWidth,
+                   highlightthickness=0)
 gf.config(direction=gf.top2bottom)
 gf.pack()
 
 resolutionString = "%dx%d" % (screenWidth, screenHeight)
 root.geometry(resolutionString)
-root.attributes('-fullscreen',True)
-root.attributes("-toolwindow",1)
+root.attributes('-fullscreen', True)
+root.attributes("-toolwindow", 1)
 root.title('Newbox')
 root.overrideredirect(True)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
+
 
 def btnSongs():
     songs = requests.get("http://127.0.0.1:8000/use/getPlaylistItems/37i9dQZEVXbKCF6dqVpDkS")
@@ -167,7 +169,6 @@ def searchSongs():
                 anchor='e')
 
 
-
 def addToQueue(uri):
     requests.put("http://127.0.0.1:8000/use/queue/" + uri)
 
@@ -203,21 +204,41 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
                       font="Verdana 12",
                       radius="10")
 
-# searchbar
+
+def closeSearchBar():
+    e.place_forget()
+    cross.place_forget()
+    search.place_forget()
+    logo.place(width=70, height=80, x=82, y=40)
+    btnSearch.place(width=70, height=80, x=930, y=40)
+
+
+def openSearchBar():
+    logo.place_forget()
+    btnSearch.place_forget()
+    e.place(width=911, height=80, x=84, y=40)
+    cross.place(width=70, height=80, x=930, y=40)
+    search.place(width=70, height=80, x=82, y=40)
+
 
 # searchbar
 btnCloseSearchBar = tk.PhotoImage(file='images/icons/Cross-small.png')
 btnSearchSearchBar = tk.PhotoImage(file='images/icons/Search-small.png')
+btnSearch = tk.PhotoImage(file='images/icons/Search.png')
+logoImage = tk.PhotoImage(file='images/icons/Settings.png')
 
-searchBarBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
-e = Entry(searchBarBox, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
+# headerBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
+e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
           font=('arial', 30, 'bold'), justify='center')
-cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0)
-search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs)
-searchBarBox.place(width=911, x=84, y=40)
-e.place(width=911, height=80)
-cross.place(width=70, height=80, x=930, y=40)
-search.place(width=70, height=80, x=82, y=40)
+cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar, height=80, width=70)
+search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs, height=80, width=70)
+logo = Label(root, image=logoImage, borderwidth=0, height=80, width=70)
+btnSearch = Button(root, image=logoImage, borderwidth=0, command=openSearchBar, height=80, width=70)
+logo.place(width=70, height=80, x=82, y=40)
+btnSearch.place(width=70, height=80, x=930, y=40)
+# e.place(width=911, height=80, x=84, y=40)
+# cross.place(width=70, height=80, x=930, y=40)
+# search.place(width=70, height=80, x=82, y=40)
 
 # button images
 btnImgPlaylist = tk.PhotoImage(file='images/btnPlaylist.png', height=100, width=500)
