@@ -36,6 +36,23 @@ queue = []
 titleLimit = 40
 
 
+def songExists(item):
+    if "status" in item:
+        return False
+    return True
+
+
+def itemCharLimitExceeded(item, artistKey, songKey):
+    if len(item[artistKey]) <= titleLimit < len(item[songKey]):
+        return 1
+    elif len(item[artistKey]) > titleLimit and len(item[songKey]) > titleLimit:
+        return 2
+    elif len(item[artistKey]) > titleLimit >= len(item[songKey]):
+        return 3
+    else:
+        return 4
+
+
 # endpoint for getting volume limits
 def get_volume_limits():
     f = open('max.txt', 'r')
@@ -169,13 +186,14 @@ async def get_songs():
     dictionary = []
 
     for song in songs:
-        if len(song[1]) <= titleLimit < len(song[2]):
+        if itemCharLimitExceeded(song, 1, 2) == 1:
             dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
                                "track": song[2][0:titleLimit] + "...", "uri": song[3]})
-        elif len(song[1]) > titleLimit and len(song[2]) > titleLimit:
-            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
-                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
-        elif len(song[1]) > titleLimit >= len(song[2]):
+        elif itemCharLimitExceeded(song, 1, 2) == 2:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 3:
             dictionary.append(
                 {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
                  "track": song[2],
@@ -214,13 +232,16 @@ def search_music(key: str):
     dictionary = []
 
     for song in songs:
-        if len(song[1]) <= titleLimit < len(song[2]):
+        if len(songs) == 0:
+            break
+        elif itemCharLimitExceeded(song, 1, 2) == 1:
             dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
                                "track": song[2][0:titleLimit] + "...", "uri": song[3]})
-        elif len(song[1]) > titleLimit and len(song[2]) > titleLimit:
-            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
-                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
-        elif len(song[1]) > titleLimit >= len(song[2]):
+        elif itemCharLimitExceeded(song, 1, 2) == 2:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 3:
             dictionary.append(
                 {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
                  "track": song[2],
@@ -235,41 +256,56 @@ def search_music(key: str):
     songs = cursor.fetchall()
 
     for song in songs:
-        if len(song[1]) <= titleLimit < len(song[2]):
+        if len(songs) == 0:
+            break
+        if itemCharLimitExceeded(song, 1, 2) == 1:
             dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
                                "track": song[2][0:titleLimit] + "...", "uri": song[3]})
-        elif len(song[1]) > titleLimit and len(song[2]) > titleLimit:
-            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...", "track": song[2][0:titleLimit] + "...", "uri": song[3]})
-        elif len(song[1]) > titleLimit >= len(song[2]):
+        elif itemCharLimitExceeded(song, 1, 2) == 2:
             dictionary.append(
-                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...", "track": song[2],
+                {"type": "track", "isDownloaded": True, "id": song[0],
+                 "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 3:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0],
+                 "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2],
                  "uri": song[3]})
         else:
             dictionary.append(
-                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2],
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                 "track": song[2],
                  "uri": song[3]})
 
     artistsSpotify = functions.searchFor(2, key, 'artist')
 
     for artist in artistsSpotify:
-        if "status" in artist:
+        if not songExists(artist):
             break
         elif len(artist["artist"]) > titleLimit:
-            dictionary.append({"type": artist["type"], "id": artist['id'], "artist": artist['artist'][0:titleLimit] + "...", "uri": artist['uri']})
+            dictionary.append(
+                {"type": artist["type"], "id": artist['id'], "artist": artist['artist'][0:titleLimit] + "...",
+                 "uri": artist['uri']})
         else:
-            dictionary.append({"type": artist["type"], "id": artist["id"], "artist": artist["artist"], "uri": artist["uri"]})
+            dictionary.append(
+                {"type": artist["type"], "id": artist["id"], "artist": artist["artist"], "uri": artist["uri"]})
 
     songsSpotify = functions.searchFor(10, key)
 
     for song in songsSpotify:
-        if len(song["track"]) > titleLimit >= len(song['artist']):
+        if not songExists(song):
+            break
+        elif itemCharLimitExceeded(song, "artist", "track") == 1:
             dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'],
                                "track": song['track'][0:titleLimit] + "...", "uri": song['uri']})
-        elif len(song["track"]) > titleLimit and len(song["artist"]) > titleLimit:
-            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'][0:titleLimit] + "...",
+        elif itemCharLimitExceeded(song, "artist", "track") == 2:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'],
+                               "artist": song['artist'][0:titleLimit] + "...",
                                "track": song['track'][0:titleLimit] + "...", "uri": song['uri']})
-        elif len(song["track"]) <= titleLimit < len(song["artist"]):
-            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'][0:titleLimit] + "...",
+        elif itemCharLimitExceeded(song, "artist", "track") == 3:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'],
+                               "artist": song['artist'][0:titleLimit] + "...",
                                "track": song['track'], "uri": song['uri']})
         else:
             dictionary.append(
@@ -278,36 +314,6 @@ def search_music(key: str):
 
     return dictionary
     # return artistsSpotify
-
-
-# endpoint for getting all songs
-@app.get("use/searchall/{key}")
-async def search_all(key: str):
-    # sets up a connection to the database
-    try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
-    except:
-        return "Can't connect to database"
-
-    cursor = db.cursor()
-
-    # the SQL statement
-    sql = "SELECT * FROM `core_song`;"
-
-    # executes the statement
-    cursor.execute(sql)
-
-    # takes the data from the statement and places it in a variable
-    songs = cursor.fetchall()
-
-    db.close()
-
-    dictionary = []
-
-    for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
-
-    return dictionary
 
 
 # endpoint for getting the ip off the rpi
