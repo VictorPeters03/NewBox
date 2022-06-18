@@ -297,7 +297,10 @@ def getPlaylistItems(playlistId, offset=0, limit=100):
         for count, songs in enumerate(playlist['items']):
             track = {}
             artist = songs['track']['artists'][0]['name']
-            trackName = songs['track']['name']
+            if len(songs['track']['name']) > 30:
+                trackName = songs['track']['name'][0:30] + "..."
+            else:
+                trackName = songs['track']['name']
             id = songs['track']['id']
             uri = songs['track']['uri']
             img = songs['track']['album']['images'][0]['url']
