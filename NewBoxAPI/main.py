@@ -11,8 +11,8 @@ import vlc
 import asyncio
 import player
 # import alsaaudio
-from colorthief import ColorThief
-from colormap import hex2rgb
+# from colorthief import ColorThief
+# from colormap import hex2rgb
 import serial
 from urllib.request import urlretrieve
 import urllib3
@@ -202,7 +202,10 @@ async def search_music(key: str):
     songs = cursor.fetchall()
 
     for song in songs:
-        dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
+        if len(song[2]) > 30:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2][0:30] + "...", "uri": song[3]})
+        else:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2], "uri": song[3]})
 
     artistsSpotify = functions.searchFor(2, key, 'artist')
 
@@ -212,7 +215,10 @@ async def search_music(key: str):
     songsSpotify = functions.searchFor(10, key)
 
     for song in songsSpotify:
-        dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'], "track": song['track'], "uri": song['uri']})
+        if len(song["track"]) > 30:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'], "track": song['track'][0:30] + "...", "uri": song['uri']})
+        else:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'], "track": song['track'], "uri": song['uri']})
 
     return dictionary
     # return artistsSpotify
