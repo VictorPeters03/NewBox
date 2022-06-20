@@ -1,4 +1,3 @@
-from xml import dom
 import MySQLdb
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -32,9 +31,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 queue = []
 titleLimit = 40
-
 
 def songExists(item):
     if "status" in item:
@@ -58,7 +57,7 @@ def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
     f.close()
-
+    
     f = open('min.txt', 'r')
     min_volume = int(f.read())
     f.close()
@@ -312,7 +311,16 @@ def search_music(key: str):
                  "track": song['track'], "uri": song['uri']})
 
     return dictionary
-    # return artistsSpotify
+
+
+# endpoint to toggle the state of the current song
+@app.put("/use/toggleplay")
+async def toggle_music():
+    if songPlayer.is_playing():
+        songPlayer.pause()
+        return
+    else:
+        songPlayer.play()
 
 
 # endpoint for getting all songs
@@ -373,6 +381,9 @@ async def getPlaybackInfo():
 async def toggle():
     player.toggle()
 
+@app.put("/use/play")
+async def play():
+    player.play()
 
 # endpoint for getting the current device that is playing spotify
 @app.get("/use/getDevice")
@@ -474,6 +485,28 @@ async def no_music():
     sleep(5)
     arduinoData.write(cmd.encode())
     return
+
+@app.get("/use/reboot")
+async def reboot():
+    os.system('sudo reboot')
+    test = "Works"
+    return test
+
+
+@app.get("/use/shutdown")
+async def shutdown():
+    os.popen("sudo shutdown -h now").read()
+    sleep(0.1)
+    return
+
+
+@app.put("/admin/remove/{uri}")
+def removeFromQueue(uri):
+    if uri in player.queue:
+        if uri in player.queue[0]:
+            player.skip()
+        else:
+            player.queue.remove(uri)
 
 
 # To get the genre of a track and change LED colors based on what it is.

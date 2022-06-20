@@ -127,10 +127,10 @@ def play():
     global paused
     if paused:
         if "spotify" not in queue[0]:
-            paused = True
+            paused = False
             player.pause()
         else:
-            paused = True
+            paused = False
             functions.pause()
 
 
