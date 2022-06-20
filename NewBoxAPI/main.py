@@ -11,7 +11,7 @@ import vlc
 import asyncio
 import player
 # import alsaaudio
-# from colorthief import ColorThief
+from colorthief import ColorThief
 # from colormap import hex2rgb
 import serial
 from urllib.request import urlretrieve
