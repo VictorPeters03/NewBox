@@ -52,6 +52,7 @@ def itemCharLimitExceeded(item, artistKey, songKey):
     else:
         return 4
 
+
 # endpoint for getting volume limits
 def get_volume_limits():
     f = open('max.txt', 'r')
@@ -254,7 +255,7 @@ def search_music(key: str):
     songs = cursor.fetchall()
 
     for song in songs:
-       if len(songs) == 0:
+        if len(songs) == 0:
             break
         if itemCharLimitExceeded(song, 1, 2) == 1:
             dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
