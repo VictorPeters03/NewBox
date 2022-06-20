@@ -10,9 +10,9 @@ from time import sleep
 import vlc
 import asyncio
 import player
-# import alsaaudio
+import alsaaudio
 from colorthief import ColorThief
-# from colormap import hex2rgb
+from colormap import hex2rgb
 import serial
 from urllib.request import urlretrieve
 import urllib3
