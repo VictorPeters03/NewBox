@@ -11,8 +11,8 @@ try:
 except requests.exceptions.ConnectionError:
     DEVICE_ID = None
 except IndexError:
-    DEVICE_ID = {'status': 'error',
-            'message': 'no spotify device detected, please open spotify'}
+    DEVICE_ID = None
+
 
 # 'Decorator' that takes in a function as argument and checks if the function gives an error
 def handle_connection(func):
@@ -42,7 +42,12 @@ def getUserDetails():
 
 @handle_connection
 def getDevice():
-    return spotifyHandler.devices()['devices'][0]['id']
+    try:
+        return spotifyHandler.devices()['devices'][0]['id']
+    except IndexError:
+        return None
+    except requests.exceptions.ConnectionError:
+        return None
 
 
 # Song related functions
@@ -135,7 +140,7 @@ def getSongDuration(uri):
 
 # Search related functions
 @handle_connection
-def searchFor(searchQuery, resultSize, returnType='track'):
+def searchFor(resultSize, searchQuery, returnType='track'):
     # Check if result size is valid
     if resultSize <= 0 or resultSize > 50 or not isinstance(resultSize, int):
         return {'status': 'error', 'message': 'Invalid result size'}
@@ -144,19 +149,37 @@ def searchFor(searchQuery, resultSize, returnType='track'):
     searchResult = spotifyHandler.search(q=searchQuery, type=returnType, limit=resultSize)[returnType + 's']['items']
 
     # Loop over all the search results and store each item with info to a dictionary and add the dict to a list
-    for count, item in enumerate(searchResult):
-        itemInfo = {}
+    if returnType == "track":
+        for count, item in enumerate(searchResult):
+            # return item
+            itemInfo = {}
 
-        id = item['id']
-        name = item['name']
-        uri = item['uri']
+            id = item['artists'][0]['id']
+            name = item['name']
+            artist = item['artists'][0]['name']
+            uri = item['uri']
 
-        itemInfo.update({'nr': count + 1,
-                         'type': returnType,
-                         'id': id,
-                         'name': name,
-                         'uri': uri})
-        items.append(itemInfo)
+            itemInfo.update({'nr': count + 1,
+                             'type': returnType,
+                             'id': id,
+                             'artist': artist,
+                             'track': name,
+                             'uri': uri})
+            items.append(itemInfo)
+    elif returnType == 'artist':
+        for count, item in enumerate(searchResult):
+            itemInfo = {}
+
+            id = item['id']
+            artist = item['name']
+            uri = item['uri']
+
+            itemInfo.update({'nr': count + 1,
+                             'type': returnType,
+                             'id': id,
+                             'artist': artist,
+                             'uri': uri})
+            items.append(itemInfo)
 
     if not items:
         # if items is empty, return this
@@ -274,7 +297,10 @@ def getPlaylistItems(playlistId, offset=0, limit=100):
         for count, songs in enumerate(playlist['items']):
             track = {}
             artist = songs['track']['artists'][0]['name']
-            trackName = songs['track']['name']
+            if len(songs['track']['name']) > 30:
+                trackName = songs['track']['name'][0:30] + "..."
+            else:
+                trackName = songs['track']['name']
             id = songs['track']['id']
             uri = songs['track']['uri']
             img = songs['track']['album']['images'][0]['url']
@@ -377,6 +403,9 @@ def getDefaultPlaylists(limit=20):
 # Player related functions
 @handle_connection
 def play(uri):
+    if DEVICE_ID is None:
+        return {'status': 'error',
+                'message': 'No device found'}
     try:
         if 'track' in uri:
             uris = [uri]
@@ -539,10 +568,12 @@ def getTopArtists(limit=20):
         id = item['id']
         popularity = item['popularity']
         img = item['images'][0]['url']
+        uri = item['uri']
         artist.update({'name': name,
                        'id': id,
                        'popularity': popularity,
-                       'img': img})
+                       'img': img,
+                       'uri': uri})
         artists.append(artist)
     return artists
 
@@ -597,4 +628,23 @@ def getAlbumItems(albumId, offset=0, limit=50):
                           "nr": count + 1})
 
             tracks.append(track)
+    return tracks
+
+
+@handle_connection
+def getTopSongsByArtist(artistId):
+    tracks = []
+    items = spotifyHandler.artist_top_tracks(artistId)["tracks"]
+    for count, item in enumerate(items):
+        track = {}
+        name = item['name']
+        id = item['id']
+        uri = item['uri']
+        img = item['album']['images'][0]['url']
+        track.update({'track': name,
+                      'id': id,
+                      'uri': uri,
+                      'img': img})
+        tracks.append(track)
+
     return tracks
