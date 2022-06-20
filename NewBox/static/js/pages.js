@@ -21,18 +21,18 @@ const minVolume = document.querySelector("#minVolume")
 function getSettings()
 {
     index.innerHTML = "<div id=\"settings\">\n" +
-    "                    <h1>Rasberry Pi Settings</h1>" +
-    "                    <button onclick='pi_reboot()'>Reboot</button>" +
-    "                    <button onclick='pi_shutdown()'>Shutdown</button>" +
-    "                    <h1>Volume Settings</h1>" +
+    "                    <h1>Rasberry Pi Settings</h1>\n" +
+    "                    <button onclick='pi_reboot()'>Reboot</button>\n" +
+    "                    <button onclick='pi_shutdown()'>Shutdown</button>\n" +
+    "                    <h1>Volume Settings</h1>\n" +
     "                   <form name='setVolume' target='#here' method='post'>" +
     "                       <label for='maxVolume'></label>" +
-    "                           <input type='text' name='maxVolume' id='maxVolume' placeholder='Set max volume'>" +
+    "                           <input type='text' name='maxVolume' id='maxVolume' placeholder='Type here to set max volume'>\n" +
     "                       </br>" +
     "                   </form>" +
     "                   <form name='setVolume' target='#here' method='post'>" +
     "                       <label for='minVolume'></label>" +
-    "                           <input type='text' name='minVolume' id='minVolume' placeholder='Set min volume'>" +
+    "                           <input type='text' name='minVolume' id='minVolume' placeholder='Type here to set min volume'>\n" +
     "                       </form>" +
     "                    <h1>LED Settings</h1>\n" +
     "                   <label class='switch'>\n" +
