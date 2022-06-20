@@ -164,7 +164,7 @@ async def get_songs():
 
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -210,7 +210,7 @@ async def get_songs():
 def search_music(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -313,6 +313,36 @@ def search_music(key: str):
 
     return dictionary
     # return artistsSpotify
+
+
+# endpoint for getting all songs
+@app.get("use/searchall/{key}")
+async def search_all(key: str):
+    # sets up a connection to the database
+    try:
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+    except:
+        return "Can't connect to database"
+
+    cursor = db.cursor()
+
+    # the SQL statement
+    sql = "SELECT * FROM `core_song`;"
+
+    # executes the statement
+    cursor.execute(sql)
+
+    # takes the data from the statement and places it in a variable
+    songs = cursor.fetchall()
+
+    db.close()
+
+    dictionary = []
+
+    for song in songs:
+        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+
+    return dictionary
 
 
 # endpoint for getting the ip off the rpi
