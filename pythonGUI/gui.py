@@ -110,6 +110,7 @@ def btnPause():
 
 
 def btnMute():
+    requests.put("http://127.0.0.1:8000/adminpanel/volume/0")
     return
 
 
