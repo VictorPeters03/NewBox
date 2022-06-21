@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
@@ -90,19 +91,19 @@ def btnDownloads():
         songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
         songInfo = Frame(songEntry, height=2, bg="#4A272E")
         songQueue = Frame(songEntry, height=2)
-        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
-                           bg="#4A272E", fg="#C7C7C7")
+        # songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+        #                    bg="#4A272E", fg="#C7C7C7")
         margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
-        songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+        # songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
 
         songEntry.pack(fill=X)
         songInfo.pack(side=LEFT)
         songQueue.pack(side=RIGHT)
-        songTitle.pack(anchor="w")
+        # songTitle.pack(anchor="w")
         margin.pack(anchor='w')
-        songArtist.pack(anchor="w")
-        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
-            anchor='e')
+        # songArtist.pack(anchor="w")
+        # Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+        #     anchor='e')
 
 
 def btnPause():
@@ -215,6 +216,7 @@ def closeSearchBar():
 
 
 def openSearchBar():
+    os.system('toggle-matchbox.sh')
     logo.place_forget()
     btnSearch.place_forget()
     e.place(width=911, height=80, x=84, y=40)
@@ -225,7 +227,7 @@ def openSearchBar():
 # searchbar
 btnCloseSearchBar = tk.PhotoImage(file='images/icons/Cross-small.png')
 btnSearchSearchBar = tk.PhotoImage(file='images/icons/Search-small.png')
-btnSearch = tk.PhotoImage(file='images/icons/Search.png')
+iconBtnSearch = tk.PhotoImage(file='images/icons/Search.png')
 logoImage = tk.PhotoImage(file='images/icons/Settings.png')
 
 # headerBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
@@ -234,7 +236,7 @@ e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreg
 cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar, height=80, width=70)
 search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs, height=80, width=70)
 logo = Label(root, image=logoImage, borderwidth=0, height=80, width=70)
-btnSearch = Button(root, image=logoImage, borderwidth=0, command=openSearchBar, height=80, width=70)
+btnSearch = Button(root, image=iconBtnSearch, borderwidth=0, command=openSearchBar, height=80, width=70)
 logo.place(width=70, height=80, x=82, y=40)
 btnSearch.place(width=70, height=80, x=930, y=40)
 # e.place(width=911, height=80, x=84, y=40)
