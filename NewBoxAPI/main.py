@@ -88,17 +88,21 @@ async def set_volume(amount: int):
     while not valid:
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
-                mixer = alsaaudio.Mixer('PCM')
+                mixer = alsaaudio.Mixer('Master')
                 mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > limits[1]:
                 volume = json.dumps({"volume": limits[1],
                                      "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
+                mixer = alsaaudio.Mixer('Master')
+                mixer.setvolume(limits[1])
                 valid = True
             elif amount < limits[0]:
                 volume = json.dumps({"volume": limits[0],
                                      "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
+                mixer = alsaaudio.Mixer('Master')
+                mixer.setvolume(limits[0])
                 valid = True
         except ValueError:
             valid = False
