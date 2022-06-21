@@ -208,6 +208,7 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 
 
 def closeSearchBar():
+    os.system('toggle-matchbox.sh')
     e.place_forget()
     cross.place_forget()
     search.place_forget()
