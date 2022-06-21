@@ -2,9 +2,11 @@ from functools import wraps
 
 import requests.exceptions
 import spotipy
-from .authorization import spotifyHandler
+from .authorization import connect
 from .secrets import USER
 import math
+
+spotifyHandler = connect()
 
 try:
     DEVICE_ID = spotifyHandler.devices()['devices'][0]['id']
@@ -26,6 +28,10 @@ def handle_connection(func):
         except requests.exceptions.ReadTimeout:
             return {'status': 'error',
                     'message': 'ReadTimeOut, could not send request'}
+        except spotipy.SpotifyException:
+            global spotifyHandler
+            spotifyHandler = connect()
+            return func(*args, **kwargs)
     return decorated
 
 
