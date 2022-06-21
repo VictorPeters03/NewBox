@@ -1,6 +1,6 @@
 #!bin/bash
 #toggle matchbox keyboard
-keyboard on or off
+#keyboard on or off
 PID=`pidof matchbox-keyboard`
 if [ ! -e $PID ]; then
   killall matchbox-keyboard
