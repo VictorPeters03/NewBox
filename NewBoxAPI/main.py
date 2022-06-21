@@ -53,6 +53,7 @@ def itemCharLimitExceeded(item, artistKey, songKey):
 
 
 # endpoint for getting volume limits
+@app.get("/adminpanel/getlimits")
 def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
