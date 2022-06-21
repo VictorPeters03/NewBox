@@ -208,7 +208,7 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 
 
 def closeSearchBar():
-    os.system('toggle-matchbox.sh')
+    os.system('bash ./toggle-matchbox.sh')
     e.place_forget()
     cross.place_forget()
     search.place_forget()
@@ -217,7 +217,7 @@ def closeSearchBar():
 
 
 def openSearchBar():
-    os.system('toggle-matchbox.sh')
+    os.system('bash ./toggle-matchbox.sh')
     logo.place_forget()
     btnSearch.place_forget()
     e.place(width=911, height=80, x=84, y=40)
