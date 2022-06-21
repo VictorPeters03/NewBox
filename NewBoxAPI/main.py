@@ -1,4 +1,3 @@
-from xml import dom
 import MySQLdb
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-# import alsaaudio
+import alsaaudio
 from colorthief import ColorThief
 from colormap import hex2rgb
 import serial
@@ -19,6 +18,7 @@ import urllib3
 
 app = FastAPI()
 
+# enable CORS middleware to work with axios requests
 origins = [
     "*",
 ]
@@ -33,7 +33,26 @@ app.add_middleware(
 
 
 queue = []
+titleLimit = 40
 
+def songExists(item):
+    if "status" in item:
+        return False
+    return True
+
+
+def itemCharLimitExceeded(item, artistKey, songKey):
+    if len(item[artistKey]) <= titleLimit < len(item[songKey]):
+        return 1
+    elif len(item[artistKey]) > titleLimit and len(item[songKey]) > titleLimit:
+        return 2
+    elif len(item[artistKey]) > titleLimit >= len(item[songKey]):
+        return 3
+    else:
+        return 4
+
+
+# endpoint for getting volume limits
 def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
@@ -44,7 +63,9 @@ def get_volume_limits():
     f.close()
     return min_volume, max_volume
 
-def set_volume_limit(amount : int, limit : str):
+
+# endpoint for setting the minimum or maximum volume.
+def set_volume_limit(amount: int, limit: str):
     if limit == 'min':
         f = open('min.txt', 'r')
         volume_limit = int(f.read())
@@ -67,8 +88,8 @@ async def set_volume(amount: int):
     while not valid:
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
-                # mixer = alsaaudio.Mixer('PCM')
-                # mixer.setvolume(amount)
+                mixer = alsaaudio.Mixer('PCM')
+                mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > limits[1]:
@@ -126,25 +147,13 @@ def add_to_queue(uri: str):
 
 # endpoint for getting the queue
 @app.get("/use/getQueue")
-async def get_queue():
+def get_queue():
     try:
         return player.getQueue()
     except KeyError:
         player.filterQueue()
     finally:
         return player.getQueue()
-
-
-@app.get("/use/play/")
-async def play_music():
-    while len(queue) > 0:
-        if 'spotify' in queue[0]:
-            pass
-        else:
-            songPlayer.play()
-            while songPlayer.is_playing():
-                await asyncio.sleep(1)
-            queue.pop(0)
 
 
 # endpoint for playing songs
@@ -154,7 +163,7 @@ async def get_songs():
 
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -175,17 +184,32 @@ async def get_songs():
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2], "uri": song[3]})
+        if itemCharLimitExceeded(song, 1, 2) == 1:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 2:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 3:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2],
+                 "uri": song[3]})
+        else:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2],
+                 "uri": song[3]})
 
     return dictionary
 
 
-# endpoint for searching individual songs in the local database
+# endpoint for searching individual songs and artists in the local database and spotify
 @app.get("/use/search/{key}")
 def search_music(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -206,14 +230,85 @@ def search_music(key: str):
     dictionary = []
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        if len(songs) == 0:
+            break
+        elif itemCharLimitExceeded(song, 1, 2) == 1:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 2:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 3:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2],
+                 "uri": song[3]})
+        else:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1], "track": song[2],
+                 "uri": song[3]})
 
     cursor.execute(sqlArtists, params)
 
     songs = cursor.fetchall()
 
     for song in songs:
-        dictionary.append({"id": song[0], "artist": song[1], "title": song[2]})
+        if len(songs) == 0:
+            break
+        if itemCharLimitExceeded(song, 1, 2) == 1:
+            dictionary.append({"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                               "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 2:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0],
+                 "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2][0:titleLimit] + "...", "uri": song[3]})
+        elif itemCharLimitExceeded(song, 1, 2) == 3:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0],
+                 "artist": song[1][0:titleLimit] + "...",
+                 "track": song[2],
+                 "uri": song[3]})
+        else:
+            dictionary.append(
+                {"type": "track", "isDownloaded": True, "id": song[0], "artist": song[1],
+                 "track": song[2],
+                 "uri": song[3]})
+
+    artistsSpotify = functions.searchFor(2, key, 'artist')
+
+    for artist in artistsSpotify:
+        if not songExists(artist):
+            break
+        elif len(artist["artist"]) > titleLimit:
+            dictionary.append(
+                {"type": artist["type"], "id": artist['id'], "artist": artist['artist'][0:titleLimit] + "...",
+                 "uri": artist['uri']})
+        else:
+            dictionary.append(
+                {"type": artist["type"], "id": artist["id"], "artist": artist["artist"], "uri": artist["uri"]})
+
+    songsSpotify = functions.searchFor(10, key)
+
+    for song in songsSpotify:
+        if not songExists(song):
+            break
+        elif itemCharLimitExceeded(song, "artist", "track") == 1:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'],
+                               "track": song['track'][0:titleLimit] + "...", "uri": song['uri']})
+        elif itemCharLimitExceeded(song, "artist", "track") == 2:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'],
+                               "artist": song['artist'][0:titleLimit] + "...",
+                               "track": song['track'][0:titleLimit] + "...", "uri": song['uri']})
+        elif itemCharLimitExceeded(song, "artist", "track") == 3:
+            dictionary.append({"type": song["type"], "isDownloaded": False, "id": song['id'],
+                               "artist": song['artist'][0:titleLimit] + "...",
+                               "track": song['track'], "uri": song['uri']})
+        else:
+            dictionary.append(
+                {"type": song["type"], "isDownloaded": False, "id": song['id'], "artist": song['artist'],
+                 "track": song['track'], "uri": song['uri']})
 
     return dictionary
 
@@ -233,7 +328,7 @@ async def toggle_music():
 async def search_all(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -281,31 +376,34 @@ async def getPlaybackInfo():
     return functions.getPlaybackInfo()
 
 
-@app.put("/use/pause")
-async def pause():
-    return player.pauseAndPlay()
-
+# endpoint for pausing and playing music.
+@app.put("/use/toggle")
+async def toggle():
+    player.toggle()
 
 @app.put("/use/play")
 async def play():
     player.play()
 
-
+# endpoint for getting the current device that is playing spotify
 @app.get("/use/getDevice")
 async def getDevice():
     return functions.getDevice()
 
 
+# endpoint for skipping tracks.
 @app.put("/use/skip")
 async def skip():
     return player.skip()
 
 
+# endpoint for starting playback
 @app.put("/use/playSong")
 async def playSong():
     player.playSong()
 
 
+# endpoint for
 @app.get("/use/getOwnPlaylists")
 async def getOwnPlaylists():
     return functions.getOwnPlaylists()
@@ -361,9 +459,10 @@ async def getCategories():
     return functions.getCategories()
 
 
-@app.get("/use/artistTopTracks/{id}")
-async def getArtistTopTracks(id):
-    return functions.getArtistTopTracks(id)
+@app.get("/use/getArtistTopTracks/{artist}")
+def getArtistTopTracks(artist):
+    return functions.getTopSongsByArtist(artist)
+
 
 # LEDLIGHTS#
 
@@ -371,7 +470,7 @@ async def getArtistTopTracks(id):
 
 # endpoint for turning of the led lights
 @app.put("/use/turnoff")
-async def turn_off():
+def turn_off():
     cmd = "{'status': 'off', 'music': 'off', 'color': '(0, 0, 0)'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
     sleep(5)
@@ -387,24 +486,47 @@ async def no_music():
     arduinoData.write(cmd.encode())
     return
 
+@app.get("/use/reboot")
+async def reboot():
+    os.system('sudo reboot')
+    test = "Works"
+    return test
+
+
+@app.get("/use/shutdown")
+async def shutdown():
+    os.popen("sudo shutdown -h now").read()
+    sleep(0.1)
+    return
+
+
+@app.put("/admin/remove/{uri}")
+def removeFromQueue(uri):
+    if uri in player.queue:
+        if uri in player.queue[0]:
+            player.skip()
+        else:
+            player.queue.remove(uri)
+
 
 # To get the genre of a track and change LED colors based on what it is.
 @app.put("/use/genre/{name}")
 def get_track_color(name: str):
     url = functions.getTrackCoverImage(name)['img']
-    tmp_file= 'tmp.jpg'
-    
+    tmp_file = 'tmp.jpg'
+
     '''Downloads ths image file and analyzes the dominant color'''
     urlretrieve(url, tmp_file)
     color_thief = ColorThief(tmp_file)
     dominant_color = str(color_thief.get_color(quality=1))
     os.remove(tmp_file)
-    cmd = "{'status': 'on', 'music': 'on', 'color': '"+ (dominant_color) +"'}" + '\n'
+    cmd = "{'status': 'on', 'music': 'on', 'color': '" + (dominant_color) + "'}" + '\n'
     arduinoData = serial.Serial('/dev/ttyUSB0', 1200)
     sleep(5)
     arduinoData.write(cmd.encode())
-    #returns rgb
+    # returns rgb
     return
+
 
 # endpoint for led light colors based on category
 @app.put("/use/genre2/{name}")
@@ -413,4 +535,4 @@ async def change_genre(name: str):
     hexed = hex(base16INT)
     hexcode = '#' + hexed[2:][-6:].zfill(6)
     rgb = hex2rgb(hexcode)
-    return json.dumps({"rgb" : rgb})
+    return json.dumps({"rgb": rgb})

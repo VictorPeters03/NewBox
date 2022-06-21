@@ -1,3 +1,3 @@
 #!/bin/bash
-#
-/usr/lib/chromium-browser/chromium-browser https://open.spotify.com &
+# move this file to /etc/profile.d/
+/usr/lib/chromium-browser/chromium-browser-v7 &

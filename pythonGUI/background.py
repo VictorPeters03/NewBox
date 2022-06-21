@@ -1,3 +1,5 @@
+#bron: https://codingshiksha.com/python/python-3-tkinter-gradient-background-color-frame-gui-desktop-app-full-project-for-beginners/
+
 from tkinter import Canvas
 
 
@@ -25,6 +27,7 @@ class GradientFrame(Canvas):
         self.__geometry = [kw["width"], kw["height"]]
         self.__colors = colors
         self.__direction = direction
+
 
         # Desenha o degradê no Canvas.
         self.__draw_gradient()
