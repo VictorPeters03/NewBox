@@ -90,7 +90,9 @@ async def set_volume(amount: int):
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
                 mixer = alsaaudio.Mixer('Master')
+
                 mixer.setvolume(amount)
+
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > limits[1]:
@@ -109,6 +111,21 @@ async def set_volume(amount: int):
             valid = False
     return volume
 
+@app.put("/adminpanel/mute")
+async def set_volume_mute():
+    mixer = alsaaudio.Mixer('Master')
+    mixer.setmute()
+    return
+
+@app.put("/adminpanel/harder")
+async def set_volume_harder():
+    mixer = alsaaudio.Mixer('Master')
+    mixer.setvolume(mixer.getvolume()+1)
+
+@app.put("/adminpanel/softer")
+async def set_volume_softer():
+    mixer = alsaaudio.Mixer('Master')
+    mixer.setvolume(mixer.getvolume() - 1)
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
