@@ -221,6 +221,7 @@ def openSearchBar():
     logo.place_forget()
     btnSearch.place_forget()
     e.place(width=911, height=80, x=84, y=40)
+    e.focus()
     cross.place(width=70, height=80, x=930, y=40)
     search.place(width=70, height=80, x=82, y=40)
 
