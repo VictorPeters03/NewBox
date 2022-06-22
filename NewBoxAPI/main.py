@@ -31,9 +31,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 queue = []
 titleLimit = 40
+
 
 def songExists(item):
     if "status" in item:
@@ -58,12 +58,16 @@ def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
     f.close()
-    
+
     f = open('min.txt', 'r')
     min_volume = int(f.read())
     f.close()
     return min_volume, max_volume
 
+#endpoint for muting and unmuting volume 
+@app.get("/adminpanel/togglemute")
+def toggle_mute():
+     os.popen("pactl set-sink-mute 0 toggle").read()
 
 # endpoint for setting the minimum or maximum volume.
 def set_volume_limit(amount: int, limit: str):
@@ -403,9 +407,11 @@ async def getPlaybackInfo():
 async def toggle():
     player.toggle()
 
+
 @app.put("/use/play")
 async def play():
     player.play()
+
 
 # endpoint for getting the current device that is playing spotify
 @app.get("/use/getDevice")
@@ -486,6 +492,11 @@ def getArtistTopTracks(artist):
     return functions.getTopSongsByArtist(artist)
 
 
+@app.get("/use/getTrackCoverImage/{id}")
+def getTrackCoverImage(id):
+    return functions.getTrackCoverImage(id)
+
+
 # LEDLIGHTS#
 
 # https://stackoverflow.com/questions/57336022/make-an-addressable-led-strip-shift-from-one-pattern-to-the-next-after-a-set-amo
@@ -507,6 +518,7 @@ async def no_music():
     sleep(5)
     arduinoData.write(cmd.encode())
     return
+
 
 @app.get("/use/reboot")
 async def reboot():
@@ -532,12 +544,12 @@ def removeFromQueue(uri):
 
 
 # To get the genre of a track and change LED colors based on what it is.
-@app.put("/use/genre/{name}")
-def get_track_color(name: str):
-    url = functions.getTrackCoverImage(name)['img']
+@app.put("/use/genre/{id}")
+def get_track_color(id):
+    url = functions.getTrackCoverImage(id)['img']
     tmp_file = 'tmp.jpg'
 
-    '''Downloads ths image file and analyzes the dominant color'''
+    """Downloads ths image file and analyzes the dominant color"""
     urlretrieve(url, tmp_file)
     color_thief = ColorThief(tmp_file)
     dominant_color = str(color_thief.get_color(quality=1))

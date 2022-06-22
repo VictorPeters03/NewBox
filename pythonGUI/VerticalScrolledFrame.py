@@ -48,13 +48,13 @@ class VerticalScrolledFrame(Frame):
         self.prevy = 0
         self.scrollposition = 1
 
-        def on_press(event):
-            self.offset_y = event.y_root
-            if self.scrollposition < 1:
-                self.scrollposition = 1
-            elif self.scrollposition > self.canvasheight:
-                self.scrollposition = self.canvasheight
-            self.canvas.yview_moveto(self.scrollposition / self.canvasheight)
+        # def on_press(event):
+        #     self.offset_y = event.y_root
+        #     if self.scrollposition < 1:
+        #         self.scrollposition = 1
+        #     elif self.scrollposition > self.canvasheight:
+        #         self.scrollposition = self.canvasheight
+        #     self.canvas.yview_moveto(self.scrollposition / self.canvasheight)
 
         def on_touch_scroll(event):
             nowy = event.y_root
@@ -71,7 +71,7 @@ class VerticalScrolledFrame(Frame):
             self.scrollposition += event.delta
             self.canvas.yview_moveto(self.scrollposition / self.canvasheight)
 
-        self.bind("<Enter>", lambda _: self.bind_all('<Button-1>', on_press), '+')
+        # self.bind("<Enter>", lambda _: self.bind_all('<Button-1>', on_press), '+')
         self.bind("<Leave>", lambda _: self.unbind_all('<Button-1>'), '+')
         self.bind("<Enter>", lambda _: self.bind_all('<B1-Motion>', on_touch_scroll), '+')
         self.bind("<Leave>", lambda _: self.unbind_all('<B1-Motion>'), '+')

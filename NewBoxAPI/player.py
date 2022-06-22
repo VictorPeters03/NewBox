@@ -39,7 +39,7 @@ def getQueue():
                 song = functions.getSongByUri(uri)['name']
                 artist = functions.getSongByUri(uri)['artist']
                 songInfo.update({'uri': uri,
-                                 'song': song,
+                                 'track': song,
                                  'artist': artist})
                 info.append(songInfo)
             except KeyError:
@@ -51,7 +51,7 @@ def getQueue():
             song = result[1]
             artist = result[0]
             songInfo.update({'uri': uri,
-                             'song': song,
+                             'track': song,
                              'artist': artist})
             info.append(songInfo)
     return info
@@ -106,10 +106,10 @@ def toggle():
         return
     if not paused:
         if "spotify" not in queue[0]:
-            paused = False
+            paused = True
             player.pause()
         else:
-            paused = False
+            paused = True
             functions.pause()
             counter = functions.getPlaybackInfo()['progress_seconds']
         return "Paused"
@@ -204,5 +204,3 @@ def playSong():
                     print(counter)
             if functions.getDevice() is not None:
                 queue.pop(0)
-
-
