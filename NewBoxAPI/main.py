@@ -9,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-# import alsaaudio
+import alsaaudio
 from colorthief import ColorThief
 from colormap import hex2rgb
 import serial
@@ -64,6 +64,10 @@ def get_volume_limits():
     f.close()
     return min_volume, max_volume
 
+#endpoint for muting and unmuting volume 
+@app.get("/adminpanel/toggelMute")
+def toggle_mute():
+     os.popen("pactl set-sink-mute 0 toggle").read()
 
 # endpoint for setting the minimum or maximum volume.
 def set_volume_limit(amount: int, limit: str):
