@@ -124,12 +124,13 @@ async def set_volume_mute():
 @app.put("/adminpanel/harder")
 async def set_volume_harder():
     mixer = alsaaudio.Mixer('Master')
-    mixer.setvolume(mixer.getvolume()+1)
+    mixer.setvolume(mixer.getvolume(0)[1] + 5)
 
 @app.put("/adminpanel/softer")
 async def set_volume_softer():
     mixer = alsaaudio.Mixer('Master')
-    mixer.setvolume(mixer.getvolume() - 1)
+    mixer.setvolume(mixer.getvolume(0)[1] - 5)
+    return 
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
