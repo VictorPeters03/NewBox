@@ -1,22 +1,10 @@
+{% extends 'loginBase.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>NewBox</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-</head>
-<body>
-<script defer src="{% static 'js/pages.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>!window.axios && document.write('<script src="{% static 'js/axios.min.js' %}"><\/script>')</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-<script>!window.jQuery && document.write('<script src="{% static 'js/jquery.min.js' %}"><\/script>')</script>
-<script defer src="{% static 'js/script.js' %}"></script>
-<div id="container">
-    {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,11 +43,12 @@
         </label>
         <h1 class="loadedqueue">Queue</h1>
         <button class="button-11" role="button" onclick='get_queue()'>Load the queue</button>
+        <p style="margin-top: 20px;"><a href="{% url 'logout' %}">Log Out</a></p>
+    </div>
 </div>
 </body>
 </html>
-    {% block content %}
-    {% endblock %}
-</div>
-</body>
-</html>
+{% else %}
+    <meta http-equiv="refresh" content="0;url=/accounts/login/" />
+{% endif %}
+{% endblock %}
