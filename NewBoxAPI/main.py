@@ -31,9 +31,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 queue = []
 titleLimit = 40
+
 
 def songExists(item):
     if "status" in item:
@@ -58,7 +58,7 @@ def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
     f.close()
-    
+
     f = open('min.txt', 'r')
     min_volume = int(f.read())
     f.close()
@@ -386,9 +386,11 @@ async def getPlaybackInfo():
 async def toggle():
     player.toggle()
 
+
 @app.put("/use/play")
 async def play():
     player.play()
+
 
 # endpoint for getting the current device that is playing spotify
 @app.get("/use/getDevice")
@@ -490,6 +492,7 @@ async def no_music():
     sleep(5)
     arduinoData.write(cmd.encode())
     return
+
 
 @app.get("/use/reboot")
 async def reboot():

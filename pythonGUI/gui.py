@@ -58,7 +58,8 @@ def btnSongs():
         songTitle.pack(anchor="w")
         margin.pack(anchor='w')
         songArtist.pack(anchor="w")
-        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+        Button(songQueue, image=iconImgPlaylist, text="add to queue", border=0, background='#4A272E', justify="right",
+               command=partial(addToQueue, song["uri"])).pack(
             anchor='e')
 
 
@@ -102,8 +103,32 @@ def btnDownloads():
         songTitle.pack(anchor="w")
         margin.pack(anchor='w')
         songArtist.pack(anchor="w")
-        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+        Button(songQueue, border=0, image=iconImgPlaylist, background='#4A272E', text="add to queue", justify="right",
+               command=partial(addToQueue, song["uri"])).pack(
             anchor='e')
+
+def btnGetQueue():
+    queuedSongs = requests.get("http://127.0.0.1:8000/use/getQueue")
+    songList.resetY()
+    for widget in songList.interior.winfo_children():
+        widget.destroy()
+    if len(queuedSongs.json()) != 0:
+        for song in queuedSongs.json():
+            songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+            songInfo = Frame(songEntry, height=2, bg="#4A272E")
+            songQueue = Frame(songEntry, height=2)
+            songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+                               bg="#4A272E", fg="#C7C7C7")
+            margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+            songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+
+            songEntry.pack(fill=X)
+            songInfo.pack(side=LEFT)
+            songQueue.pack(side=RIGHT)
+            songTitle.pack(anchor="w")
+            margin.pack(anchor='w')
+            songArtist.pack(anchor="w")
+
 
 
 def btnPause():
@@ -154,7 +179,8 @@ def searchSongs():
             margin.pack(anchor='w')
             songTitle.pack(anchor="w")
             songArtist.pack(anchor="w")
-            Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
+            Button(songQueue, image=iconImgPlaylist, border=0, text="add to queue", background='#4A272E',
+                   justify="right", command=partial(addToQueue, song["uri"])).pack(
                 anchor='e')
         elif song['type'] == 'artist':
             artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
@@ -194,9 +220,13 @@ def getTopSongs(uri):
         songQueue.pack(side=RIGHT)
         songTitle.pack(anchor="w")
         margin.pack(anchor='w')
-        songArtist.pack(anchor="w")
-        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
-            anchor='e')
+        # songArtist.pack(anchor="w")
+        Button(songQueue, image=iconImgPlaylist, text="add to queue", justify="right",
+               command=partial(addToQueue, song["uri"])).pack(anchor='e')
+
+
+def convertToRGBA(path):
+    return Image.open(path).convert("RGBA")
 
 
 topBtnStyle = ttk.Style()
@@ -272,13 +302,15 @@ Button(root, image=iconImgSongs, text="Songs", anchor="w", padx=45, fg='white', 
 Button(root, image=iconImgArtist, text="Artist", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
        compound=tk.LEFT, command=btnArtists, border=0, bg='#4A272E').place(x=84, y=130, width=436, height=100)
 Button(root, image=iconImgDownloaded, text="Downloaded", anchor="w", padx=30, fg='white', font=('arial', 30, 'bold'),
-       compound=tk.LEFT, command=btnDownloads, border=0, bg='#4A272E').place(x=84, y=240, width=912, height=100)
+       compound=tk.LEFT, command=btnDownloads, border=0, bg='#4A272E').place(x=84, y=240, width=436, height=100)
+Button(root, image=iconImgPlaylist, text="Queue", anchor="w", padx=45, fg='white', font=('arial', 30, 'bold'),
+       compound=tk.LEFT, command=btnGetQueue, border=0, bg='#4A272E').place(x=560, y=240, width=436, height=100)
 
 # style="topBtnStyle"
 
 # Downloaded songs
 songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
+# songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
 songList = VerticalScrolledFrame.VerticalScrolledFrame(root, bg='#4A272E')
 songList.place(y=500, width=911, height=1000, x=84)
 btnDownloads()

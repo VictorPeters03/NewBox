@@ -39,7 +39,7 @@ def getQueue():
                 song = functions.getSongByUri(uri)['name']
                 artist = functions.getSongByUri(uri)['artist']
                 songInfo.update({'uri': uri,
-                                 'song': song,
+                                 'track': song,
                                  'artist': artist})
                 info.append(songInfo)
             except KeyError:
@@ -51,7 +51,7 @@ def getQueue():
             song = result[1]
             artist = result[0]
             songInfo.update({'uri': uri,
-                             'song': song,
+                             'track': song,
                              'artist': artist})
             info.append(songInfo)
     return info
