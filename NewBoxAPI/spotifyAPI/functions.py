@@ -16,8 +16,8 @@ except IndexError:
     DEVICE_ID = None
 
 
-# 'Decorator' that takes in a function as argument and checks if the function gives an error
 def handle_connection(func):
+    """Decorator that takes in a function as argument and checks if the function gives an error"""
     @wraps(func)
     def decorated(*args, **kwargs):
         try:
@@ -59,6 +59,7 @@ def getDevice():
 # Song related functions
 @handle_connection
 def getPlaybackInfo():
+    """Returns information about the current playing track, if none is playing, return error"""
     result = spotifyHandler.current_playback()
     if result is None:
         return {'status': 'error',
@@ -112,6 +113,7 @@ def getPlaybackInfo():
 
 @handle_connection
 def getSongByUri(trackUri):
+    """Get the name and artist of a song by entering the song uri"""
     try:
         track = spotifyHandler.track(trackUri)['name']
         artist = spotifyHandler.track(trackUri)['artists'][0]['name']
@@ -127,6 +129,7 @@ def getSongByUri(trackUri):
 
 @handle_connection
 def getSongUri(trackName):
+    """Get the song uri by entering a track name"""
     try:
         uri = spotifyHandler.search(trackName, type='track')['tracks']['items'][0]['uri']
     except IndexError:
@@ -140,6 +143,7 @@ def getSongUri(trackName):
 
 @handle_connection
 def getSongDuration(uri):
+    """Calculate the duration of the song in seconds"""
     duration = round(spotifyHandler.track(uri)['duration_ms'] / 1000)
     return duration
 
@@ -147,14 +151,14 @@ def getSongDuration(uri):
 # Search related functions
 @handle_connection
 def searchFor(resultSize, searchQuery, returnType='track'):
-    # Check if result size is valid
+    """Search for anything, specify 'returnType' if you want other results than tracks"""
     if resultSize <= 0 or resultSize > 50 or not isinstance(resultSize, int):
         return {'status': 'error', 'message': 'Invalid result size'}
 
     items = []
     searchResult = spotifyHandler.search(q=searchQuery, type=returnType, limit=resultSize)[returnType + 's']['items']
 
-    # Loop over all the search results and store each item with info to a dictionary and add the dict to a list
+    """Loop over all the search results and store each item with info to a dictionary and add the dict to a list"""
     if returnType == "track":
         for count, item in enumerate(searchResult):
             # return item
@@ -197,6 +201,7 @@ def searchFor(resultSize, searchQuery, returnType='track'):
 # Playlist related functions
 @handle_connection
 def makePlaylist(name, description=''):
+    """Create a playlist with name and optional description"""
     if spotifyHandler.user_playlist_create(user=USER, name=name, description=description):
         info = {'status': 'executed',
                 'message': 'Created playlist'}
@@ -208,6 +213,7 @@ def makePlaylist(name, description=''):
 
 @handle_connection
 def getPlaylistByName(inp):
+    """Search for a playlist by name"""
     try:
         items = searchFor(1, inp, returnType='playlist')
     except IndexError:
@@ -218,6 +224,7 @@ def getPlaylistByName(inp):
 
 @handle_connection
 def addSongToPlaylist(trackUri, playlistId):
+    """Add song to playlist by entering the trackUri and the playlistId"""
     try:
         spotifyHandler.playlist_add_items(playlistId, [trackUri])
         info = {'status': 'executed',
@@ -230,6 +237,7 @@ def addSongToPlaylist(trackUri, playlistId):
 
 @handle_connection
 def removeSongFromPlaylist(trackUri, playlistId):
+    """Remove song from playlist by entering trackUri and playlistId"""
     try:
         spotifyHandler.playlist_remove_all_occurrences_of_items(playlistId, [trackUri])
         info = {'status': 'executed',
@@ -242,8 +250,8 @@ def removeSongFromPlaylist(trackUri, playlistId):
 
 @handle_connection
 def getOwnPlaylists():
+    """Get all the playlist created by user and the playlists that are saved"""
     playlists = []
-
     for count, playlist in enumerate(spotifyHandler.current_user_playlists()['items']):
         pl = {}
         try:
@@ -290,6 +298,7 @@ def getTotal(id, returnType):
 
 @handle_connection
 def getPlaylistItems(playlistId, offset=0, limit=100):
+    """Get all the songs from a playlist, playlistId must be given. Offset and limit is optional"""
     tracks = []
     total = getTotal(id=playlistId, returnType="playlist")
     # Function above 'getPlaylistTotal' returns a dict if an error occurred.
@@ -349,16 +358,14 @@ def removePlaylist(playlistId):
 
 
 @handle_connection
-def getPlaylistCoverImage(playlistName):
+def getPlaylistCoverImage(playlistId):
+    """Gets the playlist cover image"""
     try:
-        result = spotifyHandler.search(q=playlistName, limit=1, type='playlist')
-        playlistId = result['playlists']['items'][0]['id']
+        imageUrl = spotifyHandler.playlist_cover_image(playlistId)[0]['url']
     except IndexError:
-        info = {'status': 'error',
-                'message': 'Index out of range, no results found'}
+        info = {'id': playlistId,
+                'img': 'None'}
         return info
-
-    imageUrl = spotifyHandler.playlist_cover_image(playlistId)[0]['url']
 
     info = {'id': playlistId,
             'img': imageUrl}
@@ -366,16 +373,14 @@ def getPlaylistCoverImage(playlistName):
 
 
 @handle_connection
-def getTrackCoverImage(trackName):
+def getTrackCoverImage(trackId):
+    """Gets a cover image of the album the track is part of"""
     try:
-        result = spotifyHandler.search(q=trackName, limit=1, type='track')
-        trackId = result['tracks']['items'][0]['id']
+        imageUrl = spotifyHandler.track(trackId)['album']['images'][0]['url']
     except IndexError:
-        info = {'status': 'error',
-                'message': 'Index out of range, no results found'}
+        info = {'id': trackId,
+                'img': 'None'}
         return info
-
-    imageUrl = spotifyHandler.track(trackId)['album']['images'][0]['url']
 
     info = {'id': trackId,
             'img': imageUrl}
@@ -384,7 +389,7 @@ def getTrackCoverImage(trackName):
 
 @handle_connection
 def getDefaultPlaylists(limit=20):
-    # gets standard playlists to show on the front-end
+    """Gets featured playlist, limit can be set manually"""
 
     playlists = []
     result = spotifyHandler.featured_playlists(limit=limit)
@@ -409,6 +414,7 @@ def getDefaultPlaylists(limit=20):
 # Player related functions
 @handle_connection
 def play(uri):
+    """Plays the song given the uri"""
     if DEVICE_ID is None:
         return {'status': 'error',
                 'message': 'No device found'}
@@ -429,6 +435,7 @@ def play(uri):
 
 @handle_connection
 def skip():
+    """Skips to next spotify song"""
     if spotifyHandler.current_playback()['item'] is None:
         info = {'status': 'No song available'}
         return info
@@ -441,6 +448,7 @@ def skip():
 
 @handle_connection
 def pause():
+    """If song is paused, unpause. If song is not paused, pause"""
     if spotifyHandler.current_playback() is None:
         return None
     if spotifyHandler.current_playback()['is_playing'] is True:
@@ -462,7 +470,7 @@ def previous():
 
 @handle_connection
 def setVolume(volume):
-    # set volume between 0 - 100%
+    """Set volume between 0% and 100%"""
     if not isinstance(volume, int) and not isinstance(volume, float):
         info = {'status': 'error',
                 'message': 'Volume must be of type int or float'}
@@ -483,7 +491,7 @@ def setVolume(volume):
 
 @handle_connection
 def shuffle():
-    # state can either be true or false
+    """Toggle the shuffle state"""
     if spotifyHandler.current_playback() is None:
         info = {'status': 'No song available'}
         return info
@@ -515,7 +523,7 @@ def addToQueue(uri):
 
 @handle_connection
 def repeat():
-    # state can either be track, context or off
+    """Toggle the repeat state"""
     if spotifyHandler.current_playback() is None:
         info = {'status': 'No song available'}
         return info
@@ -531,6 +539,7 @@ def repeat():
 
 @handle_connection
 def getFeaturedAlbums(limit=20):
+    """Get the featured albums from spotify"""
     albums = []
     items = spotifyHandler.new_releases(limit=limit)['albums']['items']
     for count, item in enumerate(items):
@@ -551,6 +560,7 @@ def getFeaturedAlbums(limit=20):
 
 @handle_connection
 def getCategories(limit=50):
+    """Get a list of different categories, limit can be specified"""
     categories = []
     items = spotifyHandler.categories(limit=limit)['categories']['items']
     for count, item in enumerate(items):
@@ -566,6 +576,7 @@ def getCategories(limit=50):
 
 @handle_connection
 def getTopArtists(limit=20):
+    """Get the most listened artists from the user"""
     artists = []
     items = spotifyHandler.current_user_top_artists(limit=limit)['items']
     for count, item in enumerate(items):
@@ -586,6 +597,7 @@ def getTopArtists(limit=20):
 
 @handle_connection
 def getTopTracks(limit=20):
+    """Get the user most listened tracks"""
     tracks = []
     items = spotifyHandler.current_user_top_tracks(limit=limit)['items']
     for count, item in enumerate(items):
@@ -605,6 +617,7 @@ def getTopTracks(limit=20):
 
 @handle_connection
 def getAlbumItems(albumId, offset=0, limit=50):
+    """Get all the tracks from an album"""
     tracks = []
     total = getTotal(id=albumId, returnType="album")
     # Function above 'getPlaylistTotal' returns a dict if an error occurred.
@@ -639,6 +652,7 @@ def getAlbumItems(albumId, offset=0, limit=50):
 
 @handle_connection
 def getTopSongsByArtist(artistId):
+    """Get the most popular songs from an artist"""
     tracks = []
     items = spotifyHandler.artist_top_tracks(artistId)["tracks"]
     for count, item in enumerate(items):

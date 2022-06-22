@@ -9,7 +9,7 @@ from time import sleep
 import vlc
 import asyncio
 import player
-import alsaaudio
+# import alsaaudio
 from colorthief import ColorThief
 from colormap import hex2rgb
 import serial
@@ -464,6 +464,11 @@ def getArtistTopTracks(artist):
     return functions.getTopSongsByArtist(artist)
 
 
+@app.get("/use/getTrackCoverImage/{id}")
+def getTrackCoverImage(id):
+    return functions.getTrackCoverImage(id)
+
+
 # LEDLIGHTS#
 
 # https://stackoverflow.com/questions/57336022/make-an-addressable-led-strip-shift-from-one-pattern-to-the-next-after-a-set-amo
@@ -510,12 +515,12 @@ def removeFromQueue(uri):
 
 
 # To get the genre of a track and change LED colors based on what it is.
-@app.put("/use/genre/{name}")
-def get_track_color(name: str):
-    url = functions.getTrackCoverImage(name)['img']
+@app.put("/use/genre/{id}")
+def get_track_color(id):
+    url = functions.getTrackCoverImage(id)['img']
     tmp_file = 'tmp.jpg'
 
-    '''Downloads ths image file and analyzes the dominant color'''
+    """Downloads ths image file and analyzes the dominant color"""
     urlretrieve(url, tmp_file)
     color_thief = ColorThief(tmp_file)
     dominant_color = str(color_thief.get_color(quality=1))
