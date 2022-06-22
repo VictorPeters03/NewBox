@@ -65,7 +65,7 @@ def get_volume_limits():
     return min_volume, max_volume
 
 #endpoint for muting and unmuting volume 
-@app.get("/adminpanel/toggelmute")
+@app.get("/adminpanel/togglemute")
 def toggle_mute():
      os.popen("pactl set-sink-mute 0 toggle").read()
 
