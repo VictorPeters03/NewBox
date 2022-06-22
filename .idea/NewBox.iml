@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/NewBox/.idea/dataSources" />
       <excludeFolder url="file://$MODULE_DIR$/_venv38.win32" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (NewBox)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
