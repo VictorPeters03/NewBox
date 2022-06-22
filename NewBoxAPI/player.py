@@ -106,10 +106,10 @@ def toggle():
         return
     if not paused:
         if "spotify" not in queue[0]:
-            paused = False
+            paused = True
             player.pause()
         else:
-            paused = False
+            paused = True
             functions.pause()
             counter = functions.getPlaybackInfo()['progress_seconds']
         return "Paused"
@@ -204,5 +204,3 @@ def playSong():
                     print(counter)
             if functions.getDevice() is not None:
                 queue.pop(0)
-
-
