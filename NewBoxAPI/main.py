@@ -31,9 +31,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 queue = []
 titleLimit = 40
+
 
 def songExists(item):
     if "status" in item:
@@ -53,11 +53,12 @@ def itemCharLimitExceeded(item, artistKey, songKey):
 
 
 # endpoint for getting volume limits
+@app.get("/adminpanel/getlimits")
 def get_volume_limits():
     f = open('max.txt', 'r')
     max_volume = int(f.read())
     f.close()
-    
+
     f = open('min.txt', 'r')
     min_volume = int(f.read())
     f.close()
@@ -88,17 +89,21 @@ async def set_volume(amount: int):
     while not valid:
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
-                mixer = alsaaudio.Mixer('PCM')
+                mixer = alsaaudio.Mixer('Master')
                 mixer.setvolume(amount)
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > limits[1]:
                 volume = json.dumps({"volume": limits[1],
                                      "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
+                mixer = alsaaudio.Mixer('Master')
+                mixer.setvolume(limits[1])
                 valid = True
             elif amount < limits[0]:
                 volume = json.dumps({"volume": limits[0],
                                      "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
+                mixer = alsaaudio.Mixer('Master')
+                mixer.setvolume(limits[0])
                 valid = True
         except ValueError:
             valid = False
@@ -381,9 +386,11 @@ async def getPlaybackInfo():
 async def toggle():
     player.toggle()
 
+
 @app.put("/use/play")
 async def play():
     player.play()
+
 
 # endpoint for getting the current device that is playing spotify
 @app.get("/use/getDevice")
@@ -490,6 +497,7 @@ async def no_music():
     sleep(5)
     arduinoData.write(cmd.encode())
     return
+
 
 @app.get("/use/reboot")
 async def reboot():

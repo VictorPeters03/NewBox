@@ -71,7 +71,7 @@ function get_queue()
             console.log(resp)
             resp.data.forEach(element =>
                 index.innerHTML +=
-                '<div class="title"><p>' + element["song"] + '</p></div>' +
+                '<div class="title"><p>' + element["track"] + '</p></div>' +
                 '<div class="artist"><p>' + element["artist"] + '</p></div>' +
                 '<div class="remove-songs"><p onclick="delete_from_queue(' + "'" + element["uri"] + "'" + ')">Remove</p></div>'
             )

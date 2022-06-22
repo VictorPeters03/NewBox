@@ -36,25 +36,25 @@
 <div id="container">
     <div id=\"settings\">
         <h1>Rasberry Pi Settings</h1>
-        <button onclick='pi_reboot()'>Reboot</button>
-        <button onclick='pi_shutdown()'>Shutdown</button>
+        <button class="button-11" role="button"onclick='pi_reboot()'>Reboot</button>
+        <button class="button-11" role="button"onclick='pi_shutdown()'>Shutdown</button>
         <h1>Volume Settings</h1>
         <form name='setVolume' target='#here' method='post'>
             <label for='maxVolume'></label>
-                <input type='text' name='maxVolume' id='maxVolume' placeholder='Type here to set max volume'>
+                <input class="textbox" type='text' name='maxVolume' id='maxVolume' placeholder='Set maximum volume'>
             </br>
         </form>
         <form name='setVolume' target='#here' method='post'>
-            <label for='minVolume'></label>
-                <input type='text' name='minVolume' id='minVolume' placeholder='Type here to set min volume'>
+            <label  for='minVolume'></label>
+                <input class="textbox" type='text' name='minVolume' id='minVolume' placeholder='Set minimal volume'>
             </form>
         <h1>LED Settings</h1>
         <label class='switch'>
             <input type='checkbox'>
             <span class='slider round'></span>
         </label>
-        <h1>Queue</h1>
-        <button onclick='get_queue()'>Load the queue</button>
+        <h1 class="loadedqueue">Queue</h1>
+        <button class="button-11" role="button" onclick='get_queue()'>Load the queue</button>
 </div>
 </body>
 </html>

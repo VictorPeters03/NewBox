@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 16 mei 2022 om 16:25
+-- Gegenereerd op: 21 jun 2022 om 13:20
 -- Serverversie: 10.4.17-MariaDB
 -- PHP-versie: 8.0.2
 
@@ -153,17 +153,21 @@ CREATE TABLE `auth_user_user_permissions` (
 CREATE TABLE `core_song` (
   `id` bigint(20) NOT NULL,
   `artist` varchar(50) NOT NULL,
-  `song` varchar(100) NOT NULL
+  `song` varchar(100) NOT NULL,
+  `uri` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `core_song`
 --
 
-INSERT INTO `core_song` (`id`, `artist`, `song`) VALUES
-(1, 'Pantera', 'Cowboys from Hell'),
-(2, 'Primus', 'Jerry Was A Racecar Driver'),
-(3, 'Slayer', 'Angel Of Death');
+INSERT INTO `core_song` (`id`, `artist`, `song`, `uri`) VALUES
+(1, 'Pantera', 'Cowboys from Hell', 'Pantera - Cowboys from Hell.mp3'),
+(2, 'Primus', 'Jerry Was A Racecar Driver', 'Primus - Jerry Was a Race Car Driver.mp3'),
+(6, 'Black Sabbath', 'Into the Void', 'BLACK SABBATH - Into the void.mp3'),
+(8, 'Rick Astley', 'Never Gonna Give You Up', 'Rick Astley - Never Gonna Give You Up.mp3'),
+(9, 'Alestorm', 'Keelhauled', 'Keelhauled - Alestorm.mp3'),
+(10, 'Sacred Reich', 'Surf Nicaragua', 'SACRED REICH - Surf Nicaragua.mp3');
 
 -- --------------------------------------------------------
 
@@ -400,7 +404,7 @@ ALTER TABLE `auth_user_user_permissions`
 -- AUTO_INCREMENT voor een tabel `core_song`
 --
 ALTER TABLE `core_song`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT voor een tabel `django_admin_log`
