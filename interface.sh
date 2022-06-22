@@ -1,4 +1,5 @@
 #!/bin/sh
 # move this file to /etc/profile.d/
-sleep 3
+chmod 777 /home/newbox/NewBox/pythonGUI/start_interface.sh
+sleep 15
 /home/newbox/NewBox/pythonGUI/./start_interface.sh &
