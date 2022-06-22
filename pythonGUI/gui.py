@@ -58,8 +58,7 @@ def btnSongs():
         songTitle.pack(anchor="w")
         margin.pack(anchor='w')
         songArtist.pack(anchor="w")
-        Button(songQueue, image=iconImgPlaylist, text="add to queue", border=0, background='#4A272E', justify="right",
-               command=partial(addToQueue, song["uri"])).pack(
+        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
             anchor='e')
 
 
@@ -141,10 +140,12 @@ def btnMute():
 
 
 def btnSofter():
+    requests.put("http://127.0.0.1:8000/adminpanel/softer")
     return
 
 
 def btnHarder():
+    requests.put("http://127.0.0.1:8000/adminpanel/harder")
     return
 
 
@@ -210,8 +211,8 @@ def getTopSongs(uri):
         songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
         songInfo = Frame(songEntry, height=2, bg="#4A272E")
         songQueue = Frame(songEntry, height=2)
-        # songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
-        #                    bg="#4A272E", fg="#C7C7C7")
+        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+                           bg="#4A272E", fg="#C7C7C7")
         margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
         songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
 
@@ -220,7 +221,7 @@ def getTopSongs(uri):
         songQueue.pack(side=RIGHT)
         songTitle.pack(anchor="w")
         margin.pack(anchor='w')
-        # songArtist.pack(anchor="w")
+        songArtist.pack(anchor="w")
         Button(songQueue, image=iconImgPlaylist, text="add to queue", border=0, justify="right", background='#4A272E',
                command=partial(addToQueue, song["uri"])).pack(anchor='e')
 
@@ -256,7 +257,7 @@ def openSearchBar():
     search.place(width=70, height=80, x=82, y=40)
 
 
-# searchbar
+# searchbar images
 btnCloseSearchBar = tk.PhotoImage(file='images/icons/Cross-small.png')
 btnSearchSearchBar = tk.PhotoImage(file='images/icons/Search-small.png')
 iconBtnSearch = tk.PhotoImage(file='images/icons/Search.png')
@@ -275,26 +276,24 @@ btnSearch.place(width=70, height=80, x=930, y=40)
 # cross.place(width=70, height=80, x=930, y=40)
 # search.place(width=70, height=80, x=82, y=40)
 
-# button images
-btnImgPlaylist = tk.PhotoImage(file='images/btnPlaylist.png', height=100, width=500)
-btnImgSongs = tk.PhotoImage(file='images/btnSongs.png', height=100, width=500)
-btnImgArtist = tk.PhotoImage(file='images/btnArtist.png', height=100, width=500)
-btnImgGenres = tk.PhotoImage(file='images/btnGenres.png', height=100, width=500)
-btnImgAlbums = tk.PhotoImage(file='images/btnAlbums.png', height=100, width=500)
-btnImgDownloaded = tk.PhotoImage(file='images/btnDownloaded.png', height=100, width=500)
 
-# icons
+
+# header icons
 
 iconImgPlaylist = tk.PhotoImage(file='images/icons/Playlist.png')
 iconImgSongs = tk.PhotoImage(file='images/icons/Songs.png')
 iconImgArtist = tk.PhotoImage(file='images/icons/Artist.png')
-iconImgGenres = tk.PhotoImage(file='images/icons/Genre.png')
-iconImgAlbums = tk.PhotoImage(file='images/icons/Albums.png')
 iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
 songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
 spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
 
 # text: arial, 30 bold white
+
+# footer icons
+iconImgPlayPause = tk.PhotoImage(file='images/Play-Pause.png')
+iconImgVolumeUp = tk.PhotoImage(file='images/Volume Up.png')
+iconImgVolumeDown = tk.PhotoImage(file='images/Volume Down.png')
+iconImgVolumeMute = tk.PhotoImage(file='images/Volume Mute.png')
 
 # head buttons
 Button(root, image=iconImgSongs, text="Songs", anchor="w", padx=45, fg='white', font=('arial', 30, 'bold'),
@@ -310,29 +309,47 @@ Button(root, image=iconImgPlaylist, text="Queue", anchor="w", padx=45, fg='white
 
 # Downloaded songs
 songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-# songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
+songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
 songList = VerticalScrolledFrame.VerticalScrolledFrame(root, bg='#4A272E')
 songList.place(y=500, width=911, height=1000, x=84)
 btnDownloads()
 
 # footer buttons
 
-Button(root, text='pause/\nplay', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
-       command=btnPause).place(x=84, y=1530,
-                               width=436,
-                               height=155)
+Button(root,
+       text='pause/\nplay',
+       bg='#4A272E',
+       fg='white',
+       font=('arial', 30, 'bold'),
+       image=iconImgPlayPause,
+       border=0,
+       command=btnPause).place(x=84, y=1530, width=436, height=155)
 
-Button(root, text='mute', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0, command=btnMute).place(x=560,
-                                                                                                                 y=1530,
-                                                                                                                 width=436,
-                                                                                                                 height=155)
-Button(root, text='volume\ndown', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
-       command=btnSofter).place(x=84, y=1730,
-                                width=436,
-                                height=155)
-Button(root, text='volume\nup', bg='#4A272E', fg='white', font=('arial', 30, 'bold'), border=0,
-       command=btnHarder).place(x=560, y=1730,
-                                width=436,
-                                height=155)
+Button(root,
+       text='mute',
+       bg='#4A272E',
+       fg='white',
+       font=('arial', 30, 'bold'),
+       image= iconImgVolumeMute,
+       border=0,
+       command=btnMute).place(x=560, y=1530, width=436, height=155)
+
+Button(root,
+       text='volume\ndown',
+       bg='#4A272E',
+       fg='white',
+       font=('arial', 30, 'bold'),
+       image= iconImgVolumeDown,
+       border=0,
+       command=btnSofter).place(x=84, y=1730, width=436, height=155)
+
+Button(root,
+       text='volume\nup',
+       bg='#4A272E',
+       fg='white',
+       font=('arial', 30, 'bold'),
+       image= iconImgVolumeUp,
+       border=0,
+       command=btnHarder).place(x=560, y=1730, width=436, height=155)
 
 root.mainloop()
