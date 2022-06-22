@@ -65,7 +65,7 @@ def get_volume_limits():
     return min_volume, max_volume
 
 #endpoint for muting and unmuting volume 
-@app.get("/adminpanel/toggelmute")
+@app.get("/adminpanel/togglemute")
 def toggle_mute():
      os.popen("pactl set-sink-mute 0 toggle").read()
 
@@ -94,7 +94,9 @@ async def set_volume(amount: int):
         try:
             if (amount <= limits[1]) and (amount >= limits[0]):
                 mixer = alsaaudio.Mixer('Master')
+
                 mixer.setvolume(amount)
+
                 volume = json.dumps({"volume": amount})
                 valid = True
             elif amount > limits[1]:
@@ -113,6 +115,22 @@ async def set_volume(amount: int):
             valid = False
     return volume
 
+@app.put("/adminpanel/mute")
+async def set_volume_mute():
+    mixer = alsaaudio.Mixer('Master')
+    mixer.setmute()
+    return
+
+@app.put("/adminpanel/harder")
+async def set_volume_harder():
+    mixer = alsaaudio.Mixer('Master')
+    mixer.setvolume(mixer.getvolume(0)[1] + 5)
+
+@app.put("/adminpanel/softer")
+async def set_volume_softer():
+    mixer = alsaaudio.Mixer('Master')
+    mixer.setvolume(mixer.getvolume(0)[1] - 5)
+    return 
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
