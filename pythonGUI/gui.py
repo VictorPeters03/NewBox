@@ -111,15 +111,17 @@ def btnPause():
 
 
 def btnMute():
-    requests.put("http://127.0.0.1:8000/adminpanel/volume/0")
+    requests.put("http://127.0.0.1:8000/adminpanel/mute")
     return
 
 
 def btnSofter():
+    requests.put("http://127.0.0.1:8000/adminpanel/softer")
     return
 
 
 def btnHarder():
+    requests.put("http://127.0.0.1:8000/adminpanel/harder")
     return
 
 
