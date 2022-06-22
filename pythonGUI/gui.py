@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
@@ -27,11 +28,11 @@ gf.config(direction=gf.top2bottom)
 gf.pack()
 
 resolutionString = "%dx%d" % (screenWidth, screenHeight)
-root.geometry(resolutionString)
-root.attributes('-fullscreen', True)
+# root.geometry(resolutionString)
+# root.attributes('-fullscreen', True)
 # root.attributes("-toolwindow", 1)
 root.title('Newbox')
-root.overrideredirect(True)
+# root.overrideredirect(True)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
@@ -135,6 +136,7 @@ def btnPause():
 
 
 def btnMute():
+    requests.put("http://127.0.0.1:8000/adminpanel/volume/0")
     return
 
 
@@ -208,8 +210,8 @@ def getTopSongs(uri):
         songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
         songInfo = Frame(songEntry, height=2, bg="#4A272E")
         songQueue = Frame(songEntry, height=2)
-        # songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
-        #                    bg="#4A272E", fg="#C7C7C7")
+        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+                           bg="#4A272E", fg="#C7C7C7")
         margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
         songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
 
@@ -220,8 +222,7 @@ def getTopSongs(uri):
         margin.pack(anchor='w')
         # songArtist.pack(anchor="w")
         Button(songQueue, image=iconImgPlaylist, text="add to queue", justify="right",
-               command=partial(addToQueue, song["uri"])).pack(
-            anchor='e')
+               command=partial(addToQueue, song["uri"])).pack(anchor='e')
 
 
 def convertToRGBA(path):
@@ -237,6 +238,7 @@ topBtnStyle.configure("custom.TButton", foreground="#42242C",
 
 
 def closeSearchBar():
+    os.system('bash ./toggle-matchbox.sh')
     e.place_forget()
     cross.place_forget()
     search.place_forget()
@@ -245,9 +247,11 @@ def closeSearchBar():
 
 
 def openSearchBar():
+    os.system('bash ./toggle-matchbox.sh')
     logo.place_forget()
     btnSearch.place_forget()
     e.place(width=911, height=80, x=84, y=40)
+    e.focus()
     cross.place(width=70, height=80, x=930, y=40)
     search.place(width=70, height=80, x=82, y=40)
 
@@ -255,18 +259,16 @@ def openSearchBar():
 # searchbar
 btnCloseSearchBar = tk.PhotoImage(file='images/icons/Cross-small.png')
 btnSearchSearchBar = tk.PhotoImage(file='images/icons/Search-small.png')
-# btnSearch = tk.PhotoImage(file='images/icons/Search.png')
-logoImage = convertToRGBA('images/icons/Settings.png')
+iconBtnSearch = tk.PhotoImage(file='images/icons/Search.png')
+logoImage = tk.PhotoImage(file='images/icons/Settings.png')
 
 # headerBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
 e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
           font=('arial', 30, 'bold'), justify='center')
-cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar,
-               height=80, width=70)
-search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs,
-                height=80, width=70)
-logo = Label(root, image=ImageTk.PhotoImage(logoImage), borderwidth=0, height=80, width=70)
-btnSearch = Button(root, image=ImageTk.PhotoImage(logoImage), borderwidth=0, command=openSearchBar, height=80, width=70)
+cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar, height=80, width=70)
+search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs, height=80, width=70)
+logo = Label(root, image=logoImage, borderwidth=0, height=80, width=70)
+btnSearch = Button(root, image=iconBtnSearch, borderwidth=0, command=openSearchBar, height=80, width=70)
 logo.place(width=70, height=80, x=82, y=40)
 btnSearch.place(width=70, height=80, x=930, y=40)
 # e.place(width=911, height=80, x=84, y=40)
