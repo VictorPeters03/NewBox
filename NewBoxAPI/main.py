@@ -194,7 +194,7 @@ async def get_songs():
 
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -240,7 +240,7 @@ async def get_songs():
 def search_music(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -359,7 +359,7 @@ async def toggle_music():
 async def search_all(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
