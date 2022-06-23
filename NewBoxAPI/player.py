@@ -163,7 +163,13 @@ def SongFinished(event):
     print("\nEvent reports - finished")
     if queue:
         queue.pop(0)
+    isQueueEmpty()
     finish = 1
+
+
+def isQueueEmpty():
+    if not queue:
+        requests.put(f"http://127.0.0.1:8000/use/nomusic")
 
 
 def playSong():
@@ -204,3 +210,4 @@ def playSong():
                     print(counter)
             if functions.getDevice() is not None:
                 queue.pop(0)
+                isQueueEmpty()
