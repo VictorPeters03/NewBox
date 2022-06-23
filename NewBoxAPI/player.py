@@ -1,10 +1,10 @@
 from time import sleep
 import math
-
 import MySQLdb
 import requests.exceptions
 import vlc
 import threading
+import main
 
 from spotifyAPI import functions
 
@@ -163,7 +163,13 @@ def SongFinished(event):
     print("\nEvent reports - finished")
     if queue:
         queue.pop(0)
+    isQueueEmpty()
     finish = 1
+
+
+def isQueueEmpty():
+    if not queue:
+        requests.put(f"http://127.0.0.1:8000/use/nomusic")
 
 
 def playSong():
@@ -183,7 +189,8 @@ def playSong():
                 skip()
                 continue
             functions.play(queue[0])
-
+            info = main.getPlaybackInfo()['id']
+            main.get_track_color(info)
             sleep(1)
             duration = functions.getSongDuration(queue[0])
             if isinstance(duration, dict):
@@ -204,3 +211,4 @@ def playSong():
                     print(counter)
             if functions.getDevice() is not None:
                 queue.pop(0)
+                isQueueEmpty()
