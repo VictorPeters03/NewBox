@@ -1,6 +1,5 @@
 from time import sleep
 import math
-
 import MySQLdb
 import requests.exceptions
 import vlc
@@ -189,7 +188,8 @@ def playSong():
                 skip()
                 continue
             functions.play(queue[0])
-
+            info = main.getPlaybackInfo()['id']
+            main.get_track_color(info)
             sleep(1)
             duration = functions.getSongDuration(queue[0])
             if isinstance(duration, dict):
