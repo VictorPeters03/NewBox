@@ -59,7 +59,7 @@ def getQueue():
 
 def getInfoFromDb(uri):
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
