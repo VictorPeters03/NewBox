@@ -9,12 +9,12 @@ from time import sleep
 import vlc
 import asyncio
 import player
-import alsaaudio
-from colorthief import ColorThief
-from colormap import hex2rgb
-import serial
-from urllib.request import urlretrieve
-import urllib3
+# import alsaaudio
+# from colorthief import ColorThief
+# from colormap import hex2rgb
+# import serial
+# from urllib.request import urlretrieve
+# import urllib3
 
 app = FastAPI()
 
@@ -50,6 +50,10 @@ def itemCharLimitExceeded(item, artistKey, songKey):
         return 3
     else:
         return 4
+
+
+# def appropriate():
+
 
 
 # endpoint for getting volume limits
@@ -190,7 +194,7 @@ async def get_songs():
 
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
         return "Can't connect to database"
 
@@ -236,7 +240,7 @@ async def get_songs():
 def search_music(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
         return "Can't connect to database"
 
@@ -355,7 +359,7 @@ async def toggle_music():
 async def search_all(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
+        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
     except:
         return "Can't connect to database"
 
