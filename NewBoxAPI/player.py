@@ -1,13 +1,11 @@
 from time import sleep
 import math
-from winsound import PlaySound
-
 import MySQLdb
 import requests.exceptions
 import vlc
 import threading
-from NewBoxAPI.main import get_track_color, getPlaybackInfo, no_music
-
+# from NewBoxAPI.main import get_track_color, getPlaybackInfo, no_music
+import main
 from spotifyAPI import functions
 
 finish = 0
@@ -179,7 +177,7 @@ def playSong():
             global finish
             finish = 0
             player.play()
-            no_music()
+            main.no_music()
             while finish == 0:
                 sleep(0.5)
         else:
@@ -188,8 +186,8 @@ def playSong():
                 skip()
                 continue
             functions.play(queue[0])
-            info = getPlaybackInfo()['id']
-            get_track_color(info)
+            info = main.getPlaybackInfo()['id']
+            main.get_track_color(info)
             sleep(1)
             duration = functions.getSongDuration(queue[0])
             if isinstance(duration, dict):
