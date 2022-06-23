@@ -58,7 +58,7 @@ def getDevice():
 
 # Song related functions
 @handle_connection
-def getPlaybackInfo():
+async def getPlaybackInfo():
     """Returns information about the current playing track, if none is playing, return error"""
     result = spotifyHandler.current_playback()
     if result is None:
