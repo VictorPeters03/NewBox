@@ -4,6 +4,7 @@ import MySQLdb
 import requests.exceptions
 import vlc
 import threading
+import main
 
 from spotifyAPI import functions
 
