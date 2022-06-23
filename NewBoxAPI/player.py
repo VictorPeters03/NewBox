@@ -189,7 +189,7 @@ def playSong():
                 skip()
                 continue
             functions.play(queue[0])
-            info = main.getPlaybackInfo()['id']
+            info = functions.getPlaybackInfo()['id']
             main.get_track_color(info)
             sleep(1)
             duration = functions.getSongDuration(queue[0])

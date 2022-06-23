@@ -67,7 +67,7 @@ def displayItems(items, type):
             artistInfo.pack(side=LEFT)
             artistLink.pack(side=RIGHT)
             artistName.pack(anchor="w")
-            Button(artistLink, text="get top songs", justify="right", border=0, background='#4A272E', command=partial(getTopSongs, item["uri"])).pack(
+            Button(artistLink, text="get top songs", justify="right", border=0, image=artistGetTopSongsIcon, background='#4A272E', command=partial(getTopSongs, item["uri"])).pack(
                 anchor='e')
 
 
@@ -314,15 +314,15 @@ btnSearch.place(width=70, height=80, x=930, y=40)
 # cross.place(width=70, height=80, x=930, y=40)
 # search.place(width=70, height=80, x=82, y=40)
 
-
+songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
+spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
+artistGetTopSongsIcon = ImageTk.PhotoImage(Image.open("images/icons/Arrow.png"))
 # header icons
 
 iconImgPlaylist = tk.PhotoImage(file='images/icons/Playlist.png')
 iconImgSongs = tk.PhotoImage(file='images/icons/Songs.png')
 iconImgArtist = tk.PhotoImage(file='images/icons/Artist.png')
 iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
-songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
-spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
 
 # text: arial, 30 bold white
 
