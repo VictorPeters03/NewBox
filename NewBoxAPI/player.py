@@ -1,10 +1,12 @@
 from time import sleep
 import math
+from winsound import PlaySound
 
 import MySQLdb
 import requests.exceptions
 import vlc
 import threading
+from NewBoxAPI.main import get_track_color, getPlaybackInfo, no_music
 
 from spotifyAPI import functions
 
@@ -169,6 +171,7 @@ def SongFinished(event):
 def playSong():
     while len(queue) > 0:
         if "spotify" not in queue[0]:
+            #download player
             media = instance.media_new_path("songs/" + queue[0])
             player.set_media(media)
             events = player.event_manager()
@@ -176,14 +179,17 @@ def playSong():
             global finish
             finish = 0
             player.play()
+            no_music()
             while finish == 0:
                 sleep(0.5)
         else:
+            #Spotify player
             if functions.getDevice() is None:
                 skip()
                 continue
             functions.play(queue[0])
-
+            info = getPlaybackInfo()['id']
+            get_track_color(info)
             sleep(1)
             duration = functions.getSongDuration(queue[0])
             if isinstance(duration, dict):
