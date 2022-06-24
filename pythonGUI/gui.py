@@ -34,7 +34,6 @@ resolutionString = "%dx%d" % (screenWidth, screenHeight)
 root.geometry(resolutionString)
 root.attributes('-fullscreen', True)
 root.title('Newbox')
-root.overrideredirect(True)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
