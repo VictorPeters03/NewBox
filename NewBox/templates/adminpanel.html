@@ -28,14 +28,17 @@
         <button class="button-11" role="button"onclick='pi_shutdown()'>Shutdown</button>
         <h1>Volume Settings</h1>
         <form name='setVolume' target='#here' method='post'>
+            {% csrf_token %}
             <label for='maxVolume'></label>
                 <input class="textbox" type='text' name='maxVolume' id='maxVolume' placeholder='Set maximum volume'>
             </br>
         </form>
         <form name='setVolume' target='#here' method='post'>
-            <label  for='minVolume'></label>
+            {% csrf_token %}
+            <label  for='minVolume'>
                 <input class="textbox" type='text' name='minVolume' id='minVolume' placeholder='Set minimal volume'>
-            </form>
+            </label>
+        </form>
         <h1>LED Settings</h1>
         <label class='switch'>
             <input type='checkbox'>
@@ -43,6 +46,9 @@
         </label>
         <h1 class="loadedqueue">Queue</h1>
         <button class="button-11" role="button" onclick='get_queue()'>Load the queue</button>
+        <div id="queue">
+
+        </div>
         <p style="margin-top: 20px;"><a href="{% url 'logout' %}">Log Out</a></p>
     </div>
 </div>
