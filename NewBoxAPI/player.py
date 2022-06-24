@@ -4,6 +4,7 @@ import MySQLdb
 import requests.exceptions
 import vlc
 import threading
+import main
 
 from spotifyAPI import functions
 
@@ -58,7 +59,7 @@ def getQueue():
 
 def getInfoFromDb(uri):
     try:
-        db = MySQLdb.connect("127.0.0.1", "root", "", "djangosearchbartest")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
     except:
         return "Can't connect to database"
 
@@ -84,10 +85,7 @@ def skip():
         if "spotify" in queue[0] and functions.getDevice() is not None:
             global counter
             functions.pause()
-            try:
-                counter = functions.getPlaybackInfo()['duration_seconds']
-            except KeyError:
-                counter = 10000
+            counter = functions.getSongByUri(queue[0])['duration']
         elif "spotify" not in queue[0]:
             finish = 1
             queue.pop(0)
@@ -188,7 +186,7 @@ def playSong():
                 skip()
                 continue
             functions.play(queue[0])
-            info = main.getPlaybackInfo()['id']
+            info = functions.getPlaybackInfo()['id']
             main.get_track_color(info)
             sleep(1)
             duration = functions.getSongDuration(queue[0])
