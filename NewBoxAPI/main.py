@@ -90,34 +90,27 @@ def set_volume_limit(amount: int, limit: str):
 
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
-@app.put("/adminpanel/volume/{amount}")
-def set_volume(amount: int):
-    valid = False
+@app.put("/adminpanel/volume/{mode}")
+def set_volume(mode : str):
     limits = get_volume_limits()
-    while not valid:
-        try:
-            if (amount <= limits[1]) and (amount >= limits[0]):
-                mixer = alsaaudio.Mixer('Master')
-
-                mixer.setvolume(amount)
-
-                volume = json.dumps({"volume": amount})
-                valid = True
-            elif amount > limits[1]:
-                volume = json.dumps({"volume": limits[1],
-                                     "mess": "Input volume was higher than the maximum volume. Volume is set to the maximum volume."})
-                mixer = alsaaudio.Mixer('Master')
-                mixer.setvolume(limits[1])
-                valid = True
-            elif amount < limits[0]:
-                volume = json.dumps({"volume": limits[0],
-                                     "mess": "Input volume was lower than the minimum volume. Volume is set to the minimum volume."})
-                mixer = alsaaudio.Mixer('Master')
-                mixer.setvolume(limits[0])
-                valid = True
-        except ValueError:
-            valid = False
-    return volume
+    mixer = alsaaudio.Mixer('Master')
+    if (mixer.getvolume()[1]-5 <= limits[1]) and (mixer.getvolume()[1]+5 >= limits[0]):
+        if mixer.getmute()[1]:
+            toggle_mute()
+        if mode == "softer":
+            set_volume_softer()
+            return mixer.getvolume()[1]
+        if mode == "harder":
+            set_volume_harder()
+            return mixer.getvolume()[1]
+    elif mixer.getvolume()[1]-5 > limits[1]:
+        mixer = alsaaudio.Mixer('Master')
+        mixer.setvolume(limits[1])
+        return "Limit reached"
+    elif mixer.getvolume()[1]+5 < limits[0]:
+        mixer = alsaaudio.Mixer('Master')
+        mixer.setvolume(limits[0])
+        return "Limit reached"
 
 @app.put("/adminpanel/mute")
 def set_volume_mute():

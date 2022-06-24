@@ -31,11 +31,10 @@ gf.config(direction=gf.top2bottom)
 gf.pack()
 
 resolutionString = "%dx%d" % (screenWidth, screenHeight)
-# root.geometry(resolutionString)
-# root.attributes('-fullscreen', True)
-# root.attributes("-toolwindow", 1)
+root.geometry(resolutionString)
+root.attributes('-fullscreen', True)
 root.title('Newbox')
-# root.overrideredirect(True)
+root.overrideredirect(True)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
@@ -134,12 +133,12 @@ def btnMute():
 
 
 def btnSofter():
-    requests.put("http://127.0.0.1:8000/adminpanel/softer")
+    requests.put("http://127.0.0.1:8000/adminpanel/volume/softer")
     return
 
 
 def btnHarder():
-    requests.put("http://127.0.0.1:8000/adminpanel/harder")
+    requests.put("http://127.0.0.1:8000/adminpanel/volume/harder")
     return
 
 

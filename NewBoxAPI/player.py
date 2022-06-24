@@ -85,10 +85,7 @@ def skip():
         if "spotify" in queue[0] and functions.getDevice() is not None:
             global counter
             functions.pause()
-            try:
-                counter = functions.getPlaybackInfo()['duration_seconds']
-            except KeyError:
-                counter = 10000
+            counter = functions.getSongByUri(queue[0])['duration']
         elif "spotify" not in queue[0]:
             finish = 1
             queue.pop(0)
@@ -182,6 +179,7 @@ def playSong():
             global finish
             finish = 0
             player.play()
+            requests.put(f"http://127.0.0.1:8000/use/nomusic")
             while finish == 0:
                 sleep(0.5)
         else:

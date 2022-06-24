@@ -18,6 +18,8 @@ const maxVolume = document.querySelector("#maxVolume")
 
 const minVolume = document.querySelector("#minVolume")
 
+const queueList = document.querySelector("#queue")
+
 function getSettings()
 {
     index.innerHTML = "<div id=\"settings\">\n" +
@@ -46,6 +48,7 @@ function getSettings()
 function delete_from_queue(uri)
 {
     axios.put("http://127.0.0.1:8000/admin/remove/" + uri)
+    window.location.reload()
 }
 
 function set_max_vol()
@@ -69,10 +72,10 @@ function get_queue()
         .then(resp => {
             console.log(resp)
             resp.data.forEach(element =>
-                index.innerHTML +=
+                queueList.innerHTML =
                 '<div class="title"><p>' + element["track"] + '</p></div>' +
                 '<div class="artist"><p>' + element["artist"] + '</p></div>' +
-                '<div class="remove-songs"><p onclick="delete_from_queue(' + "'" + element["uri"] + "'" + ')">Remove</p></div>'
+                '<div class="remove-songs"><button onclick="delete_from_queue(' + "'" + element["uri"] + "'" + ')">Remove</button></div>'
             )
         })
 }

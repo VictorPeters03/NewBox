@@ -117,13 +117,15 @@ def getSongByUri(trackUri):
     try:
         track = spotifyHandler.track(trackUri)['name']
         artist = spotifyHandler.track(trackUri)['artists'][0]['name']
+        duration_seconds = spotifyHandler.track(trackUri)['duration_ms'] / 1000
     except spotipy.SpotifyException:
         info = {'status': 'error',
                 'message': 'Invalid id'}
         return info
 
     info = {'name': track,
-            'artist': artist}
+            'artist': artist,
+            'duration': duration_seconds}
     return info
 
 
