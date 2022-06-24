@@ -43,30 +43,29 @@ function getSettings()
     "                    <button onclick='get_queue()'>Load the queue</button>\n"
 }
 
-function set_volume_limit(){
-    axios.put()
-}
-
 function delete_from_queue(uri)
 {
     axios.put("http://127.0.0.1:8000/admin/remove/" + uri)
 }
 
-function set_max_vol(max)
+function set_max_vol()
 {
-    axios.put("/adminpanel/volume/" + maxVolume.value)
+    axios.put("http://127.0.0.1:8000/adminpanel/maxvolume/" + maxVolume.value)
         .then(resp => {
             console.log(resp)
         })
 }
 
-function set_min_vol(min){
-    axios.pi_shutdownset_min_vol
+function set_min_vol(){
+    axios.put("http://127.0.0.1:8000/adminpanel/minvolume/" + minVolume.value)
+        .then(resp => {
+            console.log(resp)
+        })
 }
 
 function get_queue()
 {
-    axios.get("http://127.0.0.1:8000/use/getqueue")
+    axios.get("http://127.0.0.1:8000/use/getQueue")
         .then(resp => {
             console.log(resp)
             resp.data.forEach(element =>
@@ -79,14 +78,14 @@ function get_queue()
 }
 
 function pi_reboot(){
-    axios.get("/use/reboot")
+    axios.get("http://127.0.0.1:8000/use/reboot")
     .then(resp => {
         console.log(resp)
     })
 }
 
 function pi_shutdown(){
-    axios.get("/use/shutdown")
+    axios.get("http://127.0.0.1:8000/use/shutdown")
     .then(resp => {
         console.log(resp)
     })
@@ -191,11 +190,16 @@ function getQueue(){
     })
 }
 
+function skip()
+{
+    axios.put("http://127.0.0.1:8000/use/skip")
+}
+
 songs.addEventListener("click", getSongs)
 downloaded.addEventListener("click", getDownloaded)
 logo.addEventListener("click", getHomePage)
 settings.addEventListener("click", getSettings)
 search.addEventListener("click", searchSong)
 queue.addEventListener("click", getQueue)
-maxvolume.addEventListener("click", set_max_vol)
-minvolume.addEventListener("click", set_min_vol)
+//maxVolume.addEventListener("click", set_max_vol)
+//minvolume.addEventListener("click", set_min_vol)

@@ -23,19 +23,16 @@
 <script defer src="{% static 'js/script.js' %}"></script>
 <div id="container">
     <div id=\"settings\">
-        <h1>Rasberry Pi Settings</h1>
-        <button class="button-11" role="button"onclick='pi_reboot()'>Reboot</button>
-        <button class="button-11" role="button"onclick='pi_shutdown()'>Shutdown</button>
+        <h1>Raspberry Pi Settings</h1>
+        <button class="button-11" role="button" onclick='pi_reboot()'>Reboot</button>
+        <button class="button-11" role="button" onclick='pi_shutdown()'>Shutdown</button>
         <h1>Volume Settings</h1>
-        <form name='setVolume' target='#here' method='post'>
-            <label for='maxVolume'></label>
-                <input class="textbox" type='text' name='maxVolume' id='maxVolume' placeholder='Set maximum volume'>
-            </br>
-        </form>
-        <form name='setVolume' target='#here' method='post'>
-            <label  for='minVolume'></label>
-                <input class="textbox" type='text' name='minVolume' id='minVolume' placeholder='Set minimal volume'>
-            </form>
+        <label for='maxVolume'></label>
+            <input class="textbox" type='text' name='maxVolume' id='maxVolume' placeholder='Set maximum volume'>
+        <button type="submit" onclick="set_max_vol()">Submit</button>
+        <label for='minVolume'></label>
+            <input class="textbox" type='text' name='minVolume' id='minVolume' placeholder='Set minimum volume'>
+        <button type="submit" onclick="set_min_vol()">Submit</button>
         <h1>LED Settings</h1>
         <label class='switch'>
             <input type='checkbox'>
@@ -43,6 +40,7 @@
         </label>
         <h1 class="loadedqueue">Queue</h1>
         <button class="button-11" role="button" onclick='get_queue()'>Load the queue</button>
+        <button class="button-11" role="button" onclick="skip()">Skip</button>
         <p style="margin-top: 20px;"><a href="{% url 'logout' %}">Log Out</a></p>
     </div>
 </div>
