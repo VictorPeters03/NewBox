@@ -38,6 +38,8 @@ root.overrideredirect(True)
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
+
+
 def displayItems(items, type):
     if type == 'track':
         for item in items.json():
@@ -56,7 +58,8 @@ def displayItems(items, type):
             songTitle.pack(anchor="w")
             margin.pack(anchor='w')
             songArtist.pack(anchor="w")
-            Button(songQueue, text="add to queue", image=iconImgPlaylist, border=0, highlightthickness=0, background='#4A272E', justify="right", command=partial(addToQueue, item["uri"])).pack(
+            Button(songQueue, text="add to queue", image=iconImgPlaylist, border=0, highlightthickness=0,
+                   background='#4A272E', justify="right", command=partial(addToQueue, item["uri"])).pack(
                 anchor='e')
     else:
         for item in items.json():
@@ -70,9 +73,9 @@ def displayItems(items, type):
             artistInfo.pack(side=LEFT)
             artistLink.pack(side=RIGHT)
             artistName.pack(anchor="w")
-            Button(artistLink, text="get top songs", justify="right", border=0, highlightthickness=0, image=artistGetTopSongsIcon, background='#4A272E', command=partial(getTopSongs, item["uri"])).pack(
+            Button(artistLink, text="get top songs", justify="right", border=0, highlightthickness=0,
+                   image=artistGetTopSongsIcon, background='#4A272E', command=partial(getTopSongs, item["uri"])).pack(
                 anchor='e')
-
 
 
 def btnSongs():
@@ -173,7 +176,8 @@ def searchSongs():
             margin.pack(anchor='w')
             songTitle.pack(anchor="w")
             songArtist.pack(anchor="w")
-            Button(songQueue, image=iconImgPlaylist, border=0, highlightthickness=0, text="add to queue", background='#4A272E',
+            Button(songQueue, image=iconImgPlaylist, border=0, highlightthickness=0, text="add to queue",
+                   background='#4A272E',
                    justify="right", command=partial(addToQueue, song["uri"])).pack(
                 anchor='e')
         elif song['type'] == 'artist':
@@ -187,7 +191,8 @@ def searchSongs():
             artistInfo.pack(side=LEFT)
             artistLink.pack(side=RIGHT)
             artistName.pack(anchor="w")
-            Button(artistLink, text="get top songs", image=artistGetTopSongsIcon, border=0, highlightthickness=0, justify="right", background='#4A272E',
+            Button(artistLink, text="get top songs", image=artistGetTopSongsIcon, border=0, highlightthickness=0,
+                   justify="right", background='#4A272E',
                    command=partial(getTopSongs, song["uri"])).pack(anchor='e')
 
 
@@ -213,7 +218,8 @@ def getTopSongs(uri):
         songQueue.pack(side=RIGHT)
         songTitle.pack(anchor="w")
         margin.pack(anchor='w')
-        Button(songQueue, image=iconImgPlaylist, text="add to queue", border=0, highlightthickness=0, justify="right", background='#4A272E',
+        Button(songQueue, image=iconImgPlaylist, text="add to queue", border=0, highlightthickness=0, justify="right",
+               background='#4A272E',
                command=partial(addToQueue, song["uri"])).pack(anchor='e')
 
 
@@ -247,6 +253,8 @@ def openSearchBar():
     cross.place(width=70, height=80, x=930, y=40)
     search.place(width=70, height=80, x=82, y=40)
 
+
+root.bind("<Return>", lambda event: searchSongs())
 
 # searchbar images
 btnCloseSearchBar = tk.PhotoImage(file='images/icons/Cross-small.png')
