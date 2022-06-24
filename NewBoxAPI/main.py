@@ -52,6 +52,10 @@ def itemCharLimitExceeded(item, artistKey, songKey):
         return 4
 
 
+# def appropriate():
+
+
+
 # endpoint for getting volume limits
 @app.get("/adminpanel/getlimits")
 def get_volume_limits():
@@ -87,7 +91,7 @@ def set_volume_limit(amount: int, limit: str):
 # http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#module-alsaaudio
 # endpoint for setting the volume
 @app.put("/adminpanel/volume/{amount}")
-async def set_volume(amount: int):
+def set_volume(amount: int):
     valid = False
     limits = get_volume_limits()
     while not valid:
@@ -116,25 +120,25 @@ async def set_volume(amount: int):
     return volume
 
 @app.put("/adminpanel/mute")
-async def set_volume_mute():
+def set_volume_mute():
     mixer = alsaaudio.Mixer('Master')
     mixer.setmute()
     return
 
 @app.put("/adminpanel/harder")
-async def set_volume_harder():
+def set_volume_harder():
     mixer = alsaaudio.Mixer('Master')
     mixer.setvolume(mixer.getvolume(0)[1] + 5)
 
 @app.put("/adminpanel/softer")
-async def set_volume_softer():
+def set_volume_softer():
     mixer = alsaaudio.Mixer('Master')
     mixer.setvolume(mixer.getvolume(0)[1] - 5)
     return 
 
 # endpoint for setting the maximum volume
 @app.put("/adminpanel/maxvolume/{amount}")
-async def set_max_volume(amount: int):
+def set_max_volume(amount: int):
     limits = get_volume_limits()
     if (amount <= 100) and (amount >= 0) and (amount > limits[0]):
         set_volume_limit(amount, 'max')
@@ -151,7 +155,7 @@ async def set_max_volume(amount: int):
 
 # endpoint for setting the minimum volume
 @app.put("/adminpanel/minvolume/{amount}")
-async def set_min_volume(amount: int):
+def set_min_volume(amount: int):
     limits = get_volume_limits()
     if (amount <= 100) and (amount >= 0) and (limits[1] > amount):
         set_volume_limit(amount, 'min')
@@ -174,7 +178,7 @@ def add_to_queue(uri: str):
 
 # endpoint for getting the queue
 @app.get("/use/getQueue")
-def get_queue():
+async def get_queue():
     try:
         return player.getQueue()
     except KeyError:
@@ -190,7 +194,7 @@ async def get_songs():
 
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "djangosearchbartest")
     except:
         return "Can't connect to database"
 
@@ -236,7 +240,7 @@ async def get_songs():
 def search_music(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "djangosearchbartest")
     except:
         return "Can't connect to database"
 
@@ -355,7 +359,7 @@ async def toggle_music():
 async def search_all(key: str):
     # sets up a connection to the database
     try:
-        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "songsdatabase")
+        db = MySQLdb.connect("127.0.0.1", "newboxsql", "newbox", "djangosearchbartest")
     except:
         return "Can't connect to database"
 

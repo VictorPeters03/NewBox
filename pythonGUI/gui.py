@@ -36,6 +36,40 @@ root.title('Newbox')
 root.wait_visibility(root)
 
 URL_BASE = "https://localhost:8000/"
+def displayItems(items, type):
+    if type == 'track':
+        for item in items.json():
+            songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+            songInfo = Frame(songEntry, height=2, bg="#4A272E")
+            songQueue = Frame(songEntry, height=2)
+            songArtist = Label(songInfo, text=item['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+                               bg="#4A272E", fg="#C7C7C7")
+            margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+            songTitle = Label(songInfo, text=item['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+
+            songEntry.pack(fill=X)
+            songInfo.pack(side=LEFT)
+            songQueue.pack(side=RIGHT)
+            songTitle.pack(anchor="w")
+            margin.pack(anchor='w')
+            songArtist.pack(anchor="w")
+            Button(songQueue, text="add to queue", image=iconImgPlaylist, border=0, background='#4A272E', justify="right", command=partial(addToQueue, item["uri"])).pack(
+                anchor='e')
+    else:
+        for item in items.json():
+            artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
+                                bg='#4A272E')
+            artistInfo = Frame(artistEntry, height=2, bg="#4A272E")
+            artistLink = Frame(artistEntry, height=2)
+            artistName = Label(artistInfo, text=item['name'], relief='flat', borderwidth=4, font=('arial', 30),
+                               bg="#4A272E", fg="#FFFFFF")
+            artistEntry.pack(fill=X)
+            artistInfo.pack(side=LEFT)
+            artistLink.pack(side=RIGHT)
+            artistName.pack(anchor="w")
+            Button(artistLink, text="get top songs", justify="right", border=0, image=artistGetTopSongsIcon, background='#4A272E', command=partial(getTopSongs, item["uri"])).pack(
+                anchor='e')
+
 
 
 def btnSongs():
@@ -43,23 +77,25 @@ def btnSongs():
     songList.resetY()
     for widget in songList.interior.winfo_children():
         widget.destroy()
-    for song in songs.json():
-        songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
-        songInfo = Frame(songEntry, height=2, bg="#4A272E")
-        songQueue = Frame(songEntry, height=2)
-        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
-                           bg="#4A272E", fg="#C7C7C7")
-        margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
-        songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
-
-        songEntry.pack(fill=X)
-        songInfo.pack(side=LEFT)
-        songQueue.pack(side=RIGHT)
-        songTitle.pack(anchor="w")
-        margin.pack(anchor='w')
-        songArtist.pack(anchor="w")
-        Button(songQueue, text="add to queue", justify="right", command=partial(addToQueue, song["uri"])).pack(
-            anchor='e')
+    displayItems(songs, 'track')
+    # for song in songs.json():
+    #     songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+    #     songInfo = Frame(songEntry, height=2, bg="#4A272E")
+    #     songQueue = Frame(songEntry, height=2)
+    #     songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+    #                        bg="#4A272E", fg="#C7C7C7")
+    #     margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+    #     songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+    #
+    #     songEntry.pack(fill=X)
+    #     songInfo.pack(side=LEFT)
+    #     songQueue.pack(side=RIGHT)
+    #     songTitle.pack(anchor="w")
+    #     margin.pack(anchor='w')
+    #     songArtist.pack(anchor="w")
+    #     Button(songQueue, text="add to queue", image=iconImgPlaylist, border=0, background='#4A272E', justify="right",
+    #            command=partial(addToQueue, song["uri"])).pack(
+    #         anchor='e')
 
 
 def btnArtists():
@@ -67,19 +103,20 @@ def btnArtists():
     songList.resetY()
     for widget in songList.interior.winfo_children():
         widget.destroy()
-    for artist in artists.json():
-        artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
-                            bg='#4A272E')
-        artistInfo = Frame(artistEntry, height=2, bg="#4A272E")
-        artistLink = Frame(artistEntry, height=2)
-        artistName = Label(artistInfo, text=artist['name'], relief='flat', borderwidth=4, font=('arial', 30),
-                           bg="#4A272E", fg="#FFFFFF")
-        artistEntry.pack(fill=X)
-        artistInfo.pack(side=LEFT)
-        artistLink.pack(side=RIGHT)
-        artistName.pack(anchor="w")
-        Button(artistLink, text="get top songs", justify="right", command=partial(getTopSongs, artist["uri"])).pack(
-            anchor='e')
+    displayItems(artists, 'artist')
+    # for artist in artists.json():
+    #     artistEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
+    #                         bg='#4A272E')
+    #     artistInfo = Frame(artistEntry, height=2, bg="#4A272E")
+    #     artistLink = Frame(artistEntry, height=2)
+    #     artistName = Label(artistInfo, text=artist['name'], relief='flat', borderwidth=4, font=('arial', 30),
+    #                        bg="#4A272E", fg="#FFFFFF")
+    #     artistEntry.pack(fill=X)
+    #     artistInfo.pack(side=LEFT)
+    #     artistLink.pack(side=RIGHT)
+    #     artistName.pack(anchor="w")
+    #     Button(artistLink, text="get top songs", justify="right", command=partial(getTopSongs, artist["uri"])).pack(
+    #         anchor='e')
 
 
 def btnDownloads():
@@ -87,24 +124,26 @@ def btnDownloads():
     songList.resetY()
     for widget in songList.interior.winfo_children():
         widget.destroy()
-    for song in songs.json():
-        songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
-        songInfo = Frame(songEntry, height=2, bg="#4A272E")
-        songQueue = Frame(songEntry, height=2)
-        songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
-                           bg="#4A272E", fg="#C7C7C7")
-        margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
-        songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+    displayItems(songs, 'track')
+    # for song in songs.json():
+    #     songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+    #     songInfo = Frame(songEntry, height=2, bg="#4A272E")
+    #     songQueue = Frame(songEntry, height=2)
+    #     songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
+    #                        bg="#4A272E", fg="#C7C7C7")
+    #     margin = Label(songInfo, borderwidth=0, highlightthickness=0, height=2, bg='#4A272E')
+    #     songTitle = Label(songInfo, text=song['track'], font=('arial', 30), bg="#4A272E", fg="#FFFFFF")
+    #
+    #     songEntry.pack(fill=X)
+    #     songInfo.pack(side=LEFT)
+    #     songQueue.pack(side=RIGHT)
+    #     songTitle.pack(anchor="w")
+    #     margin.pack(anchor='w')
+    #     songArtist.pack(anchor="w")
+    #     Button(songQueue, border=0, image=iconImgPlaylist, background='#4A272E', text="add to queue", justify="right",
+    #            command=partial(addToQueue, song["uri"])).pack(
+    #         anchor='e')
 
-        songEntry.pack(fill=X)
-        songInfo.pack(side=LEFT)
-        songQueue.pack(side=RIGHT)
-        songTitle.pack(anchor="w")
-        margin.pack(anchor='w')
-        songArtist.pack(anchor="w")
-        Button(songQueue, border=0, image=iconImgPlaylist, background='#4A272E', text="add to queue", justify="right",
-               command=partial(addToQueue, song["uri"])).pack(
-            anchor='e')
 
 def btnGetQueue():
     queuedSongs = requests.get("http://127.0.0.1:8000/use/getQueue")
@@ -113,7 +152,8 @@ def btnGetQueue():
         widget.destroy()
     if len(queuedSongs.json()) != 0:
         for song in queuedSongs.json():
-            songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE, bg='#4A272E')
+            songEntry = Frame(songList.interior, height=187, pady=30, borderwidth=1, width=911, relief=RIDGE,
+                              bg='#4A272E')
             songInfo = Frame(songEntry, height=2, bg="#4A272E")
             songQueue = Frame(songEntry, height=2)
             songArtist = Label(songInfo, text=song['artist'], relief='flat', borderwidth=4, font=('arial', 20),
@@ -127,7 +167,6 @@ def btnGetQueue():
             songTitle.pack(anchor="w")
             margin.pack(anchor='w')
             songArtist.pack(anchor="w")
-
 
 
 def btnPause():
@@ -263,8 +302,10 @@ logoImage = tk.PhotoImage(file='images/icons/Settings.png')
 # headerBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
 e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
           font=('arial', 30, 'bold'), justify='center')
-cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar, height=80, width=70)
-search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs, height=80, width=70)
+cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar,
+               height=80, width=70)
+search = Button(root, text="search", image=btnSearchSearchBar, background="#783FE3", borderwidth=0, command=searchSongs,
+                height=80, width=70)
 logo = Label(root, image=logoImage, borderwidth=0, height=80, width=70)
 btnSearch = Button(root, image=iconBtnSearch, borderwidth=0, command=openSearchBar, height=80, width=70)
 logo.place(width=70, height=80, x=82, y=40)
@@ -273,16 +314,15 @@ btnSearch.place(width=70, height=80, x=930, y=40)
 # cross.place(width=70, height=80, x=930, y=40)
 # search.place(width=70, height=80, x=82, y=40)
 
-
-
+songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
+spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
+artistGetTopSongsIcon = ImageTk.PhotoImage(Image.open("images/icons/Arrow.png"))
 # header icons
 
 iconImgPlaylist = tk.PhotoImage(file='images/icons/Playlist.png')
 iconImgSongs = tk.PhotoImage(file='images/icons/Songs.png')
 iconImgArtist = tk.PhotoImage(file='images/icons/Artist.png')
 iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
-songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
-spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
 
 # text: arial, 30 bold white
 
@@ -327,7 +367,7 @@ Button(root,
        bg='#4A272E',
        fg='white',
        font=('arial', 30, 'bold'),
-       image= iconImgVolumeMute,
+       image=iconImgVolumeMute,
        border=0,
        command=btnMute).place(x=560, y=1530, width=436, height=155)
 
@@ -336,7 +376,7 @@ Button(root,
        bg='#4A272E',
        fg='white',
        font=('arial', 30, 'bold'),
-       image= iconImgVolumeDown,
+       image=iconImgVolumeDown,
        border=0,
        command=btnSofter).place(x=84, y=1730, width=436, height=155)
 
@@ -345,7 +385,7 @@ Button(root,
        bg='#4A272E',
        fg='white',
        font=('arial', 30, 'bold'),
-       image= iconImgVolumeUp,
+       image=iconImgVolumeUp,
        border=0,
        command=btnHarder).place(x=560, y=1730, width=436, height=155)
 
