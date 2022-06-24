@@ -178,8 +178,8 @@ def playSong():
             events.event_attach(vlc.EventType.MediaPlayerEndReached, SongFinished)
             global finish
             finish = 0
-            main.no_music()
             player.play()
+            main.no_music()
             while finish == 0:
                 sleep(0.5)
         else:
