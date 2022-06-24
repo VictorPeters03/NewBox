@@ -541,7 +541,7 @@ def removeFromQueue(uri):
 
 # To get the genre of a track and change LED colors based on what it is.
 @app.put("/use/genre/{id}")
-def get_track_color(id):
+async def get_track_color(id):
     url = functions.getTrackCoverImage(id)['img']
     tmp_file = 'tmp.jpg'
 
