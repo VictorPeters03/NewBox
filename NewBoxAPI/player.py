@@ -36,7 +36,7 @@ def getQueue():
         songInfo = {}
         if 'spotify' in uri:
             try:
-                song = functions.getSongByUri(uri)['name']
+                song = functions.getSongByUri(uri)['name'] if len(functions.getSongByUri(uri)['name']) <= 40 else functions.getSongByUri(uri)['name'][0:40] + "..."
                 artist = functions.getSongByUri(uri)['artist']
                 songInfo.update({'uri': uri,
                                  'track': song,

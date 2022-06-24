@@ -659,7 +659,10 @@ def getTopSongsByArtist(artistId):
     items = spotifyHandler.artist_top_tracks(artistId)["tracks"]
     for count, item in enumerate(items):
         track = {}
-        name = item['name']
+        if len(item['name']) > 40:
+            name = item['name'][0:40] + "..."
+        else:
+            name = item['name']
         id = item['id']
         uri = item['uri']
         img = item['album']['images'][0]['url']
