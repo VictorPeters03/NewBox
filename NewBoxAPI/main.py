@@ -95,6 +95,8 @@ def set_volume(mode : str):
     limits = get_volume_limits()
     mixer = alsaaudio.Mixer('Master')
     if (mixer.getvolume()[1]-5 <= limits[1]) and (mixer.getvolume()[1]+5 >= limits[0]):
+        if mixer.getmute()[1]:
+            toggle_mute()
         if mode == "softer":
             set_volume_softer()
             return mixer.getvolume()[1]
