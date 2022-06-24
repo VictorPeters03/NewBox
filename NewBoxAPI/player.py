@@ -179,7 +179,7 @@ def playSong():
             global finish
             finish = 0
             player.play()
-            main.no_music()
+            requests.put(f"http://127.0.0.1:8000/use/nomusic")
             while finish == 0:
                 sleep(0.5)
         else:
