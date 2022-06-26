@@ -262,7 +262,7 @@ iconBtnSearch = tk.PhotoImage(file='images/icons/Search.png')
 logoImage = Image.open("images/Logo.png").resize((436, 100), Image.ANTIALIAS)
 logoImageLabel = ImageTk.PhotoImage(logoImage)
 
-# headerBox = Frame(root, borderwidth=0, highlightthickness=0, height=80)
+
 e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
           font=('arial', 30, 'bold'), justify='center')
 cross = Button(root, text="close", image=btnCloseSearchBar, background="#783FE3", borderwidth=0, command=closeSearchBar,
@@ -273,9 +273,6 @@ logo = Label(root, image=logoImageLabel, borderwidth=0, width=436, height=100, b
 btnSearch = Button(root, image=iconBtnSearch, borderwidth=0, command=openSearchBar, height=80, width=70, bg='#700813')
 logo.place(width=436, height=100, x=82, y=40)
 btnSearch.place(width=70, height=100, x=930, y=40)
-# e.place(width=911, height=80, x=84, y=40)
-# cross.place(width=70, height=80, x=930, y=40)
-# search.place(width=70, height=80, x=82, y=40)
 
 songIcon = ImageTk.PhotoImage(Image.open("images/icons/DownloadedSong.png"))
 spotifyIcon = ImageTk.PhotoImage(Image.open("images/icons/SpotifySong.png"))
@@ -286,8 +283,6 @@ iconImgPlaylist = tk.PhotoImage(file='images/icons/Playlist.png')
 iconImgSongs = tk.PhotoImage(file='images/icons/Songs.png')
 iconImgArtist = tk.PhotoImage(file='images/icons/Artist.png')
 iconImgDownloaded = tk.PhotoImage(file='images/icons/Download.png')
-
-# text: arial, 30 bold white
 
 # footer icons
 iconImgPlayPause = tk.PhotoImage(file='images/Play-Pause.png')
@@ -309,7 +304,6 @@ Button(root, image=iconImgPlaylist, text="Queue", anchor="w", padx=45, fg='white
 
 # Downloaded songs
 songs = requests.get("http://127.0.0.1:8000/use/getsongs")
-# songList = Frame(root, height=1000, borderwidth=0, highlightthickness=0)
 songList = VerticalScrolledFrame.VerticalScrolledFrame(root, bg='#4A272E', border=0, highlightthickness=0)
 songList.place(y=500, width=911, height=1000, x=84)
 btnDownloads()
