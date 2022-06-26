@@ -1,0 +1,55 @@
+{% extends 'loginBase.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NewBox</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+</head>
+<body>
+<script defer src="{% static 'js/pages.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>!window.axios && document.write('<script src="{% static 'js/axios.min.js' %}"><\/script>')</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script>!window.jQuery && document.write('<script src="{% static 'js/jquery.min.js' %}"><\/script>')</script>
+<script defer src="{% static 'js/script.js' %}"></script>
+<div id="container">
+    <div id=\"settings\">
+        <h1>Raspberry Pi Settings</h1>
+        <button class="button-11" role="button" onclick='pi_reboot()'>Reboot</button>
+        <button class="button-11" role="button" onclick='pi_shutdown()'>Shutdown</button>
+        <h1>Volume Settings</h1>
+        <label for='maxVolume'></label>
+            <input class="textbox" type='text' name='maxVolume' id='maxVolume' placeholder='Set maximum volume'>
+        <button type="submit" onclick="set_max_vol()">Submit</button>
+        <label for='minVolume'></label>
+            <input class="textbox" type='text' name='minVolume' id='minVolume' placeholder='Set minimum volume'>
+        <button type="submit" onclick="set_min_vol()">Submit</button>
+        <h1>LED Settings</h1>
+        <label class='switch'>
+            <input type='checkbox'>
+            <span class='slider round'></span>
+        </label>
+        <h1 class="loadedqueue">Queue</h1>
+        <div id="queue">
+
+        </div>
+        <button class="button-11" role="button" onclick='get_queue()' style="margin-top: 20px;">Load the queue</button>
+        <button class="button-11" role="button" onclick="skip()">Skip</button>
+        <button class="button-11" style="margin-top: 20px;"><a href="{% url 'logout' %}">Log Out</a></>
+    </div>
+</div>
+</body>
+</html>
+{% else %}
+    <meta http-equiv="refresh" content="0;url=/accounts/login/" />
+{% endif %}
+{% endblock %}

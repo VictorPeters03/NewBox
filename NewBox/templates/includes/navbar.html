@@ -1,0 +1,86 @@
+{% load static %}
+<nav class="navbar">
+    <div class="top-navbar">
+        <img src="{% static 'images/Logo-wit.svg' %}" alt="cross" id="logo">
+        <div class="searchbar">
+            <div class="navbar-search-small">
+                <img src="{% static 'images/Search.svg' %}" alt="search button">
+            </div>
+            <label for="navbar-search"></label>
+            <input type="text" name="search" id="navbar-search" placeholder="Type here to search">
+            <div class="navbar-cross-small">
+                <img src="{% static 'images/Cross.svg' %}" alt="cross">
+            </div>
+        </div>
+        <div class="navbar-search-settings">
+            <div class="navbar-search">
+                <img src="{% static 'images/Search.svg' %}" alt="search button">
+            </div>
+            <div class="navbar-settings">
+                <img src="{% static 'images/Settings.svg' %}" alt="settings button">
+            </div>
+        </div>
+    </div>
+    <div class="main-navbar">
+        <a href="#">
+            <div class="main-navbar-button button-playlist">
+                <div class="navbar-button-image">
+                    <img src="{% static 'images/Playlist.svg' %}" alt="playlist button">
+                </div>
+                <div class="navbar-button-text">
+                    <h2>Playlist</h2>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="main-navbar-button button-songs">
+                <div class="navbar-button-image">
+                    <img src="{% static 'images/Songs.svg' %}" alt="songs button">
+                </div>
+                <div class="navbar-button-text">
+                    <h2>Songs</h2>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="main-navbar-button button-artist">
+                <div class="navbar-button-image">
+                    <img src="{% static 'images/Artist.svg' %}" alt="artist button">
+                </div>
+                <div class="navbar-button-text">
+                    <h2>Artist</h2>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="main-navbar-button button-genres">
+                <div class="navbar-button-image">
+                    <img src="{% static 'images/Genre.svg' %}" alt="genres button">
+                </div>
+                <div class="navbar-button-text">
+                    <h2>Genres</h2>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="main-navbar-button button-albums">
+                <div class="navbar-button-image">
+                    <img src="{% static 'images/Albums.svg' %}" alt="album button">
+                </div>
+                <div class="navbar-button-text button-albums">
+                    <h2>Albums</h2>
+                </div>
+            </div>
+        </a>
+        <a href="#">
+            <div class="main-navbar-button button-downloaded">
+                <div class="navbar-button-image">
+                    <img src="{% static 'images/Download.svg' %}" alt="download button">
+                </div>
+                <div class="navbar-button-text">
+                    <h2>Downloaded</h2>
+                </div>
+            </div>
+        </a>
+    </div>
+</nav>
