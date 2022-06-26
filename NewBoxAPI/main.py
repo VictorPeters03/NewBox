@@ -6,15 +6,12 @@ import json
 from spotifyAPI import functions
 import os
 from time import sleep
-import vlc
-import asyncio
 import player
 import alsaaudio
 from colorthief import ColorThief
 from colormap import hex2rgb
 import serial
 from urllib.request import urlretrieve
-import urllib3
 
 app = FastAPI()
 

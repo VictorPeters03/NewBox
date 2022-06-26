@@ -47,20 +47,22 @@ function getSettings()
 
 function delete_from_queue(uri)
 {
-    axios.put("http://127.0.0.1:8000/admin/remove/" + uri)
-    window.location.reload()
+    axios.put("http://10.110.110.119:8000/admin/remove/" + uri)
+        .then(resp => {
+            console.log(resp)
+        })
 }
 
 function set_max_vol()
 {
-    axios.put("http://127.0.0.1:8000/adminpanel/maxvolume/" + maxVolume.value)
+    axios.put("http://10.110.110.119:8000/adminpanel/maxvolume/" + maxVolume.value)
         .then(resp => {
             console.log(resp)
         })
 }
 
 function set_min_vol(){
-    axios.put("http://127.0.0.1:8000/adminpanel/minvolume/" + minVolume.value)
+    axios.put("http://10.110.110.119:8000/adminpanel/minvolume/" + minVolume.value)
         .then(resp => {
             console.log(resp)
         })
@@ -68,37 +70,38 @@ function set_min_vol(){
 
 function get_queue()
 {
-    axios.get("http://127.0.0.1:8000/use/getQueue")
-        .then(resp => {
-            console.log(resp)
-            resp.data.forEach(element =>
-                queueList.innerHTML =
-                '<div class="title"><p>' + element["track"] + '</p></div>' +
-                '<div class="artist"><p>' + element["artist"] + '</p></div>' +
-                '<div class="remove-songs"><button onclick="delete_from_queue(' + "'" + element["uri"] + "'" + ')">Remove</button></div>'
-            )
-        })
+    queueList.innerHTML = ""
+    axios.get("http://10.110.110.119:8000/use/getQueue")
+    .then(resp => {
+        console.log(resp)
+        resp.data.forEach(element =>
+            queueList.innerHTML +=
+            '<div class="title" style="padding: 0 20px"><p>' + element["track"] + '</p></div>' +
+            '<div class="artist" style="padding: 0 20px"><p>' + element["artist"] + '</p></div>' +
+            '<div class="remove-songs" style="padding: 0 20px"><button onclick="delete_from_queue(' + "'" + element["uri"] + "'" + ')">Remove</button></div>'
+        )
+    })
 }
 
 function pi_reboot(){
-    axios.get("http://127.0.0.1:8000/use/reboot")
+    axios.get("http://10.110.110.119:8000/use/reboot")
     .then(resp => {
         console.log(resp)
     })
 }
 
 function pi_shutdown(){
-    axios.get("http://127.0.0.1:8000/use/shutdown")
+    axios.get("http://10.110.110.119:8000/use/shutdown")
     .then(resp => {
         console.log(resp)
     })
 }
 
 function get_queue_title() {
-        axios.put("/use/getqueuetitle")
-        .then(resp => {
-            console.log(resp)
-        })
+    axios.put("/use/getqueuetitle")
+    .then(resp => {
+        console.log(resp)
+    })
 }
 
 
@@ -120,13 +123,13 @@ function getSongs(){
     let songs_downloaded = document.querySelector('#songs-downloaded')
 
     axios.get("https://api.spotify.com/v1/playlists/37i9dQZF1DX2LTcinqsO68/tracks?market=NL&limit=10",
+    {
+        headers:
         {
-            headers:
-            {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer BQA_u9S3wDU9ImKOTR3ZjXQujmXdjebQH0s-ugtjKXWLjJ72-CFdWRk5dNvZzS8yDL73dU1h7kcMlcvg-CRyq4p3JQT8sYrquKl3kOhVjFgDs7ViDF4OztjYLKomlW8pck_cw8QA1LEWZQYbZQyHVEUGN9U3T5wcwtRKXWYKcBHC_sEKb_0XVXpgauzWzY4N9tIau8nRr9LAI839KPj6YTAH17DHsA1gHmU7"
-            }
-        })
+            "Content-Type": "application/json",
+            "Authorization": "Bearer BQA_u9S3wDU9ImKOTR3ZjXQujmXdjebQH0s-ugtjKXWLjJ72-CFdWRk5dNvZzS8yDL73dU1h7kcMlcvg-CRyq4p3JQT8sYrquKl3kOhVjFgDs7ViDF4OztjYLKomlW8pck_cw8QA1LEWZQYbZQyHVEUGN9U3T5wcwtRKXWYKcBHC_sEKb_0XVXpgauzWzY4N9tIau8nRr9LAI839KPj6YTAH17DHsA1gHmU7"
+        }
+    })
     .then(resp => {
         resp.data.items.forEach(element =>
             // console.log(element["track"]["artists"][0]["name"])
@@ -204,5 +207,3 @@ logo.addEventListener("click", getHomePage)
 settings.addEventListener("click", getSettings)
 search.addEventListener("click", searchSong)
 queue.addEventListener("click", getQueue)
-//maxVolume.addEventListener("click", set_max_vol)
-//minvolume.addEventListener("click", set_min_vol)

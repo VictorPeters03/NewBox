@@ -39,9 +39,12 @@
             <span class='slider round'></span>
         </label>
         <h1 class="loadedqueue">Queue</h1>
-        <button class="button-11" role="button" onclick='get_queue()'>Load the queue</button>
+        <div id="queue">
+
+        </div>
+        <button class="button-11" role="button" onclick='get_queue()' style="margin-top: 20px;">Load the queue</button>
         <button class="button-11" role="button" onclick="skip()">Skip</button>
-        <p style="margin-top: 20px;"><a href="{% url 'logout' %}">Log Out</a></p>
+        <button class="button-11" style="margin-top: 20px;"><a href="{% url 'logout' %}">Log Out</a></>
     </div>
 </div>
 </body>
