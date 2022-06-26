@@ -39,6 +39,7 @@ root.wait_visibility(root)
 URL_BASE = "https://localhost:8000/"
 
 
+# Displays songs or artists in the list
 def displayItems(items, type):
     if type == 'track':
         for item in items.json():
@@ -77,6 +78,7 @@ def displayItems(items, type):
                 anchor='e')
 
 
+# Is called when the songs button is pressed. Gets songs from the top 50.
 def btnSongs():
     songs = requests.get("http://127.0.0.1:8000/use/getPlaylistItems/37i9dQZEVXbKCF6dqVpDkS")
     songList.resetY()
@@ -85,6 +87,7 @@ def btnSongs():
     displayItems(songs, 'track')
 
 
+# Is called when the artists button is pressed. Gets top artist from the spotify account.
 def btnArtists():
     artists = requests.get("http://127.0.0.1:8000/use/getTopArtists")
     songList.resetY()
@@ -93,6 +96,7 @@ def btnArtists():
     displayItems(artists, 'artist')
 
 
+# Is called when the downloaded songs button is pressed. Gets the downloaded songs.
 def btnDownloads():
     songs = requests.get("http://127.0.0.1:8000/use/getsongs")
     songList.resetY()
@@ -101,6 +105,7 @@ def btnDownloads():
     displayItems(songs, 'track')
 
 
+# Is called when the queue button is pressed. Gets the songs in the queue.
 def btnGetQueue():
     queuedSongs = requests.get("http://127.0.0.1:8000/use/getQueue")
     songList.resetY()
@@ -125,25 +130,30 @@ def btnGetQueue():
             songArtist.pack(anchor="w")
 
 
+# Is called when the pause button is pressed.
 def btnPause():
     requests.put("http://127.0.0.1:8000/use/toggle")
 
 
+# Is called when the mute button is pressed.
 def btnMute():
     requests.get("http://127.0.0.1:8000/adminpanel/togglemute")
     return
 
 
+# Is called when the volume down button is pressed.
 def btnSofter():
     requests.put("http://127.0.0.1:8000/adminpanel/volume/softer")
     return
 
 
+# Is called when the volume up button is pressed.
 def btnHarder():
     requests.put("http://127.0.0.1:8000/adminpanel/volume/harder")
     return
 
 
+# Is called when a song is searched.
 def searchSongs():
     songs = requests.get("http://127.0.0.1:8000/use/search/" + e.get())
     songList.resetY()
@@ -199,6 +209,7 @@ def addToQueue(uri):
     requests.put("http://127.0.0.1:8000/use/queue/" + uri)
 
 
+# Gets an artist's top songs.
 def getTopSongs(uri):
     artistSongs = requests.get("http://127.0.0.1:8000/use/getArtistTopTracks/" + uri)
     songList.resetY()
@@ -261,7 +272,6 @@ btnSearchSearchBar = tk.PhotoImage(file='images/icons/Search-small.png')
 iconBtnSearch = tk.PhotoImage(file='images/icons/Search.png')
 logoImage = Image.open("images/Logo.png").resize((436, 100), Image.ANTIALIAS)
 logoImageLabel = ImageTk.PhotoImage(logoImage)
-
 
 e = Entry(root, borderwidth=0, highlightthickness=0, background="#783FE3", foreground="white",
           font=('arial', 30, 'bold'), justify='center')
