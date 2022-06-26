@@ -12,3 +12,5 @@ Team NewBox consists of the following members:
     <li>Sylvana Stoter</li>
     <li>Giovanni de Vries</li>
 </ul>
+
+In order to run the program, you need to have installed python 3.9.2 and the packages in requirements.txt. <br> In order to install these packages, type "pip install -r requirements.txt."
