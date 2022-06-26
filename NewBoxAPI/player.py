@@ -203,10 +203,8 @@ def playSong():
                         counter = duration
                     sleep(1)
                     counter += 1
-                    print(counter)
                 else:
                     sleep(1)
-                    print(counter)
             if functions.getDevice() is not None:
                 queue.pop(0)
                 isQueueEmpty()
